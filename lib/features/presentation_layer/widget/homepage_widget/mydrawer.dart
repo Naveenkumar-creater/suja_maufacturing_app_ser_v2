@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:suja/constant/responsive/tablet_body.dart';
 import 'package:suja/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:suja/features/presentation_layer/api_services/attendace_count_di.dart';
 
@@ -161,17 +160,6 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 25,
-            ),
-            ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: () {},
-                child: Text('Close Shift')),
             SizedBox(
               height: 25,
             ),

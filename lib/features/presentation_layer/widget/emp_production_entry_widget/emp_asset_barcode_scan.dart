@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:provider/provider.dart';
 import 'package:suja/constant/show_pop_error.dart';
 import 'package:suja/features/presentation_layer/api_services/asset_barcode_di.dart';
+import 'package:suja/features/presentation_layer/provider/asset_barcode_provier.dart';
 import 'package:suja/features/presentation_layer/widget/homepage_widget/emp_production_entry.dart';
 
 
@@ -10,8 +12,9 @@ class ScanBarcode extends StatefulWidget {
   final int? empId;
   final int? processId;
    final int?shiftId;
+   final Function(String)? onCardDataReceived;
   const ScanBarcode({
-    super.key, this.empId, this.processId, this.shiftId
+    super.key, this.empId, this.processId, this.shiftId,this.onCardDataReceived
   });
 
 
@@ -87,19 +90,18 @@ Future<void> _scanQrCode() async {
     setState(() {
       _barcodeResult = barcodeResult;
     });
+final assetlist = Provider.of<AssetBarcodeProvider>(context, listen: false)
+        .user
+        ?.scanAseetBarcode;
+  if (widget.onCardDataReceived != null && assetlist != null) {
+        
+        final assetid = assetlist.pamAssetId?.toString() ?? "";
 
-    // Pass the scanned barcode to the EmpProductionEntryPage widget
- Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmpProductionEntryPage(
-          empid: widget.empId,
-          processid: widget.processId,
-          isload: false,
-          assetid: 1,
-        ),
-      ),
-    );
+        widget.onCardDataReceived!(assetid);
+      }
+     
+          // Pass the scanned barcode to the EmpProductionEntryPage widget
+
   } catch (e) {
     // Show an alert or toast indicating error
 

@@ -19,7 +19,7 @@ class AssetBarcodeDatasourceImpl extends AssetBarcodeDatasource {
     
    ApiRequestDataModel requestbody = ApiRequestDataModel(
           apiFor: "scan_asset_id",processId: processid, assetid:assetId ,clientAuthToken: token );
-     final response = await ApiConstant.makeApiRequest(requestBody: requestbody);
+     final response = await ApiConstant.scannerApiRequest(requestBody: requestbody);
      
     final result = ScanAssetBarcodeModel.fromJson(response);
       print(result);
@@ -27,3 +27,4 @@ class AssetBarcodeDatasourceImpl extends AssetBarcodeDatasource {
   }
 }
 
+  

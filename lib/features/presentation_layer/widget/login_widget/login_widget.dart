@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suja/constant/utilities/customwidgets/custom_textform_field.dart';
 import 'package:suja/features/presentation_layer/api_services/emp_details.dart';
-
 import '../../api_services/login_di.dart';
 
 class Login extends StatefulWidget {
@@ -13,16 +12,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> LogininFormKey = GlobalKey<FormState>();
-  final LoginApiService loginScreen = LoginApiService();
+  final LoginApiService loginApiservice = LoginApiService();
   final FocusNode firstTextFieldFocus = FocusNode();
   final FocusNode secondTextFieldFocus = FocusNode();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool isObscureText = true;
-  bool isButttonVisible = true;
-  bool isLoading = false;
 
-  EmpDetailsApiService empDetailsservice = EmpDetailsApiService();
+  bool isObscureText = true;
+  bool isTextVisible = true;
+  bool isCircularProgressIndicatorVisible = false;
 
   @override
   void dispose() {
@@ -31,32 +29,23 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  // Function to refresh the page after successful login
-  void refreshPage() {
+  Future<void> logInUser() async {
     setState(() {
-      isLoading = false;
-      isButttonVisible = true;
-      // empDetailsservice.getEmpDetails(context: context);
-    });
-  }
-
-  void logInUser() async {
-    setState(() {
-      isLoading = true;
-      isButttonVisible = false;
+      isCircularProgressIndicatorVisible = true;
+      isTextVisible = false;
     });
 
     try {
-      await loginScreen.login(
+      await loginApiservice.login(
         context: context,
         loginId: emailController.text,
         password: passwordController.text,
       );
     } catch (error) {
-      print('Error: $error'); // Print the error for debugging purposes
+      print('Login Error: $error'); // Print the error for debugging purposes
       setState(() {
-        isLoading = false;
-        isButttonVisible = true;
+        isCircularProgressIndicatorVisible = false;
+        isTextVisible = true;
       });
     }
   }
@@ -127,8 +116,8 @@ class _LoginState extends State<Login> {
                   onTap: () {
                     if (LogininFormKey.currentState?.validate() == true) {
                       setState(() {
-                        isButttonVisible = false;
-                        isLoading = true;
+                        isTextVisible = false;
+                        isCircularProgressIndicatorVisible = true;
                       });
                       logInUser();
                     }
@@ -142,12 +131,12 @@ class _LoginState extends State<Login> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (isButttonVisible)
+                        if (isTextVisible)
                           const Text(
                             'Sign In',
                             style: TextStyle(color: Colors.white),
                           ),
-                        if (isLoading)
+                        if (isCircularProgressIndicatorVisible)
                           const CircularProgressIndicator(
                             color: Colors.white,
                           )

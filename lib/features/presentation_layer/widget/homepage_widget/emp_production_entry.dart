@@ -234,32 +234,27 @@ void updateinitial() {
     });
   }
 
-  else if(widget.cardno==1&&widget.isload==false){
-    final cardNumber = Provider.of<CardNoProvider>(context, listen: false)
-        .user
-        ?.scanCardForItem;
+  // else if(widget.cardno==1&&widget.isload==false){
+  //   final cardNumber = Provider.of<CardNoProvider>(context, listen: false)
+  //       .user
+  //       ?.scanCardForItem;
  
-    setState(() {
-      cardNo = cardNumber?.pcCardNo?.toString() ?? "";
-      productName=cardNumber?.itemName?.toString() ?? "";
-    });
+  //   setState(() {
+  //     cardNo = cardNumber?.pcCardNo?.toString() ?? "";
+  //     productName=cardNumber?.itemName?.toString() ?? "";
+  //   });
 
-  }
-   else if(widget.assetid==1&&widget.isload==false){
-    final assetlist = Provider.of<AssetBarcodeProvider>(context, listen: false)
-        .user
-        ?.scanAseetBarcode;
-          final cardNumber = Provider.of<CardNoProvider>(context, listen: false)
-        .user
-        ?.scanCardForItem;
+  // }
+  //  else if(widget.assetid==1&&widget.isload==false){
+  //   final assetlist = Provider.of<AssetBarcodeProvider>(context, listen: false)
+  //       .user
+  //       ?.scanAseetBarcode;
+         
  
-    setState(() {
-      cardNo = cardNumber?.pcCardNo?.toString() ?? "";
-      productName=cardNumber?.itemName?.toString() ?? "";
-    });
-    setState(() {
-      assetID = assetlist?.pamAssetId?.toString() ?? "";});
-  }
+
+  //   setState(() {
+  //     assetID = assetlist?.pamAssetId?.toString() ?? "";});
+  // }
 }
 
 
@@ -382,7 +377,7 @@ updateinitial();
               .user
               ?.empProductionEntity;
 
-          // await targetQtyApiService.getTargetQty(context: context, paId: productionEntry?.ipdpaid??0, shiftId:widget.shiftId??0 );
+          await targetQtyApiService.getTargetQty(context: context, paId: productionEntry?.ipdpaid??0, shiftId:widget.shiftId??0 );
 
      
  
@@ -400,16 +395,16 @@ updateinitial();
       //   cardNo = productionEntry?.ipdcardno?.toString() ??"0"; // Set cardNo with the retrieved value
       // });
 
-        //  final targetqty =
-        //   Provider.of<TargetQtyProvider>(context, listen: false)
-        //       .user
-        //       ?.targetQty?.targetqty;
+         final targetqty =
+          Provider.of<TargetQtyProvider>(context, listen: false)
+              .user
+              ?.targetQty?.targetqty;
 
       
 
       goodQController.text = productionEntry?.goodqty?.toString() ?? "";
       rejectedQController.text = productionEntry?.rejqty?.toString() ?? "";
-      // targetQtyController.text = targetqty.toString() ?? "";
+      targetQtyController.text = targetqty.toString() ?? "";
 
       setState(() {
         // Set initial values inside setState
@@ -691,13 +686,17 @@ updateinitial();
                                                           child: Row(
                                                             children: [
                                                               Text('Card NO '),
-                                                              CardNoScanner(
-                                                                empId: widget
-                                                                    .empid,
-                                                                processId: widget
-                                                                    .processid,
-                                                                     shiftId: widget.shiftId,
-                                                              ),
+                                                            CardNoScanner(
+                  empId: widget.empid,
+                  processId: widget.processid,
+                  shiftId: widget.shiftId,
+                  onCardDataReceived: (scannedCardNo, scannedProductName) {
+                    setState(() {
+                      cardNo = scannedCardNo;
+                      productName = scannedProductName;
+                    });
+                  },
+                ),
                                                               SizedBox(
                                                                   width: 10),
                                                               Text(':'),
@@ -813,6 +812,12 @@ updateinitial();
                                                                 processId: widget
                                                                     .processid,
                                                                     shiftId: widget.shiftId,
+                                                             onCardDataReceived: (scannedAssetId) {
+                    setState(() {
+                      assetID = scannedAssetId; 
+                    });
+                  },
+
                                                               ),
                                                               SizedBox(
                                                                   width: 10),
@@ -964,12 +969,25 @@ updateinitial();
                                       ),SizedBox(
                                                 height: 8,
                                               ),
-                                              ElevatedButton(
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [ ElevatedButton(
                                                 onPressed: () {
                                                   _submitPop(context);
                                                 },
                                                 child: Text('Submit'),
                                               ),
+                                              SizedBox(width: 15,),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  _submitPop(context);
+                                                },
+                                                child: Text('Close Shift'),
+                                              ),
+                                              ],
+                                              ),
+                                              
+                                              
                                     
                                       Row(
                                         mainAxisAlignment:

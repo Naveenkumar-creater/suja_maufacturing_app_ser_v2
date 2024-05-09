@@ -1,110 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:provider/provider.dart';
 import 'package:suja/constant/show_pop_error.dart';
 import 'package:suja/features/presentation_layer/api_services/card_no_di.dart';
-import 'package:suja/features/presentation_layer/widget/homepage_widget/emp_production_entry.dart';
-
+import 'package:suja/features/presentation_layer/provider/card_no_provider.dart';
 
 class CardNoScanner extends StatefulWidget {
   final int? empId;
   final int? processId;
-  final int?shiftId;
+  final int? shiftId;
+  final Function(String, String)? onCardDataReceived;
+
   const CardNoScanner({
-    super.key, this.empId, this.processId, this.shiftId
-  });
-
-
+    Key? key,
+    this.empId,
+    this.processId,
+    this.shiftId,
+    this.onCardDataReceived,
+  }) : super(key: key);
 
   @override
   State<CardNoScanner> createState() => _CardNoScannerState();
 }
 
 class _CardNoScannerState extends State<CardNoScanner> {
-     final CardNoApiService  cardNoApiService =CardNoApiService();
+  final CardNoApiService cardNoApiService = CardNoApiService();
   late String _barcodeResult = '';
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        // color: widget.themeState.isDarkTheme
-        //     ? const Color(0xFF424242)
-           color : Colors.grey.shade200,
+        color: Colors.grey.shade200,
       ),
       child: InkWell(
         onTap: _scanQrCode,
         child: const Column(
           children: [
-        
-              Icon(
-                Icons.camera_alt,
-                color: Colors.blue,
-                size: 40,
-              )
-            // Headings(
-            //   text: "Scan Barcode",
-            // )
+            Icon(
+              Icons.camera_alt,
+              color: Colors.blue,
+              size: 40,
+            )
           ],
         ),
       ),
     );
   }
 
-Future<void> _scanQrCode() async {
-  String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
-    '#00FF00', // Overlay color (green)
-    'Cancel',  // Cancel button text
-    true,      // Show flash icon
-    ScanMode.QR, // Scan mode (QR code in this case)
-  );
-
-  // Check if the result is empty or if the scan was canceled
-  if (barcodeResult.isEmpty || barcodeResult == '-1') {
-    // Show an alert or toast indicating invalid barcode
-
-    ShowError.showAlert(context,'Invalid barcode or scan canceled' );
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     content: Text('Invalid barcode or scan canceled'),
-    //     duration: Duration(seconds: 2),
-    //   ),
-    
-    // return;
-  }
-
-  try {
-    // Call cardNoApiService.getCardNo
-    await cardNoApiService.getCardNo(
-        context: context, cardNo: int.tryParse(barcodeResult) ?? 0);
-
-    setState(() {
-      _barcodeResult = barcodeResult;
-    });
-
- 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmpProductionEntryPage(
-          empid: widget.empId,
-          processid: widget.processId,
-          shiftId: widget.shiftId,
-          isload: false,
-          cardno: 1,
-        ),
-      ),
+  Future<void> _scanQrCode() async {
+    String barcodeResult = await FlutterBarcodeScanner.scanBarcode(
+      '#00FF00',
+      'Cancel',
+      true,
+      ScanMode.QR,
     );
-  } catch (e) {
-    // Show an alert or toast indicating error
 
-        ShowError.showAlert(context,'Error: Failed to fetch card number' );
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     content: Text('Error: Failed to fetch card number'),
-    //     duration: Duration(seconds: 2),
-    //   ),
-    // );
+    if (barcodeResult.isEmpty || barcodeResult == '-1') {
+      ShowError.showAlert(context, 'Invalid barcode or scan canceled');
+      return;
+    }
+
+    try {
+      await cardNoApiService.getCardNo(
+          context: context, cardNo: int.tryParse(barcodeResult) ?? 0);
+
+      setState(() {
+        _barcodeResult = barcodeResult;
+      });
+
+      final cardNumber = Provider.of<CardNoProvider>(context, listen: false)
+          .user
+          ?.scanCardForItem;
+
+      if (widget.onCardDataReceived != null && cardNumber != null) {
+        final cardNo = cardNumber.pcCardNo?.toString() ?? "";
+        final productName = cardNumber.itemName?.toString() ?? "";
+
+        widget.onCardDataReceived!(cardNo, productName);
+      }
+    } catch (e) {
+      ShowError.showAlert(context, 'Error: Failed to fetch card number');
+    }
   }
-}
 }

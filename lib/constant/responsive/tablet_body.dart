@@ -78,6 +78,7 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
   : "Default";
     final processid = user?.listofProcessEntity?.first.processId ?? 1;
     final shitid =  user?.listofProcessEntity?.first.shiftid ?? 1;
+
         final totalemployee =
         Provider.of<AttendanceCountProvider>(context, listen: true)
             .user
@@ -305,6 +306,22 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
                                                             );
                                                         },
                                                       ),
+                                                      SizedBox(width: 15,),
+                                            shitid==1?           ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                onPressed: () {},
+                child: Text('Close Shift')):ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                onPressed: () {},
+                child: Text('Open Shift')),
                                                     ],
                                                   ),
                                                 )
