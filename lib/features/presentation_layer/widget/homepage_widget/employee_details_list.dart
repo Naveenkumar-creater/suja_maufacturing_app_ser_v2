@@ -419,7 +419,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                                         processid: employee.processId ?? 0,
                                         deptid: widget.deptid ?? 1,
                                         psid: widget.psid ?? 0);
-                                        
+
                                   attendanceCountService.getAttCount(
                                       context: context,
                                       id: employee.processId ?? 0);
@@ -489,6 +489,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                                           EmpProductionEntryPage(
                                               empid: employee.empPersonid!,
                                               processid: process_id ?? 1,
+                                              deptid: widget.deptid,
                                               isload: true,
                                               //  shiftId: widget.shiftid,
                                               psid: widget.psid),

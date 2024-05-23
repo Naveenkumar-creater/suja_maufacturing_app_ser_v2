@@ -28,7 +28,7 @@ import 'package:suja/features/presentation_layer/widget/emp_production_entry_wid
 import 'package:suja/features/presentation_layer/widget/emp_production_entry_widget/emp_cardno_barcode_scanner.dart';
 import '../../api_services/product_di.dart';
 import '../production_quanties/emp_production_time.dart';
-import '../../../../constant/request_model.dart';
+import 'package:intl/intl.dart';
 import '../../../../constant/show_pop_error.dart';
 import '../../../data/core/api_constant.dart';
 import '../../../../constant/utilities/customnum_field.dart';
@@ -66,6 +66,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
   final TextEditingController rejectedQController = TextEditingController();
   final TextEditingController reworkQController = TextEditingController();
   final TextEditingController targetQtyController = TextEditingController();
+    final TextEditingController batchNOController = TextEditingController();
   final ProductApiService productApiService = ProductApiService();
   final RecentActivityService recentActivityService = RecentActivityService();
   final ActivityService activityService = ActivityService();
@@ -81,7 +82,11 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
   late int currentHour;
   late int currentMinute;
   late String currentTime;
-  late int currentSecond; // Initialized to avoid null check
+  late int currentSecond; 
+
+TimeOfDay timeofDay = TimeOfDay.now();
+  late DateTime currentDateTime;
+ // Initialized to avoid null check
 
   List<Map<String, dynamic>> submittedDataList = [];
 
@@ -105,6 +110,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
         ?.listofEmployeeEntity
         ?.first
         .empPersonid;
+
     final responsedata =
         Provider.of<EmpProductionEntryProvider>(context, listen: false)
             .user
@@ -113,6 +119,16 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
         .user
         ?.scanCardForItem
         ?.pcItemId;
+            final assetid = Provider.of<AssetBarcodeProvider>(context, listen: false)
+        .user
+        ?.scanAseetBarcode
+        ?.pamAssetId;
+
+          final pcid = Provider.of<CardNoProvider>(context, listen: false)
+        .user
+        ?.scanCardForItem
+        ?.pcId;
+        
 
     final empproduction = responsedata;
     print(empproduction);
@@ -141,9 +157,10 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
         ipdRejQty: int.tryParse(rejectedQController.text) ?? 0,
         ipdReworkFlag: reworkValue ?? empproduction.ipdflagid,
         ipdGoodQty: int.tryParse(goodQController.text) ?? 0,
+        
         ipdCardNo: int.tryParse(cardNo.toString()) ?? empproduction.ipdcardno,
 
-        ipdpaid: empproduction.ipdpaid ?? 0,
+        ipdpaid:  activityid ?? 0,
         ipdFromTime: empproduction.ipdfromtime == ""
             ? currentDateTime.toString()
             : empproduction.ipdfromtime,
@@ -156,14 +173,16 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
         // ipdfromtime: now,
         // ipdtotime: now,
         // ipddate: now,
-        ipdPcId: empproduction.ipdpcid ?? 0,
-        ipdDeptId: empproduction.ipddeptid ?? 1,
-        ipdAssetId: empproduction.ipdassetid ?? 0,
+        ipdPcId: pcid??empproduction.ipdpcid,
+        ipdDeptId: widget.deptid ?? 1,
+        ipdAssetId: assetid ?? 0,
 
         //ipdcardno: empproduction.first.ipdcardno,
         ipdItemId: itemid ?? empproduction.itemid,
         ipdMpmId: processid,
-        emppersonId: widget.empid ?? 0,
+        emppersonId: widget.empid ?? 0, targetqty: null, mpmbatchprocess: null, ipdpsid: null,
+
+        
       );
 
       final requestBodyjson = jsonEncode(requestBody.toJson());
@@ -327,6 +346,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
       updateinitial();
     });
 
+ currentDateTime = DateTime.now();
     now = DateTime.now();
     currentYear = now.year;
     currentMonth = now.month;
@@ -335,8 +355,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
     currentMinute = now.minute;
     currentSecond = now.second;
     lastUpdatedTime =
-        '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString()}:${currentSecond.toString()}'; // Initial time display
-    print('$currentYear-----------------------');
+        '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString()}'; // Initial time display
   }
 
   @override
@@ -347,6 +366,9 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
     rejectedQController.dispose();
 
     super.dispose();
+  }
+    String _formatDateTime(DateTime dateTime) {
+    return DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
   }
 
   Future<void> _fetchARecentActivity() async {
@@ -370,15 +392,13 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
           psid: widget.psid ?? 0);
 
       await activityService.getActivity(
-        context: context,
-        id: widget.processid ?? 0,
-      );
+          context: context,
+          id: widget.processid ?? 0,
+          deptid: widget.deptid ?? 0);
       final productionEntry =
           Provider.of<EmpProductionEntryProvider>(context, listen: false)
               .user
               ?.empProductionEntity;
-
-      // await targetQtyApiService.getTargetQty(context: context, paId: productionEntry?.ipdpaid??0, shiftId:widget.shiftId??0 );
 
       // Access fetched data and set initial values
       final initialValue = productionEntry?.ipdflagid;
@@ -493,9 +513,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
             .user
             ?.recentActivitesEntityList;
     print(productionEntry);
-    final fromtime = Provider.of<EmployeeProvider>(context, listen: false)
-        .user
-        ?.listofEmployeeEntity;
+    final fromtime = productionEntry?.ipdfromtime ;
 
     final productname = Provider.of<ProductProvider>(context, listen: false)
         .user
@@ -585,7 +603,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                               Expanded(
                                                 child: Container(
                                                   width: 300,
-                                                  height: 250,
+                                                  height: 300,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -613,7 +631,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                 width: 16,
                                                               ),
                                                               Text(
-                                                                  '${fromtime?.first.timing}'),
+                                                                  '${fromtime}'),
                                                             ],
                                                           ),
                                                         ),
@@ -641,8 +659,9 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                             },
                                                           ),
                                                         ),
-                                                        Expanded(
-                                                            child: Text('')),
+                                                        Expanded(child: Text("")),
+                                                         Expanded(child: Text(""))
+
                                                       ],
                                                     ),
                                                   ),
@@ -654,7 +673,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                               Expanded(
                                                 child: Container(
                                                   width: 300,
-                                                  height: 250,
+                                                  height: 300,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -670,6 +689,28 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
+                                                         Expanded(
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                  'Batch No               :'),
+                                                              SizedBox(
+                                                                width: 16,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 180,
+                                              
+                                                                child:
+                                                                    CustomNumField(
+                                                                  controller:
+                                                                      batchNOController,
+                                                                  hintText:
+                                                                      'Batch No  ',
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
                                                         Expanded(
                                                           child: Row(
                                                             children: [
@@ -693,7 +734,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                 },
                                                               ),
                                                               SizedBox(
-                                                                  width: 10),
+                                                                  width: 16),
                                                               Text(':'),
                                                               SizedBox(
                                                                   width: 8),
@@ -710,7 +751,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                 height: 8,
                                                               ),
                                                               Text(
-                                                                  "Suja Ref              :   ${productName}" ??
+                                                                  "Suja Ref                :     ${productName}" ??
                                                                       "0"),
                                                             ],
                                                           ),
@@ -719,7 +760,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                           child: Row(
                                                             children: [
                                                               Text(
-                                                                  'Activity                :'),
+                                                                  'Activity                  :'),
                                                               SizedBox(
                                                                   width: 18),
                                                               // DropdownButton<String?>(
@@ -767,6 +808,23 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                                 product.paActivityName ==
                                                                                 newvalue)
                                                                             ?.paId;
+                                                                        final itemid = Provider.of<CardNoProvider>(context,
+                                                                                listen: false)
+                                                                            .user
+                                                                            ?.scanCardForItem
+                                                                            ?.pcItemId;
+
+                                                                        targetQtyApiService.getTargetQty(
+                                                                            context:
+                                                                                context,
+                                                                            paId: activityid ??
+                                                                                0,
+                                                                            deptid: widget.deptid ??
+                                                                                1,
+                                                                            itemid: itemid ??
+                                                                                1,
+                                                                            psid:
+                                                                                widget.psid ?? 0);
                                                                       } else {
                                                                         productid =
                                                                             null;
@@ -820,7 +878,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                   width: 10),
                                                               Text(':'),
                                                               SizedBox(
-                                                                  width: 8),
+                                                                  width: 15),
                                                               Text(
                                                                   '${assetID}' ??
                                                                       "1"),
@@ -838,7 +896,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                               Expanded(
                                                 child: Container(
                                                   width: 300,
-                                                  height: 250,
+                                                  height: 300,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -864,7 +922,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                               ),
                                                               SizedBox(
                                                                 width: 180,
-                                                                height: 40,
+                                                                height: 100,
                                                                 child:
                                                                     CustomNumField(
                                                                   controller:
@@ -876,7 +934,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                             ],
                                                           ),
                                                         ),
-                                                        SizedBox(height: 30),
+                                                        SizedBox(height: 20),
                                                         Expanded(
                                                           child: Row(
                                                             children: [
@@ -887,7 +945,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                               ),
                                                               SizedBox(
                                                                 width: 180,
-                                                                height: 50,
+                                                                height: 100,
                                                                 child:
                                                                     CustomNumField(
                                                                   controller:
@@ -899,7 +957,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                             ],
                                                           ),
                                                         ),
-                                                        SizedBox(height: 36),
+                                                        SizedBox(height:20),
                                                         Expanded(
                                                           child: Row(
                                                             children: [
@@ -910,7 +968,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                               ),
                                                               SizedBox(
                                                                 width: 180,
-                                                                height: 40,
+                                                                height: 100,
                                                                 child:
                                                                     CustomNumField(
                                                                   controller:
@@ -922,7 +980,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                             ],
                                                           ),
                                                         ),
-                                                        SizedBox(height: 36),
+                                                        SizedBox(height: 20),
                                                         Expanded(
                                                           child: Row(
                                                             children: [
@@ -1056,7 +1114,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                     .white)),
                                                       ),
                                                       Container(
-                                                        alignment:  
+                                                        alignment:
                                                             Alignment.center,
                                                         width: 200,
                                                         child: Text('Good Qty',
@@ -1210,6 +1268,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
                                                                   Alignment
                                                                       .center,
                                                               width: 200,
+                                                             
                                                               child: Text(
                                                                 '  ${data?.ipdreworkflag ?? ''} ',
                                                                 style: TextStyle(

@@ -9,9 +9,10 @@ class TargetQtyRepoImpl implements TargetQtyRepository {
   TargetQtyRepoImpl(TargetQtyDatasourceImpl targetQtyDatasourceImpl);
   @override
   Future<TargetQtyModel> getTargetQty(
-      int paId, int shiftId, String token) async {
+     int paId,int deptid,int psid, int itemid,
+    String token,) async {
     TargetQtyModel result =
-        await targetQtyDatasource.getTargetQty(paId, shiftId, token);
+        await targetQtyDatasource.getTargetQty(paId,deptid,psid,itemid ,token);
     return result;
   }
 }

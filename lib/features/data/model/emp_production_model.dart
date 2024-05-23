@@ -161,6 +161,7 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
         "ipd_from_time": ipdfromtime,
         "ipd_pc_id": ipdpcid,
         "ipd_asset_id": ipdassetid,
-        "ipd_dept_id": ipddeptid
+        "ipd_dept_id": ipddeptid,
+        "mpm_batch_process":mpmbatchprocess
       };
 }

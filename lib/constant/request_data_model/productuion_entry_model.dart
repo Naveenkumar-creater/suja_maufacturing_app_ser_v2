@@ -17,7 +17,10 @@ class ProductionEntryReqModel {
         required this.ipdPcId,
         // required this.mpmBatchProcess,
         required this.emppersonId,
-        required this.ipdpaid
+        required this.ipdpaid,
+        required this.targetqty,
+        required this.mpmbatchprocess,
+        required this.ipdpsid
     });
       final String? apiFor;
   final String?clientAuthToken;
@@ -37,6 +40,9 @@ class ProductionEntryReqModel {
     // final int? mpmBatchProcess;
     final int? emppersonId;
     final int?  ipdpaid;
+    final int?targetqty;
+    final int?mpmbatchprocess;
+    final int? ipdpsid;
     // factory ProductionEntryReqModel.fromJson(Map<String, dynamic> json){ 
     //     return ProductionEntryReqModel(
     //         ipdMpmId: json["ipd_mpm_id"],
@@ -75,9 +81,13 @@ class ProductionEntryReqModel {
         "ipd_pc_id": ipdPcId,
         // "mpm_batch_process": mpmBatchProcess,
         "emp_personid": emppersonId,
-          'ipd_pa_id':  ipdpaid
+          'ipd_pa_id':  ipdpaid,
+          "ipd_ps_id":ipdpsid,
+          "pp_plan_qty":targetqty,
+          "mpm_batch_process":mpmbatchprocess
     };
 
 }
 
 
+  

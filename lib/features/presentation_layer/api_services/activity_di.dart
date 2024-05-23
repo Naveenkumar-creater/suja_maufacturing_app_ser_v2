@@ -11,7 +11,7 @@ import 'package:suja/features/presentation_layer/provider/activity_provider.dart
 
 class ActivityService {
   Future<void> getActivity(
-      {required BuildContext context, required int id}) async {
+      {required BuildContext context, required int id,required int deptid}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
@@ -24,7 +24,7 @@ class ActivityService {
         ),
       );
 
-      final user = await recentActivityUseCase.execute(id, token);
+      final user = await recentActivityUseCase.execute(id,deptid, token);
 
       Provider.of<ActivityProvider>(context, listen: false).setUser(user);
     } catch (e) {

@@ -46,6 +46,7 @@ class ApiRequestDataModel {
  int? paId;
  int? shiftId;
  int? psId;
+ int ? itemId;
 
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -92,7 +93,7 @@ class ApiRequestDataModel {
       this.emp_mgr,
       this.ipdpaid,
       this.cardNo,
-      this.paId,this.shiftId,this.psId});
+      this.paId,this.shiftId,this.psId,this.itemId});
 
   Map<String, dynamic> toJson() {
     return {
@@ -113,6 +114,7 @@ class ApiRequestDataModel {
       'acrp_id': datapoinPlanid,
       'personId': personId,
       'acrd_id': acrdId,
+      "item_Id":itemId,
       'acrp_inspection_status': acrpInspectionStatus,
       'emp_personid': emppersonid,
       'timer_status': timeStatus,

@@ -19,7 +19,7 @@ import '../../domain/usecase/process_usecase.dart';
 class TargetQtyApiService {
   Future<void> getTargetQty({
     required BuildContext context,
-    required int paId,required int shiftId
+    required int paId,required int deptid,required int psid,required int itemid
     //required emp_mgr,
   }) async {
     try {
@@ -39,7 +39,7 @@ class TargetQtyApiService {
         ),
       );
 
-      TargetQtyEntity user = await targetQtyusecase.execute(paId,shiftId,token);
+      TargetQtyEntity user = await targetQtyusecase.execute(paId,deptid,psid,itemid,token);
 
       Provider.of<TargetQtyProvider>(context, listen: false).setUser(user);
     } catch (e) {

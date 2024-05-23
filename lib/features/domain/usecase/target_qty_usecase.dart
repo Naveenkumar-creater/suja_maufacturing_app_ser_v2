@@ -8,10 +8,10 @@ class TargetQtyUsecase {
   TargetQtyUsecase(this.targetQtyRepository);
 
   Future<TargetQtyEntity> execute(
-    int paId,int shiftId,
+    int paId,int deptid,int psid, int itemid,
     String token,
   ) async {
     
-    return targetQtyRepository.getTargetQty(paId, shiftId, token);
+    return targetQtyRepository.getTargetQty(paId,deptid,psid,itemid,token);
   }
 }
