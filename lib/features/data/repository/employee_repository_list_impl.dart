@@ -8,8 +8,8 @@ class EmployeeRepositoryImpl implements EmployeeRepository {
   EmployeeRepositoryImpl(this.employeeDatasource);
 
   @override
-  Future<EmployeeModel> getEmployeeList(int id,int shiftid, String token) async {
-    final result = employeeDatasource.getEmployeeList(id,shiftid,token);
+  Future<EmployeeModel> getEmployeeList(int processid,int deptid,int psid, String token) async {
+    final result = employeeDatasource.getEmployeeList(processid,deptid,psid,token);
     return result;
   }
 }

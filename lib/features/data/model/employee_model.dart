@@ -30,14 +30,14 @@ class ListOfEmployee extends ListofEmployeeEntity {
     required this.emp_mgr,
     required this.attendanceid,
     // required this.productId,
-    // required this.productQty,
+    required this.productQty,
     required this.productName,
     required this.flattdate,
     required this.mfgpempid,
     required this.flattstatus,
     required this.processName,
-    required this.shiftId,
-    required this.shitStatus,
+    // required this.shiftId,
+    // required this.shitStatus,
     required this.itemId
     //required this.attendance,
   }) : super(
@@ -54,9 +54,10 @@ class ListOfEmployee extends ListofEmployeeEntity {
           mfgpempid: mfgpempid,
           flattstatus: flattstatus,
           processName:processName,
-          shifId:shiftId,
+          productQty:productQty,
+          // shifId:shiftId,
           itemId:itemId,
-          shitStatus:shitStatus
+          // shitStatus:shitStatus
           //attendance: attendance);
         );
   final int? empPersonid;
@@ -65,16 +66,16 @@ class ListOfEmployee extends ListofEmployeeEntity {
   final String? timing;
   final int? emp_mgr;
   //final int? productId;
-  //final int? productQty;
+  final String? productQty;
   final String? productName;
   //final int? attendance;
-  final int? attendanceid;
+  final String? attendanceid;
   final String? flattdate;
   final int? mfgpempid;
   final int? flattstatus;
   final String? processName;
-  final int? shitStatus;
-  final int? shiftId;
+  // final int? shitStatus;
+  // final int? shiftId;
   final String? itemId;
 
   factory ListOfEmployee.fromJson(Map<String, dynamic> json) {
@@ -85,7 +86,7 @@ class ListOfEmployee extends ListofEmployeeEntity {
         personFname: json["emp_name"],
         timing: json["ipd_to_time"],
         //productId: json["product_id"],
-        //productQty: json["product_qty"],
+        productQty: json["production_qty"],
         productName: json["item_name"],
         //  attendance: json["fl_att_status"],
         attendanceid: json['fl_att_id'],
@@ -94,13 +95,23 @@ class ListOfEmployee extends ListofEmployeeEntity {
         flattstatus: json["fl_att_status"],
 
         processName: json["mpm_name"],   
-        shitStatus: json["fl_att_shift_status"],
-        shiftId: json["fl_att_shift_id"],
+        // shitStatus: json["fl_att_shift_status"],
+        // shiftId: json["fl_att_shift_id"],
         itemId:json["ipd_item_id"]
         );
       
 
   }   
+
+  
+
+
+  
+ 
+
+
+
+
 
 
 
@@ -126,5 +137,6 @@ class ListOfEmployee extends ListofEmployeeEntity {
         "fl_att_status": flattstatus,
       };
 }
+
 
  

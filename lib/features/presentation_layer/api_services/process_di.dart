@@ -19,12 +19,12 @@ class ProcessApiService {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
-      ProcessClient employeeClient = ProcessClient();
-      ProcessDatasource empData = ProcessDatasourceImpl(employeeClient);
-      ProcessRepository allocationRepository = ProcessRepositoryImpl(empData);
-      ProcessUsecase empUseCase = ProcessUsecase(allocationRepository);
+      ProcessClient processClient = ProcessClient();
+      ProcessDatasource processDatasource = ProcessDatasourceImpl(processClient);
+      ProcessRepository allocationRepository = ProcessRepositoryImpl(processDatasource);
+      ProcessUsecase processUsecase = ProcessUsecase(allocationRepository);
 
-      ProcessEntity user = await empUseCase.execute(token);
+      ProcessEntity user = await processUsecase.execute(token);
 
       Provider.of<ProcessProvider>(context, listen: false).setUser(user);
     } catch (e) {

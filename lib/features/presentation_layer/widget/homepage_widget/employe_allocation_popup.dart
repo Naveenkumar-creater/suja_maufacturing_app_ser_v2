@@ -15,17 +15,21 @@ import '../../../data/core/api_constant.dart';
 import '../../api_services/process_di.dart';
 import 'employee_details_list.dart';
 
-class EmployeeAllocationPopup extends StatefulWidget {
+class EmployeeAllocationPopup extends StatefulWidget {    
   final int? empId;
   final int? mfgpempid;
   final int? processid;
-  final int? shiftid;
+  // final int? shiftid;
+  final int? deptid;
+  final int? psid;
 
   EmployeeAllocationPopup({
     required this.empId,
     required this.mfgpempid,
     required this.processid,
-    required this.shiftid
+    // required this.shiftid,
+    this.deptid,
+    required this.psid
   });
 
   @override
@@ -50,7 +54,7 @@ class _EmployeeAllocationPopupState extends State<EmployeeAllocationPopup> {
   Future<void> _fetchAllocationList() async {
     try {
       await allocationService.changeallocation(
-          context: context, id: widget.empId??0);
+          context: context, id: widget.empId??0,deptid: widget.deptid ?? 0);
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
       });
@@ -234,8 +238,9 @@ class _EmployeeAllocationPopupState extends State<EmployeeAllocationPopup> {
                     
                         await employeeApiService.employeeList(
                           context: context, 
-                          id: widget.processid!,
-                          shiftid: widget.shiftid??1
+                          processid: widget.processid!,
+                          deptid: widget.deptid??1,
+                          psid: widget.psid ?? 0
                         );
                         
                         Navigator.of(context).pop();

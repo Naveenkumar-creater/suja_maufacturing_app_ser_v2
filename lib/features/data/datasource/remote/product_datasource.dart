@@ -7,7 +7,7 @@ import '../../core/api_constant.dart';
 import '../../core/product_client.dart';
 
 abstract class ProductDatasource {
-  Future<ProductModel> getProductList(int id, String token);
+  Future<ProductModel> getProductList(int id,int deptid, String token);
 }
 
 class ProductDatasourceImpl implements ProductDatasource {
@@ -16,8 +16,8 @@ class ProductDatasourceImpl implements ProductDatasource {
     this.productClient,
   );
   @override
-  Future<ProductModel> getProductList(int id, String token) async {
-    final response = await productClient.getProductList(id, token);
+  Future<ProductModel> getProductList(int id,int deptid, String token) async {
+    final response = await productClient.getProductList(id,deptid, token);
 
     final result = ProductModel.fromJson(response);
 

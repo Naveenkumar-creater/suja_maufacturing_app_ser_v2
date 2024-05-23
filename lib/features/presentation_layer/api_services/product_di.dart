@@ -12,7 +12,7 @@ import '../provider/product_provider.dart';
 
 class ProductApiService {
    Future<void> productList(
-      {required BuildContext context, required int id}) async {
+      {required BuildContext context, required int id ,required int deptId}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
@@ -21,7 +21,7 @@ class ProductApiService {
       ProductRepository allocationRepository = ProductRepositoryImpl(empData);
       ProductUsecase empUseCase = ProductUsecase(allocationRepository);
 
-      ProductEntity user = await empUseCase.execute(id, token);
+      ProductEntity user = await empUseCase.execute(id,deptId, token);
 
       Provider.of<ProductProvider>(context, listen: false).setUser(user);
 

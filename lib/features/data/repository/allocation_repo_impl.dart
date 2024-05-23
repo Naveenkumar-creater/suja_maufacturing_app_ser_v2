@@ -10,9 +10,9 @@ class AllocationRepositoryImpl implements AllocationRepository {
     this.allocationDatasource,
   );
   @override
-  Future<AllocationModel> getallocation(int id, String token) async {
+  Future<AllocationModel> getallocation(int id, int deptid,String token) async {
     AllocationModel modelresult =
-        await allocationDatasource.getallocation(id, token);
+        await allocationDatasource.getallocation(id,deptid, token);
 
     return modelresult;
   }

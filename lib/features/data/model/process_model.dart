@@ -34,22 +34,27 @@ class ListOfProcess extends ListofProcessEntity {
   const ListOfProcess({
     required this.processName,
     required this.processId,
-    required this.shiftid
+    required this.deptId,
+    required this.shiftgroupId
+    // required  this.shiftStatus
   })  : assert(processId != null), // Ensure processId is not null
-        super(processName: processName, processId: processId,shiftid:shiftid);
-
+        super(processName: processName, processId: processId,deptId:deptId,shiftgroupId: shiftgroupId);
+        
   final String? processName;
   final int? processId;
-  final int? shiftid;
+  final int? deptId;
+  final int?shiftgroupId;
+  // final int? shiftStatus;
 
   factory ListOfProcess.fromJson(Map<String, dynamic> json) {
     return ListOfProcess(
       processName: json["process_name"],
-      processId: json["process_Id"] != null ? json["process_Id"] : 0,
-      shiftid:json["shift_id"]
+      processId: json["process_Id"] ?? 0,
+      deptId:json["dept_id"],
+      shiftgroupId: json["ps_sg_id"]
     );
   }
-
+   
   Map<String, dynamic> toJson() => {
         "process_name": processName,
         "process_Id": processId,

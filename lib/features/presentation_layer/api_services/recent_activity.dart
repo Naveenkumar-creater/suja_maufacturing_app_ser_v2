@@ -17,7 +17,7 @@ import '../../domain/repository/allocation_repo.dart';
 
 class RecentActivityService {
   Future<void> getRecentActivity(
-      {required BuildContext context, required id}) async {
+      {required BuildContext context, required int id,required int deptid, required int psid}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
@@ -38,7 +38,7 @@ class RecentActivityService {
         ),
       );
 
-      final user = await recentActivityUseCase.execute(id, token);
+      final user = await recentActivityUseCase.execute(id,deptid,psid, token);
 
       Provider.of<RecentActivityProvider>(context, listen: false).setUser(user);
     } catch (e) {

@@ -18,34 +18,34 @@ class ListofEmployeeEntity extends Equatable {
     required this.timing,
     required this.emp_mgr,
     //required this.productId,
-    //required this.productQty,
+    required this.productQty,
     required this.productName,
     //required this.attendance,
     required this.attendanceid,
     required this.flattdate,
     required this.mfgpempid, 
     required this.flattstatus,
-    required this.shifId, required this.itemId,
-    
-    required this.shitStatus,
+    // required this.shifId, 
+    required this.itemId,
+    // required this.shitStatus,
   });
 
   final int? empPersonid;
-  final int? processId;
+  final int?  processId;
   final String? personFname;
   final String? timing;
   final int? emp_mgr;
-  final int? attendanceid;
+  final String ? attendanceid;
   //final int? productId;
-  //final int? productQty;
+  final String ? productQty;
   final String? productName;
   //final int? attendance;
   final String? flattdate;
   final int? mfgpempid;
   final int?flattstatus;
   final String? processName;
-    final int?  shifId;
-    final int? shitStatus;
+    // final int?  shifId;
+    // final int? shitStatus;
       final String? itemId;
   @override
   List<Object?> get props => [
@@ -54,11 +54,11 @@ class ListofEmployeeEntity extends Equatable {
         personFname,
         timing,
         emp_mgr,
-        shifId,
+        // shifId,
         itemId,
-        shitStatus,
+        // shitStatus,
         //productId,
-        //productQty,
+        productQty,
         productName,
         //attendance,
         attendanceid,
@@ -82,8 +82,9 @@ class ListofEmployeeEntity extends Equatable {
       flattdate: flattdate,
       mfgpempid: mfgpempid, flattstatus: flattstatus,
       processName: processName,
-      shifId: shifId,
-      shitStatus: shitStatus,
+      productQty:productQty,
+      // shifId: shifId,
+      // shitStatus: shitStatus,
       itemId: itemId
     );
   }

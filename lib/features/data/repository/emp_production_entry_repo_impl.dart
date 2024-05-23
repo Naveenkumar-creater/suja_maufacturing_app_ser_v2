@@ -12,10 +12,11 @@ class EmpProductionEntryRepoImpl implements EmpProductionRepository {
   @override
   Future<EmpProductionEntity> getempproduction(
     int empid,
+    int deptid,int psid,
     String token,
     // int goodQuantities, int rejectedQuantities, int reworkQuantities
   ) {
-    final result = empProductionEntryDatasource.getempproduction(empid, token
+    final result = empProductionEntryDatasource.getempproduction(empid,deptid,psid,token
         // , goodQuantities, rejectedQuantities, reworkQuantities
         );
     return result;

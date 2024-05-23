@@ -31,7 +31,7 @@ class ApiRequestDataModel {
   String? ipdfromtime;
   String? ipddate;
   int? ipdpcid;
-  int? ipddeptid;
+  int? deptId;
   int? ipdassetid;
   int? ipdcardno;
   int? ipditemid;
@@ -45,6 +45,7 @@ class ApiRequestDataModel {
  int?cardNo;
  int? paId;
  int? shiftId;
+ int? psId;
 
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -79,7 +80,7 @@ class ApiRequestDataModel {
       this.ipdfromtime,
       this.ipddate,
       this.ipdpcid,
-      this.ipddeptid,
+      this.deptId,
       this.ipdassetid,
       this.ipdcardno,
       this.ipditemid,
@@ -91,7 +92,7 @@ class ApiRequestDataModel {
       this.emp_mgr,
       this.ipdpaid,
       this.cardNo,
-      this.paId,this.shiftId});
+      this.paId,this.shiftId,this.psId});
 
   Map<String, dynamic> toJson() {
     return {
@@ -129,7 +130,8 @@ class ApiRequestDataModel {
       "ipd_from_time": ipdfromtime != null ? ipdfromtime!.toString() : null,
       "ipd_date": ipddate != null ? ipddate!.toString() : null,
       "ipd_pc_id": ipdpcid,
-      "ipd_dept_id": ipddeptid,
+      "dept_Id": deptId,
+      "ps_Id":psId,
       "ipd_asset_id": ipdassetid,
       "ipd_card_no": ipdcardno,
       "ipd_item_id": ipditemid,
@@ -145,3 +147,6 @@ class ApiRequestDataModel {
     };
   }
 }
+
+
+

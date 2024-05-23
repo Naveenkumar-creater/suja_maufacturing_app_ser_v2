@@ -7,8 +7,8 @@ class ProductRepositoryImpl extends ProductRepository {
 
   ProductRepositoryImpl(this.productDatasource);
   @override
-  Future<ProductModel> getProductList(int id, String token) {
-    final result = productDatasource.getProductList(id, token);
+  Future<ProductModel> getProductList(int id,int deptid, String token) {
+    final result = productDatasource.getProductList(id,deptid,token);
     return result;
   }
 }

@@ -14,7 +14,7 @@ import '../../domain/usecase/emp_production_entry_usecases.dart';
 import '../provider/emp_production_entry_provider.dart';
 
 class EmpProductionEntryService {
-  Future<void> productionentry({required BuildContext context, required int id
+  Future<void> productionentry({required BuildContext context, required int id,required int deptid, required int psid
       // required int goodQuantities,
       // required int rejectedQuantities,
       // required int reworkQuantities,
@@ -43,7 +43,7 @@ class EmpProductionEntryService {
       EmpProductionEntryUsecases empUseCase =
           EmpProductionEntryUsecases(allocationRepository);
 
-      EmpProductionEntity user = await empUseCase.execute(id, token);
+      EmpProductionEntity user = await empUseCase.execute(id,deptid,psid, token);
 
       Provider.of<EmpProductionEntryProvider>(context, listen: false)
           .setUser(user);

@@ -7,9 +7,9 @@ import '../../../constant/request_model.dart';
 import 'api_constant.dart';
 
 class EmployeeClient {
-  dynamic getEmployeeList(int id,int shiftid, String token) async {
+  dynamic getEmployeeList(int processid, int deptid,int psid,String token) async {
     ApiRequestDataModel requestData = ApiRequestDataModel(
-        clientAuthToken: token, apiFor: "list_of_employees", processId: id,shiftId: shiftid);
+        clientAuthToken: token, apiFor: "list_of_employees", processId: processid,deptId: deptid,psId:psid );
 
     const timeoutDuration = Duration(seconds: 10);
     try {

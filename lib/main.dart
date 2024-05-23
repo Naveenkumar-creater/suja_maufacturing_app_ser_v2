@@ -11,6 +11,7 @@ import 'package:suja/features/presentation_layer/provider/emp_production_entry_p
 import 'package:suja/features/presentation_layer/provider/employee_provider.dart';
 import 'package:suja/features/presentation_layer/provider/plan_qty_provider.dart';
 import 'package:suja/features/presentation_layer/provider/process_provider.dart';
+import 'package:suja/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:suja/features/presentation_layer/provider/target_qty_provider.dart';
 import 'features/presentation_layer/provider/allocation_provider.dart';
 import 'features/presentation_layer/provider/login_provider.dart';
@@ -73,7 +74,11 @@ class MyApp extends StatelessWidget {
           create: (_) => CardNoProvider(),),
 
            ChangeNotifierProvider<TargetQtyProvider>(
-          create: (_) => TargetQtyProvider(),)
+          create: (_) => TargetQtyProvider(),),
+ ChangeNotifierProvider<ShiftStatusProvider>(
+          create: (_) => ShiftStatusProvider(),)
+
+          
         
       ],
       child: MaterialApp(

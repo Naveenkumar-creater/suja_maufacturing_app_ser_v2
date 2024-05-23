@@ -6,7 +6,7 @@ import '../../core/employee_client.dart';
 import '../../model/employee_model.dart';
 
 abstract class EmployeeDatasource {
-  Future<EmployeeModel> getEmployeeList(int id, int shiftid,String token);
+  Future<EmployeeModel> getEmployeeList(int processid, int deptid,int psid,String token);
 }
 
 class EmployeeDatasourceImpl extends EmployeeDatasource {
@@ -15,8 +15,8 @@ class EmployeeDatasourceImpl extends EmployeeDatasource {
     this.employeeClient,
   );
   @override
-  Future<EmployeeModel> getEmployeeList(int id, int shiftid,String token) async {
-    final response = await employeeClient.getEmployeeList(id, shiftid,token);
+  Future<EmployeeModel> getEmployeeList(int processid, int deptid,int psid,String token) async {
+    final response = await employeeClient.getEmployeeList(processid, deptid,psid,token);
 
     final result = EmployeeModel.fromJson(response);
 

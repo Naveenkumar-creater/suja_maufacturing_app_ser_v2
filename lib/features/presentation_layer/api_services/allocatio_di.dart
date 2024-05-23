@@ -13,7 +13,7 @@ import '../../domain/repository/allocation_repo.dart';
 
 class AllocationService {
   Future<void> changeallocation(
-      {required BuildContext context, required int id}) async {
+      {required BuildContext context, required int id,required int deptid}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
@@ -25,7 +25,7 @@ class AllocationService {
       AllocationUsecases allocationUseCase =
           AllocationUsecases(allocationRepository);
 
-      AllocationEntity user = await allocationUseCase.execute(id, token);
+      AllocationEntity user = await allocationUseCase.execute(id, deptid,token);
       // final allocationUseCase = AllocationUsecases(AllocationRepositoryImpl(
       //   AllocationDatasourceImpl(),
       // ));

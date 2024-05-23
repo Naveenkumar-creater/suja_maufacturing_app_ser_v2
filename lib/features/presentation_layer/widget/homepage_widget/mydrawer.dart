@@ -11,8 +11,11 @@ import 'package:suja/features/presentation_layer/api_services/attendace_count_di
 import 'package:suja/features/presentation_layer/api_services/login_di.dart';
 import 'package:suja/features/presentation_layer/api_services/plan_qty_di.dart';
 import 'package:suja/features/presentation_layer/api_services/process_di.dart';
+import 'package:suja/features/presentation_layer/api_services/shift_status_di.dart';
 import 'package:suja/features/presentation_layer/provider/login_provider.dart';
 import 'package:suja/features/presentation_layer/provider/process_provider.dart';
+import 'package:suja/features/presentation_layer/provider/shift_status_provider.dart';
+import 'package:suja/features/presentation_layer/widget/homepage_widget/shift_status_widget.dart';
 
 import '../../api_services/employee_di.dart';
 
@@ -33,7 +36,11 @@ class _MyDrawerState extends State<MyDrawer> {
   final ActualQtyService actualQtyService =ActualQtyService();
   AttendanceCountService attendanceCountService=AttendanceCountService();
   PlanQtyService planQtyService =PlanQtyService();
-  bool isLoading = false;
+  ShiftStatusService shiftStatusService = ShiftStatusService();
+
+ bool isLoading = false;
+  bool isFetching = false;
+  DateTime? lastTapTime;
 
   @override
   void initState() {
@@ -68,6 +75,9 @@ class _MyDrawerState extends State<MyDrawer> {
     final processList =
         Provider.of<ProcessProvider>(context).user?.listofProcessEntity;
     final userName = Provider.of<LoginProvider>(context).user!.loginId;
+     
+        
+       
 
     return Drawer(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -105,7 +115,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             ListTile(
               title: Text(
-                'P R O C E S S  A R E A ',
+                'PROCESS AREA ',
                 style: const TextStyle(fontSize: 16, color: Colors.black54),
                 // style: drawerTextColor,
               ),
@@ -113,45 +123,53 @@ class _MyDrawerState extends State<MyDrawer> {
             Stack(
               children: [
                
-                Container(
-                  width: double.infinity,
-                  height: 260,
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: processList?.length ?? 0,
-                    itemBuilder: (context, index) => Card(
-                      child: ListTile(
-                        title: Text(
-                          processList![index].processName ?? "",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        onTap: () {
-                          final processId = processList[index].processId ?? 0;
-                          final shiftId= processList[index].shiftid ?? 0;
-                          String processName =
-                              processList[index].processName ?? 'user';
+               Container(
+  width: double.infinity,
+  height: 260,
+  child: Scrollbar(radius: Radius.circular(8),thickness: 10,interactive: true,
+    child: ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: processList?.length ?? 0,
+      itemBuilder: (context, index) => Card(
+        child: ListTile(
+          title: Text(
+            processList![index].processName ?? "",
+            style: TextStyle(color: Colors.blue),
+          ),
+          onTap: () async {
+            final processId = processList[index].processId ?? 0;
+            final deptId = processList[index].deptId ?? 0;
+              try {
+                // Perform shiftStatusService first
+                await shiftStatusService.getShiftStatus(context: context, deptid: deptId, processid: processId);
+     final psId = Provider.of<ShiftStatusProvider>(context, listen:false )
+          .user
+          ?.shiftStatusdetailEntity
+          ?.psId ?? 0;
+       
+                // Perform employeeApiService next
+                await employeeApiService.employeeList(context: context, processid: processId, deptid: deptId, psid: psId);
+                
+    
+                // Continue with other asynchronous operations sequentially
+                 await attendanceCountService.getAttCount(context: context, id: processId);
 
-                          if (processId != null) {
-                            setState(() {
-                              processApiService.getProcessdetail(
-                                context: context,
-                              );
+                await actualQtyService.getActualQty(context: context, id: processId);
+               
+                await planQtyService.getPlanQty(context: context, id: processId);
+              } catch (e) {
+                // Handle any errors that occur during the async operations
+                print('Error fetching data: $e');
+              } 
+            
+          },
+        ),
+      ),
+    ),
+  ),
+),
 
-                              processName = processName;
-
-                              employeeApiService.employeeList(
-                                  context: context, id: processId,shiftid:shiftId );
-                                  actualQtyService.getActualQty(
-          context: context, id: processId);
-          attendanceCountService.getAttCount(context: context, id: processId);
-          planQtyService.getPlanQty(context: context, id: processId);
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ), Padding(
+                 Padding(
                   padding: const EdgeInsets.only(left: 190, top: 200),
                   child: Icon(
                     Icons.arrow_drop_down,size: 45,
@@ -169,7 +187,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: Colors.black54,
               ),
               title: const Text(
-                'L O G O U T',
+                'LOGOUT',
                 style: const TextStyle(fontSize: 16, color: Colors.black54),
               ),
               onTap: () {

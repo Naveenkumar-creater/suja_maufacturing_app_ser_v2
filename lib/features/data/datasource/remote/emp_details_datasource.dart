@@ -3,8 +3,8 @@
 import 'package:suja/constant/request_model.dart';
 import 'package:suja/features/data/model/process_model.dart';
 
-import '../core/emp_details_client.dart';
-import '../model/emp_details__model.dart';
+import '../../core/emp_details_client.dart';
+import '../../model/emp_details__model.dart';
 
 abstract class EmpDetailsDatasource {
   Future<EmpDetailsModel> getEmpDetails(String token);

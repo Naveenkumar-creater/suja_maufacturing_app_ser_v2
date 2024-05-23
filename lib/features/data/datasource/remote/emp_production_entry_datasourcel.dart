@@ -6,7 +6,7 @@ import '../../../../constant/request_model.dart';
 import '../../core/emp_production_entry_client.dart';
 
 abstract class EmpProductionEntryDatasource {
-  Future<EmpProductionModel> getempproduction(int empid, String token
+  Future<EmpProductionModel> getempproduction(int empid,int deptid,int psid, String token
       // int goodQuantities, int rejectedQuantities, int reworkQuantities
       );
 }
@@ -18,11 +18,11 @@ class EmpProductionEntryDatasourceImpl implements EmpProductionEntryDatasource {
   );
 
   @override
-  Future<EmpProductionModel> getempproduction(int empid, String token
+  Future<EmpProductionModel> getempproduction(int empid,int deptid,int psid, String token
       //int goodQuantities, int rejectedQuantities, int reworkQuantities
       ) async {
     final response =
-        await empProductionEntryClient.getempproduction(empid, token);
+        await empProductionEntryClient.getempproduction(empid,deptid,psid, token);
 
     final result = EmpProductionModel.fromJson(response);
 

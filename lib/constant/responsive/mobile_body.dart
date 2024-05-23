@@ -44,8 +44,8 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                       crossAxisCount: 1),
                   itemBuilder: (context, index) {
                     return EmployeeDetailsList(
-                      id: 1,
-                      shiftid: 1,
+                 
+                      deptid: 1057,
                     );
                   },
                 ),

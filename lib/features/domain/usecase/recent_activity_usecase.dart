@@ -8,7 +8,7 @@ class RecentActivityUsecase {
 
   RecentActivityUsecase(this.recentActivityRepository);
 
-  Future<RecentActivitiesEntity> execute(int id, String token) {
-    return recentActivityRepository.getRecentActivity(id, token);
+  Future<RecentActivitiesEntity> execute(int id,int deptid,int psid, String token) {
+    return recentActivityRepository.getRecentActivity(id, deptid,psid,token);
   }
 }

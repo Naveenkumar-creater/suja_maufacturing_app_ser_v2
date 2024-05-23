@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+
+
 import 'package:provider/provider.dart';
-import 'package:suja/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:suja/features/presentation_layer/api_services/attendace_count_di.dart';
 import 'package:suja/features/presentation_layer/api_services/process_di.dart';
-import 'package:suja/features/presentation_layer/provider/actual_qty_provider.dart';
+import 'package:suja/features/presentation_layer/api_services/shift_status_di.dart';
+
 import 'package:suja/features/presentation_layer/provider/attendance_count_provider.dart';
 import 'package:suja/features/presentation_layer/provider/employee_provider.dart';
+import 'package:suja/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:suja/features/presentation_layer/widget/homepage_widget/process_qty_widget.dart';
+import 'package:suja/features/presentation_layer/widget/homepage_widget/shift_status_widget.dart';
 
 import '../../features/presentation_layer/provider/process_provider.dart';
-import '../../features/presentation_layer/widget/doughnut_chart.dart';
 import '../../features/presentation_layer/widget/homepage_widget/employee_details_list.dart';
-import '../../features/presentation_layer/widget/homepage_widget/employee_details_table.dart';
 import '../../features/presentation_layer/widget/homepage_widget/mydrawer.dart';
-import '../../features/presentation_layer/widget/homepage_widget/product_list_qty.dart';
-import '../../features/presentation_layer/widget/homepage_widget/side_drawer.dart';
+
 
 
 class ResponsiveTabletHomepage extends StatefulWidget {
@@ -33,29 +32,32 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
   late Stream<String> current;
     ProcessApiService processApiService = ProcessApiService();
     AttendanceCountService attendanceCountService=AttendanceCountService();
-  bool isLoading =false;
+    ShiftStatusService shiftStatusService=ShiftStatusService();
+  bool isLoading =true;
 
   @override
   void initState() {
     super.initState();
-     final user = Provider.of<ProcessProvider>(context, listen: false).user;
+    //  final user = Provider.of<ProcessProvider>(context, listen: false).user;
  
     // final processid = user?.listofProcessEntity?.isNotEmpty ?? false
     //     ? user!.listofProcessEntity!.first.processId
     //     : null;
-    final processName = user?.listofProcessEntity?.first.processName;
     
-    final processid = user?.listofProcessEntity?.first.processId ?? 1;
-    attendanceCountService.getAttCount(context: context, id: processid);
+    // final processid = user?.listofProcessEntity?.first.processId ?? 0;
+    // final deptid = user?.listofProcessEntity?.first.deptId ?? 1;
+    // attendanceCountService.getAttCount(context: context, id: processid);
+    // shiftStatusService.getShiftStatus(
+    //       context: context, deptid:deptid , processid:processid);
+    
 
     // currentTime =
     //     '${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute}';
     
-    current = Stream<String>.periodic(Duration(seconds: 1), (i) {
-      final DateTime now = DateTime.now();
-      return '${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute}:${now.second.toString().padLeft(2, '0')}';
-    });
+ 
   }
+
+  
 
 
   @override
@@ -67,17 +69,22 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
     //     .processId;
 
 
-    final user = Provider.of<ProcessProvider>(context, listen: true).user;
+    final user = Provider.of<ProcessProvider>(context, listen:true).user;
  
-    // final processid = user?.listofProcessEntity?.isNotEmpty ?? false
-    //     ? user!.listofProcessEntity!.first.processId
-    //     : null;
-    final processName = user?.listofProcessEntity?.first.processName;
+    // final processName = user?.listofProcessEntity?.first.processName;
 final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.isNotEmpty ?? false
   ? Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.first.processName ?? "Default"
   : "Default";
-    final processid = user?.listofProcessEntity?.first.processId ?? 1;
-    final shitid =  user?.listofProcessEntity?.first.shiftid ?? 1;
+
+
+
+    final processId=Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.isNotEmpty ?? false
+  ? Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.first.processId ?? 1
+  : 1;
+  
+    final deptid = user?.listofProcessEntity?.first.deptId ?? 1;
+    final shiftgroupId = user?.listofProcessEntity?.first.shiftgroupId ?? 1;
+
 
         final totalemployee =
         Provider.of<AttendanceCountProvider>(context, listen: true)
@@ -90,6 +97,25 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
             .user
             ?.attendanceEntity
             ?.presentees;
+
+   final shiftstatus = Provider.of<ShiftStatusProvider>(context, listen: false)
+        .user
+        ?.shiftStatusdetailEntity
+        ?.psShiftStatus ?? 0;
+
+
+       final psId = Provider.of<ShiftStatusProvider>(context, listen: false)
+        .user
+        ?.shiftStatusdetailEntity
+        ?.psId ?? 0;
+
+        print(psId);
+
+        
+        // final mpmid = Provider.of<ShiftStatusProvider>(context, listen: true)
+        // .user
+        // ?.shiftStatusdetailEntity
+        // ?.psMpmId ?? 0;
 
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -131,8 +157,10 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                      if(processname!="Default")
                                 Padding(
                                   padding: const EdgeInsets.all(8),
+                            
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -154,13 +182,14 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment.center,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         Text("${processname}",
                                                             style: const TextStyle(
                                                                 fontSize: 28,
                                                                 color:
                                                                     Colors.blue)),
-                                                                    Text('Shift 1',style:TextStyle(fontSize: 17,color: Colors.black54))
+                                                                    
                                                        
                                                       ],
                                                     ),
@@ -271,78 +300,29 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
                                                     ),
                                                   ),
                                                 ),SizedBox(width: 8,),
-                                                Container( height: 74,width: 490,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                     
-                                                      StreamBuilder<String>(
-                                                        stream: current,
-                                                        builder:
-                                                            (context, snapshot) {
-                                                          if (snapshot.hasData) {
-                                                            return Text(
-                                                              '${snapshot.data}',
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight.w400,
-                                                                  fontSize: 20,
-                                                                  color:Colors.black54),
-                                                            );
-                                                          } else
-                                                            return Text(
-                                                              'Loading',
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .black54),
-                                                            );
-                                                        },
-                                                      ),
-                                                      SizedBox(width: 15,),
-                                            shitid==1?           ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: () {},
-                child: Text('Close Shift')):ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: () {},
-                child: Text('Open Shift')),
-                                                    ],
-                                                  ),
-                                                )
+
+                            ShitStatusWidget(deptid:deptid , processid: processId,shiftgroupid:shiftgroupId, psid: psId,)
                                               ],
                                             ),
                                             SizedBox(
                                               height: 8,
                                             ),
 
-                                            ProcessQtyWidget(id: processid,)
+                                            ProcessQtyWidget(id: processId,)
                                           ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                // EmployeeDetailsTable(),
-                                // EmployeeDetailsTable();
-                                processid != null
+     
+                              shiftstatus!= 0  
                                     ? EmployeeDetailsList(
-                                        id: processid, shiftid: shitid,
+                                      
+                                        // id: mpmid, 
+                                        // shiftid: shitid,
+                                        deptid: deptid,
+                                         psid:psId
                                       )
                                     : SizedBox(), // Or any other fallback widget
                               ],

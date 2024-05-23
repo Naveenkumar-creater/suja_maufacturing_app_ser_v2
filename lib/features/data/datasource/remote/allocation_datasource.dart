@@ -3,7 +3,7 @@ import 'package:suja/features/data/core/allocation_client.dart';
 import 'package:suja/features/data/model/allocation_model.dart';
 
 abstract class AllocationDatasource {
-  Future<AllocationModel> getallocation(int id, String token);
+  Future<AllocationModel> getallocation(int id,int deptid, String token);
 }
 
 class AllocationDatasourceImpl extends AllocationDatasource {
@@ -11,8 +11,8 @@ class AllocationDatasourceImpl extends AllocationDatasource {
 
   AllocationDatasourceImpl(this.allocationClient);
   @override
-  Future<AllocationModel> getallocation(int id, String token) async {
-    final response = await allocationClient.getallocation(id, token);
+  Future<AllocationModel> getallocation(int id,int deptid,String token) async {
+    final response = await allocationClient.getallocation(id,deptid, token);
 
     final result = AllocationModel.fromJson(response);
 

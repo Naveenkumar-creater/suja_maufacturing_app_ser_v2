@@ -3,5 +3,5 @@ import 'package:suja/features/domain/entity/product_entity.dart';
 
 
 abstract class EmployeeRepository{
-  Future<EmployeeEntity>getEmployeeList(int id,int shiftid,String token);
+  Future<EmployeeEntity>getEmployeeList(int processid,int deptid,int psid,String token);
 }

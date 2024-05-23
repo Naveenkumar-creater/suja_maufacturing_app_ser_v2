@@ -4,8 +4,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:suja/features/presentation_layer/widget/homepage_widget/employe_allocation_popup.dart';
 
-import '../widget/homepage_widget/employee_details_table.dart';
-import '../widget/homepage_widget/listof_product_qty.dart';
+
 import '../widget/homepage_widget/side_drawer.dart';
 
 class PreviousHomePage extends StatefulWidget {
@@ -103,13 +102,13 @@ class _HomePageState extends State<PreviousHomePage> {
                             Container(
                                 height: 300,
                                 width: 500,
-                                child: ListofProductQuantity()),
+                            )
                           ],
                         ),
                         SizedBox(
                           width: 20,
                         ),
-                        EmployeeDetailsTable()
+                  
                       ],
                     ),
                   ),

@@ -5,7 +5,7 @@ class ProductUsecase{
   final ProductRepository productRepository;
   ProductUsecase(this.productRepository);
 
-  Future<ProductEntity>execute(int id, String token)async{
-return  productRepository.getProductList(id, token);
+  Future<ProductEntity>execute(int id,int deptid, String token)async{
+return  productRepository.getProductList(id,deptid, token);
   }
 }

@@ -12,9 +12,9 @@ class RecentActivityRepositoryImpl implements RecentActivityRepository {
 
 
   @override
-  Future<RecentActivitiesModel> getRecentActivity(int id, String token) async{
+  Future<RecentActivitiesModel> getRecentActivity(int id,int deptid, int psid, String token) async{
  RecentActivitiesModel modelresult =
-        await recentActivityDatasource.getRecentActivity(id, token);
+        await recentActivityDatasource.getRecentActivity(id, deptid, psid, token);
     return modelresult;
   }
 }

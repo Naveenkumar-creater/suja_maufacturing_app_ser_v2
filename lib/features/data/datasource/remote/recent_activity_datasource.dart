@@ -4,7 +4,7 @@ import '../../../../constant/request_model.dart';
 import '../../core/api_constant.dart';
 
 abstract class RecentActivityDatasource {
-  Future<RecentActivitiesModel> getRecentActivity(int id, String token);
+  Future<RecentActivitiesModel> getRecentActivity(int id,int deptid,int psid, String token);
 }
 
 class RecentActivityDatasourceImpl extends RecentActivityDatasource {
@@ -12,7 +12,7 @@ class RecentActivityDatasourceImpl extends RecentActivityDatasource {
 
   // RecentActivityDatasourceImpl(this.allocationClient);
   @override
-  Future<RecentActivitiesModel> getRecentActivity(int id, String token) async {
+  Future<RecentActivitiesModel> getRecentActivity(int id,deptid,psid, String token) async {
     // final response = await allocationClient.getallocation(id, token);
 
     // final result = AllocationModel.fromJson(response);
@@ -20,7 +20,7 @@ class RecentActivityDatasourceImpl extends RecentActivityDatasource {
     // return result;
 
       ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "recent_activities", clientAuthToken: token, emppersonid: id);
+          apiFor: "recent_activities", clientAuthToken: token, emppersonid: id,deptId: deptid, psId: psid);
      final response = await ApiConstant.makeApiRequest(requestBody: requestbody);
     final result = RecentActivitiesModel.fromJson(response);
       print(result);

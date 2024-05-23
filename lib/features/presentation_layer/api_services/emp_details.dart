@@ -10,7 +10,7 @@ import 'package:suja/features/presentation_layer/provider/process_provider.dart'
 import '../../../constant/show_pop_error.dart';
 
 import '../../data/core/emp_details_client.dart';
-import '../../data/datasource/emp_details_datasource.dart';
+import '../../data/datasource/remote/emp_details_datasource.dart';
 import '../../data/repository/emp_details_repository_impl.dart';
 import '../../data/repository/process_repository_impl.dart';
 import '../../domain/entity/emp_details_entity.dart';

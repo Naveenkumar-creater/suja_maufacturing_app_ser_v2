@@ -12,7 +12,7 @@ import '../provider/employee_provider.dart';
 
 class EmployeeApiService {
   Future<void> employeeList(
-      {required BuildContext context, required int id,required int shiftid}) async {
+      {required BuildContext context, required int processid,required int deptid,required int psid}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
@@ -21,7 +21,7 @@ class EmployeeApiService {
       EmployeeRepository allocationRepository = EmployeeRepositoryImpl(empData);
       EmployeeUsecase empUseCase = EmployeeUsecase(allocationRepository);
 
-      EmployeeEntity user = await empUseCase.execute(id,shiftid, token);
+      EmployeeEntity user = await empUseCase.execute(processid,deptid,psid, token);
 
       // final employeeUseCase = EmployeeUsecase(
       //   EmployeeRepositoryImpl(
