@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:suja/features/domain/entity/target_qty_entity.dart';
+import 'package:prominous/features/domain/entity/target_qty_entity.dart';
 
 class TargetQtyProvider extends ChangeNotifier{
   TargetQtyEntity? _user;

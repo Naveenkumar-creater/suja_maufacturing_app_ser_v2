@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/employee_entity.dart';
+import 'package:prominous/features/domain/entity/employee_entity.dart';
 
 class EmployeeModel extends EmployeeEntity {
   const EmployeeModel({
@@ -36,9 +36,11 @@ class ListOfEmployee extends ListofEmployeeEntity {
     required this.mfgpempid,
     required this.flattstatus,
     required this.processName,
+    required this.flattshiftstatus,
     // required this.shiftId,
     // required this.shitStatus,
-    required this.itemId
+    required this.itemId,
+    required this.flpsid
     //required this.attendance,
   }) : super(
           empPersonid: empPersonid,
@@ -57,6 +59,8 @@ class ListOfEmployee extends ListofEmployeeEntity {
           productQty:productQty,
           // shifId:shiftId,
           itemId:itemId,
+          flattshiftstatus:flattshiftstatus,
+          flpsid:flpsid
           // shitStatus:shitStatus
           //attendance: attendance);
         );
@@ -73,10 +77,12 @@ class ListOfEmployee extends ListofEmployeeEntity {
   final String? flattdate;
   final int? mfgpempid;
   final int? flattstatus;
+  final int? flattshiftstatus;
   final String? processName;
   // final int? shitStatus;
   // final int? shiftId;
   final String? itemId;
+  final int?flpsid;
 
   factory ListOfEmployee.fromJson(Map<String, dynamic> json) {
     return ListOfEmployee(
@@ -93,6 +99,8 @@ class ListOfEmployee extends ListofEmployeeEntity {
         mfgpempid: json["mfgp_emp_id"],
         flattdate: json["fl_att_in_time"],
         flattstatus: json["fl_att_status"],
+        flattshiftstatus:json["fl_att_shift_status"],
+        flpsid:json["fl_ps_id"],
 
         processName: json["mpm_name"],   
         // shitStatus: json["fl_att_shift_status"],
@@ -137,6 +145,3 @@ class ListOfEmployee extends ListofEmployeeEntity {
         "fl_att_status": flattstatus,
       };
 }
-
-
- 

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suja/features/data/core/employee_client.dart';
-import 'package:suja/features/data/datasource/remote/emp_production_entry_datasourcel.dart';
-import 'package:suja/features/data/repository/emp_production_entry_repo_impl.dart';
-import 'package:suja/features/domain/entity/emp_production_entity.dart';
+import 'package:prominous/features/data/core/employee_client.dart';
+import 'package:prominous/features/data/datasource/remote/emp_production_entry_datasourcel.dart';
+import 'package:prominous/features/data/repository/emp_production_entry_repo_impl.dart';
+import 'package:prominous/features/domain/entity/emp_production_entity.dart';
 
 import '../../../constant/show_pop_error.dart';
 import '../../data/core/emp_production_entry_client.dart';

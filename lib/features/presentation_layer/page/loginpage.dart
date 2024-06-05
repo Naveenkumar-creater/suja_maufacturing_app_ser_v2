@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:suja/features/presentation_layer/widget/login_widget/login_widget.dart';
+import 'package:prominous/features/presentation_layer/widget/login_widget/login_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
         height: size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/sujashoei.jpeg'),
+                image: AssetImage('assets/images/prominousshoei.jpeg'),
                 fit: BoxFit.cover)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
                     child: SizedBox(
                         height: 150,
                         width: 250,
-                        child: Image.asset('assets/images/sujashoeilogo.png'))),
+                        child: Image.asset('assets/images/prominousshoeilogo.png'))),
             Container(
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(224, 224, 224, 1),

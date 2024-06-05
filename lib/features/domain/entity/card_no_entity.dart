@@ -1,7 +1,7 @@
   
 
 import 'package:equatable/equatable.dart';
-import 'package:suja/features/data/model/card_no_model.dart';
+import 'package:prominous/features/data/model/card_no_model.dart';
 
 class CardNoEntity extends Equatable {
   final ScanCardForItem? scanCardForItem;

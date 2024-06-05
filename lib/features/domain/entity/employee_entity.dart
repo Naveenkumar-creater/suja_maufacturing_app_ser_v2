@@ -25,8 +25,10 @@ class ListofEmployeeEntity extends Equatable {
     required this.flattdate,
     required this.mfgpempid, 
     required this.flattstatus,
+    required this.flattshiftstatus,
     // required this.shifId, 
     required this.itemId,
+    required this.flpsid
     // required this.shitStatus,
   });
 
@@ -42,11 +44,13 @@ class ListofEmployeeEntity extends Equatable {
   //final int? attendance;
   final String? flattdate;
   final int? mfgpempid;
-  final int?flattstatus;
+  final int?  flattstatus;
   final String? processName;
+  final int? flattshiftstatus;
     // final int?  shifId;
     // final int? shitStatus;
       final String? itemId;
+      final int?flpsid;
   @override
   List<Object?> get props => [
         empPersonid,
@@ -56,6 +60,7 @@ class ListofEmployeeEntity extends Equatable {
         emp_mgr,
         // shifId,
         itemId,
+        flattshiftstatus,
         // shitStatus,
         //productId,
         productQty,
@@ -65,6 +70,7 @@ class ListofEmployeeEntity extends Equatable {
         flattdate,
         flattstatus,
         mfgpempid,
+        flpsid
       ];
 
   get index => null;
@@ -83,9 +89,11 @@ class ListofEmployeeEntity extends Equatable {
       mfgpempid: mfgpempid, flattstatus: flattstatus,
       processName: processName,
       productQty:productQty,
+         flattshiftstatus: flattshiftstatus,
       // shifId: shifId,
       // shitStatus: shitStatus,
-      itemId: itemId
+      itemId: itemId,
+      flpsid:flpsid
     );
   }
 }

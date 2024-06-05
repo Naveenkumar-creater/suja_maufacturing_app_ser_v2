@@ -1,5 +1,5 @@
-import 'package:suja/features/domain/entity/product_entity.dart';
-import 'package:suja/features/domain/repository/product_repository.dart';
+import 'package:prominous/features/domain/entity/product_entity.dart';
+import 'package:prominous/features/domain/repository/product_repository.dart';
 
 class ProductUsecase{
   final ProductRepository productRepository;

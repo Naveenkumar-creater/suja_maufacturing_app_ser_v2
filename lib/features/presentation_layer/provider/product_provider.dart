@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suja/features/domain/entity/product_entity.dart';
+import 'package:prominous/features/domain/entity/product_entity.dart';
 
 
 class ProductProvider extends ChangeNotifier {

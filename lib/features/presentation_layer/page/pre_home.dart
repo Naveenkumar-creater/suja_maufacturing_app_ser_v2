@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:suja/features/presentation_layer/widget/homepage_widget/employe_allocation_popup.dart';
+import 'package:prominous/features/presentation_layer/widget/homepage_widget/employe_allocation_popup.dart';
 
 
 import '../widget/homepage_widget/side_drawer.dart';

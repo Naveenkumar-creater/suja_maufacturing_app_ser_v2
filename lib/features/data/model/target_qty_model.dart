@@ -1,5 +1,5 @@
 
-import 'package:suja/features/domain/entity/target_qty_entity.dart';
+import 'package:prominous/features/domain/entity/target_qty_entity.dart';
 
 
 class TargetQtyModel extends TargetQtyEntity {
@@ -11,9 +11,8 @@ class TargetQtyModel extends TargetQtyEntity {
 
   factory TargetQtyModel.fromJson(Map<String, dynamic> json) {
     return TargetQtyModel(
-      targetQty: json["response_data"]["Target_Qty"] == null 
-          ? TargetQty(targetqty: 0) // Set default value if Actual_Qty is null
-          : TargetQty.fromJson(json["response_data"]["Target_Qty"]),
+      targetQty: json["response_data"]["targetQty"] == null ? null // Set default value if Actual_Qty is null
+          : TargetQty.fromJson(json["response_data"]["targetQty"]),
     );
   }
 }
@@ -21,13 +20,18 @@ class TargetQtyModel extends TargetQtyEntity {
 class TargetQty extends TargetQty1 {
   TargetQty({
     required this.targetqty,
-  }) : super(targetqty: targetqty ?? 0); // Ensure actualQty is not null
+    required this.ppid,
+  }) : super(targetqty: targetqty ?? 0,
+  ppid:ppid
+  ); // Ensure actualQty is not null
 
   final int? targetqty;
+  final int? ppid;
 
   factory TargetQty.fromJson(Map<String, dynamic> json) {
     return TargetQty(
-      targetqty: json["target_Qty"] ?? 0, // Provide a default value if Actual_qty is null
+       ppid: json["pp_id"] ?? 0,
+      targetqty: json["target_qty"] ?? 0, // Provide a default value if Actual_qty is null
     );
   }
 

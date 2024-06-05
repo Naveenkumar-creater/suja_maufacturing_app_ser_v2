@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
-import 'package:suja/features/data/model/allocation_model.dart';
+import 'package:prominous/features/data/model/allocation_model.dart';
 
 class ActivityEntity extends Equatable {
   final List<ActivityProductList>? activityEntity;

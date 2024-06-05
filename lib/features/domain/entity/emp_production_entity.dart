@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
-import 'package:suja/features/data/model/emp_production_model.dart';
+import 'package:prominous/features/data/model/emp_production_model.dart';
 
 class EmpProductionEntity extends Equatable {
   final ListOfEmpProductionEntity ? empProductionEntity;
@@ -26,6 +26,8 @@ class   ListOfEmpProductionEntity extends Equatable {
   final int? itemid;
   final int? ipddeptid;
   final int?ipdpaid;
+  final int?ipdbatchno;
+  final int?personid;
   const ListOfEmpProductionEntity(
       {required this.ipdcardno,
       required this.ipdmpmid,
@@ -39,8 +41,9 @@ class   ListOfEmpProductionEntity extends Equatable {
       required this.ipdfromtime,
       required this.ipdtotime,
       required this.itemid,
-      required this.ipddeptid, int? mpmbatchprocess, int? personid,
-      
+      required this.ipddeptid, 
+      required this. ipdbatchno,
+       required this. personid,
       required this.ipdpaid});
 
   @override
@@ -58,7 +61,8 @@ class   ListOfEmpProductionEntity extends Equatable {
         ipdtotime,
         itemid,
         ipddeptid,
-        ipdpaid
+        ipdpaid,
+        ipdbatchno,
       ];
 
 }

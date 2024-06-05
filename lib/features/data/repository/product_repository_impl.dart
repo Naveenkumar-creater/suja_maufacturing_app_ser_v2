@@ -1,4 +1,4 @@
-import 'package:suja/features/data/datasource/remote/product_datasource.dart';
+import 'package:prominous/features/data/datasource/remote/product_datasource.dart';
 import '../../domain/repository/product_repository.dart';
 import '../model/product_model.dart';
 

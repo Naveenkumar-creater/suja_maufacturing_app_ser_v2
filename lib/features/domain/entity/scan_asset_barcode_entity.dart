@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:suja/features/data/model/asset_barcode_model.dart';
+import 'package:prominous/features/data/model/asset_barcode_model.dart';
 
 class ScanAssetBarcodeEntity extends Equatable{
 final ScanAseetBarcode? scanAseetBarcode;

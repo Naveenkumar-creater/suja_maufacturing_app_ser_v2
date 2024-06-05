@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/product_entity.dart';
+import 'package:prominous/features/domain/entity/product_entity.dart';
 
 class ProductModel extends ProductEntity {
   final List<ListOfProduct> listOfProduct;

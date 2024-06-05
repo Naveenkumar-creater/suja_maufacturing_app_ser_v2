@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
-import 'package:suja/constant/show_pop_error.dart';
-import 'package:suja/features/presentation_layer/api_services/card_no_di.dart';
-import 'package:suja/features/presentation_layer/provider/card_no_provider.dart';
+import 'package:prominous/constant/show_pop_error.dart';
+import 'package:prominous/features/presentation_layer/api_services/card_no_di.dart';
+import 'package:prominous/features/presentation_layer/provider/card_no_provider.dart';
 
 class CardNoScanner extends StatefulWidget {
   final int? empId;

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
-import 'package:suja/features/presentation_layer/api_services/login_di.dart';
-import 'package:suja/features/presentation_layer/provider/emp_details_provider.dart';
-import 'package:suja/features/presentation_layer/provider/employee_provider.dart';
-import 'package:suja/features/presentation_layer/provider/process_provider.dart';
+import 'package:prominous/features/presentation_layer/api_services/login_di.dart';
+import 'package:prominous/features/presentation_layer/provider/emp_details_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/process_provider.dart';
 
 import '../../api_services/employee_di.dart';
 import '../../api_services/process_di.dart';

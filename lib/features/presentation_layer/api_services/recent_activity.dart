@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suja/constant/show_pop_error.dart';
-import 'package:suja/features/data/datasource/remote/recent_activity_datasource.dart';
-import 'package:suja/features/data/repository/allocation_repo_impl.dart';
-import 'package:suja/features/data/repository/recent_activity_repo_impl.dart';
-import 'package:suja/features/domain/usecase/allocation_usecase.dart';
-import 'package:suja/features/domain/usecase/recent_activity_usecase.dart';
-import 'package:suja/features/presentation_layer/provider/allocation_provider.dart';
-import 'package:suja/features/presentation_layer/provider/recent_activity_provider.dart';
+import 'package:prominous/constant/show_pop_error.dart';
+import 'package:prominous/features/data/datasource/remote/recent_activity_datasource.dart';
+import 'package:prominous/features/data/repository/allocation_repo_impl.dart';
+import 'package:prominous/features/data/repository/recent_activity_repo_impl.dart';
+import 'package:prominous/features/domain/usecase/allocation_usecase.dart';
+import 'package:prominous/features/domain/usecase/recent_activity_usecase.dart';
+import 'package:prominous/features/presentation_layer/provider/allocation_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/recent_activity_provider.dart';
 
 import '../../data/core/allocation_client.dart';
 import '../../data/datasource/remote/allocation_datasource.dart';

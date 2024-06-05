@@ -19,8 +19,11 @@ class ProductionEntryReqModel {
         required this.emppersonId,
         required this.ipdpaid,
         required this.targetqty,
-        required this.mpmbatchprocess,
-        required this.ipdpsid
+        required this.batchno,
+        required this.ipdpsid,
+        required this.ppid,
+         required this.shiftid
+
     });
       final String? apiFor;
   final String?clientAuthToken;
@@ -41,8 +44,10 @@ class ProductionEntryReqModel {
     final int? emppersonId;
     final int?  ipdpaid;
     final int?targetqty;
-    final int?mpmbatchprocess;
+    final int?batchno;
     final int? ipdpsid;
+    final int? ppid;
+    final int? shiftid;
     // factory ProductionEntryReqModel.fromJson(Map<String, dynamic> json){ 
     //     return ProductionEntryReqModel(
     //         ipdMpmId: json["ipd_mpm_id"],
@@ -71,6 +76,7 @@ class ProductionEntryReqModel {
         "ipd_rework_flag": ipdReworkFlag,
         "ipd_asset_id": ipdAssetId,
         "ipd_card_no": ipdCardNo,
+        "ipd_pc_id":ipdPcId,
         "ipd_rej_qty": ipdRejQty,
         "ipd_dept_id": ipdDeptId,
         "ipd_date": ipdDate,
@@ -78,13 +84,14 @@ class ProductionEntryReqModel {
         "ipd_item_id": ipdItemId,
         "ipd_id": ipdId,
         "ipd_from_time": ipdFromTime,
-        "ipd_pc_id": ipdPcId,
-        // "mpm_batch_process": mpmBatchProcess,
         "emp_personid": emppersonId,
           'ipd_pa_id':  ipdpaid,
           "ipd_ps_id":ipdpsid,
           "pp_plan_qty":targetqty,
-          "mpm_batch_process":mpmbatchprocess
+          "ipd_batch_no":batchno,
+          "pp_id":ppid,
+          "pp_shift_id": shiftid
+
     };
 
 }

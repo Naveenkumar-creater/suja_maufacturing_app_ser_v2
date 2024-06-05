@@ -1,11 +1,11 @@
 
-import 'package:suja/features/data/datasource/remote/actual_qty_datasource.dart';
-import 'package:suja/features/data/datasource/remote/asset_barcode_datasource.dart';
+import 'package:prominous/features/data/datasource/remote/actual_qty_datasource.dart';
+import 'package:prominous/features/data/datasource/remote/asset_barcode_datasource.dart';
 
-import 'package:suja/features/data/model/actual_qty_model.dart';
-import 'package:suja/features/data/model/asset_barcode_model.dart';
+import 'package:prominous/features/data/model/actual_qty_model.dart';
+import 'package:prominous/features/data/model/asset_barcode_model.dart';
 
-import 'package:suja/features/domain/repository/asset_barcode_repo.dart';
+import 'package:prominous/features/domain/repository/asset_barcode_repo.dart';
 
 class AssetBarcodeRepositoryImpl extends AssetBarcodeRepository{
   final  AssetBarcodeDatasource assetBarcodeDatasource;

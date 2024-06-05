@@ -63,19 +63,14 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
   final String? ipdtotime;
   final int? itemid;
   final int? ipddeptid;
-  final int?mpmbatchprocess;
+  final int?ipdbatchno;
   final int?personid;
   final int?ipdpaid;
 
-
-    
-      
-
-   
   const ListProductionEntry(  {
-    required this.mpmbatchprocess,
-    required this.personid,
     required this.ipdcardno,
+    required this.personid,
+    required this.ipdbatchno,
     required this.ipdmpmid,
     required this.rejqty,
     required this.goodqty,
@@ -103,7 +98,7 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
             ipdtotime: ipdtotime,
             ipddeptid: ipddeptid,
             itemid: itemid,
-            mpmbatchprocess:mpmbatchprocess,
+            ipdbatchno:ipdbatchno,
             personid:personid,
             ipdpaid:ipdpaid
             );
@@ -118,16 +113,15 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
       ipdpcid: json['ipd_pc_id'],
       ipdassetid: json['ipd_asset_id'],
       ipdflagid: json['ipd_rework_flag'],
-      ipddate:
-          json['ipd_date'] ,
-      ipdfromtime: json['ipd_from_time'] 
-          ,
-          ipdpaid:json['ipd_pa_id'] ,
+      ipddate:json['ipd_date'] ,
+      ipdfromtime: json['ipd_from_time'],
+      ipdpaid:json['ipd_pa_id'] ,
       ipdtotime: json['ipd_to_time'],
       itemid: json['ipd_item_id'],
       ipddeptid: json["ipd_dept_id"],
       personid:json["person_id"],
-      mpmbatchprocess:json["mpm_batch_process"]
+      ipdbatchno:json["ipd_batch_no"],
+      
 
     );
   }
@@ -162,6 +156,6 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
         "ipd_pc_id": ipdpcid,
         "ipd_asset_id": ipdassetid,
         "ipd_dept_id": ipddeptid,
-        "mpm_batch_process":mpmbatchprocess
+        "ipd_batch_no":ipdbatchno
       };
 }

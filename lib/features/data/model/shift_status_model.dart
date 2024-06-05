@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/shift_status_entity.dart';
+import 'package:prominous/features/domain/entity/shift_status_entity.dart';
 
 class ShiftStatusModel extends ShiftStatusEntity {
     ShiftStatusModel({

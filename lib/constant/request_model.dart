@@ -144,7 +144,7 @@ class ApiRequestDataModel {
       "mfgp_emp_id": mfgpEmpId,
       "mfg_person_id": mfgPersonId,
       "ipd_pa_id":ipdpaid,
-      "pa_id":paId,
+      "pa_Id":paId,
       "shift_id":shiftId
     };
   }

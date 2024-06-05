@@ -24,7 +24,7 @@ class EmployeeClient {
           .timeout(timeoutDuration);
 
       // ignore: avoid_print
-      print(response.body);
+      print(response. body);
 
       if (response.statusCode == 200) {
         final responseJson = jsonDecode(response.body);

@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/card_no_entity.dart';
+import 'package:prominous/features/domain/entity/card_no_entity.dart';
 
 class CardNoModel extends CardNoEntity {
   CardNoModel({

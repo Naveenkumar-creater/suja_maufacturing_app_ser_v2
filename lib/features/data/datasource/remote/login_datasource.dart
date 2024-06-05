@@ -1,5 +1,5 @@
 
-import 'package:suja/features/data/model/login_model.dart';
+import 'package:prominous/features/data/model/login_model.dart';
 
 import '../../core/login_api_client.dart';
 

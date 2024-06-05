@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
-import 'package:suja/constant/show_pop_error.dart';
-import 'package:suja/features/presentation_layer/api_services/asset_barcode_di.dart';
-import 'package:suja/features/presentation_layer/provider/asset_barcode_provier.dart';
-import 'package:suja/features/presentation_layer/widget/homepage_widget/emp_production_entry.dart';
+import 'package:prominous/constant/show_pop_error.dart';
+import 'package:prominous/features/presentation_layer/api_services/asset_barcode_di.dart';
+import 'package:prominous/features/presentation_layer/provider/asset_barcode_provier.dart';
+import 'package:prominous/features/presentation_layer/widget/homepage_widget/emp_production_entry.dart';
 
 
 class ScanBarcode extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:suja/features/presentation_layer/api_services/login_di.dart';
-import 'package:suja/features/presentation_layer/api_services/process_di.dart';
-import 'package:suja/features/presentation_layer/provider/login_provider.dart';
-import 'package:suja/features/presentation_layer/provider/process_provider.dart';
+import 'package:prominous/features/presentation_layer/api_services/login_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/process_di.dart';
+import 'package:prominous/features/presentation_layer/provider/login_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/process_provider.dart';
 
 var defaultBackgroundColor = Colors.grey[300];
 var appBarColor = Color(0xFF25476A);

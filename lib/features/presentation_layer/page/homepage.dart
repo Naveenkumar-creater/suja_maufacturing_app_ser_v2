@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suja/constant/responsive/tablet_body.dart';
+import 'package:prominous/constant/responsive/tablet_body.dart';
 
 import '../../../constant/responsive/desktop_body.dart';
 import '../../../constant/responsive/mobile_body.dart';

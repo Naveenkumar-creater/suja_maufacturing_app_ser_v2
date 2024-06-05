@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suja/features/domain/entity/product_entity.dart';
+import 'package:prominous/features/domain/entity/product_entity.dart';
 import '../../../constant/show_pop_error.dart';
 import '../../data/core/product_client.dart';
 import '../../data/datasource/remote/product_datasource.dart';

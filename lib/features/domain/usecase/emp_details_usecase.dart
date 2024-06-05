@@ -1,5 +1,5 @@
-import 'package:suja/features/domain/entity/process_entity.dart';
-import 'package:suja/features/domain/repository/process_repository.dart';
+import 'package:prominous/features/domain/entity/process_entity.dart';
+import 'package:prominous/features/domain/repository/process_repository.dart';
 
 import '../entity/emp_details_entity.dart';
 import '../repository/emp_details_repository.dart';

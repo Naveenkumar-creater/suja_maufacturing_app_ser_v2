@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suja/constant/request_data_model/send_attendence_model.dart';
-import 'package:suja/features/presentation_layer/api_services/attendace_count_di.dart';
-import 'package:suja/features/presentation_layer/api_services/employee_di.dart';
-import 'package:suja/features/presentation_layer/provider/shift_status_provider.dart';
+import 'package:prominous/constant/request_data_model/send_attendence_model.dart';
+import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/employee_di.dart';
+import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import '../../../../constant/request_model.dart';
 import 'emp_production_entry.dart';
@@ -132,6 +132,10 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                 final shiftStatus = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
         ?.shiftStatusdetailEntity?.psShiftStatus;
+          final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
+        .user
+        ?.shiftStatusdetailEntity
+        ?.psShiftId;
 
      
     final attdid = Provider.of<EmployeeProvider>(context, listen: false)
@@ -158,7 +162,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
         empid: empPersonid,
         processId: process_id,
         psid: widget.psid,
-        shiftId: 0,
+        shiftId: Shiftid,
         shiftStatus: shiftStatus);
 
     final requestBodyjson = jsonEncode(requestBody.toJson());
@@ -491,10 +495,13 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                                               processid: process_id ?? 1,
                                               deptid: widget.deptid,
                                               isload: true,
+                                              attenceid:employee.attendanceid,
+                                              attendceStatus: employee.flattstatus,
                                               //  shiftId: widget.shiftid,
                                               psid: widget.psid),
                                     ),
                                   );
+                                  
                                   employeeApiService.employeeList(
                                       context: context,
                                       processid: employee.processId ?? 0,

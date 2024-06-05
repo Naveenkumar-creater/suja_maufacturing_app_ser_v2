@@ -1,9 +1,9 @@
 
-import 'package:suja/features/data/datasource/remote/plan_qty_datasource.dart';
+import 'package:prominous/features/data/datasource/remote/plan_qty_datasource.dart';
 
-import 'package:suja/features/data/model/plan_qty_model.dart';
+import 'package:prominous/features/data/model/plan_qty_model.dart';
 
-import 'package:suja/features/domain/repository/plan_qty_repo.dart';
+import 'package:prominous/features/domain/repository/plan_qty_repo.dart';
 
 class PlanQtyRepositoryImpl extends PlanQtyRepository{
   final  PlanQtyDatasource planQtyDatasource;

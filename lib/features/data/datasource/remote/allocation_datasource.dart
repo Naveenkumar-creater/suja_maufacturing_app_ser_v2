@@ -1,6 +1,6 @@
 
-import 'package:suja/features/data/core/allocation_client.dart';
-import 'package:suja/features/data/model/allocation_model.dart';
+import 'package:prominous/features/data/core/allocation_client.dart';
+import 'package:prominous/features/data/model/allocation_model.dart';
 
 abstract class AllocationDatasource {
   Future<AllocationModel> getallocation(int id,int deptid, String token);

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suja/features/data/core/process_client.dart';
-import 'package:suja/features/data/datasource/remote/process_datasource.dart';
-import 'package:suja/features/domain/entity/process_entity.dart';
-import 'package:suja/features/domain/repository/emp_details_repository.dart';
-import 'package:suja/features/presentation_layer/provider/emp_details_provider.dart';
-import 'package:suja/features/presentation_layer/provider/process_provider.dart';
+import 'package:prominous/features/data/core/process_client.dart';
+import 'package:prominous/features/data/datasource/remote/process_datasource.dart';
+import 'package:prominous/features/domain/entity/process_entity.dart';
+import 'package:prominous/features/domain/repository/emp_details_repository.dart';
+import 'package:prominous/features/presentation_layer/provider/emp_details_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/process_provider.dart';
 import '../../../constant/show_pop_error.dart';
 
 import '../../data/core/emp_details_client.dart';

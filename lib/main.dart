@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suja/features/presentation_layer/page/loginpage.dart';
-import 'package:suja/features/presentation_layer/provider/activity_provider.dart';
-import 'package:suja/features/presentation_layer/provider/actual_qty_provider.dart';
-import 'package:suja/features/presentation_layer/provider/asset_barcode_provier.dart';
-import 'package:suja/features/presentation_layer/provider/attendance_count_provider.dart';
-import 'package:suja/features/presentation_layer/provider/card_no_provider.dart';
-import 'package:suja/features/presentation_layer/provider/emp_details_provider.dart';
-import 'package:suja/features/presentation_layer/provider/emp_production_entry_provider.dart';
-import 'package:suja/features/presentation_layer/provider/employee_provider.dart';
-import 'package:suja/features/presentation_layer/provider/plan_qty_provider.dart';
-import 'package:suja/features/presentation_layer/provider/process_provider.dart';
-import 'package:suja/features/presentation_layer/provider/shift_status_provider.dart';
-import 'package:suja/features/presentation_layer/provider/target_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/page/loginpage.dart';
+import 'package:prominous/features/presentation_layer/page/prominous_login_page.dart';
+import 'package:prominous/features/presentation_layer/provider/activity_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/actual_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/asset_barcode_provier.dart';
+import 'package:prominous/features/presentation_layer/provider/attendance_count_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/card_no_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/emp_details_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/emp_production_entry_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/plan_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/process_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/target_qty_provider.dart';
 import 'features/presentation_layer/provider/allocation_provider.dart';
 import 'features/presentation_layer/provider/login_provider.dart';
 import 'features/presentation_layer/provider/product_provider.dart';
@@ -82,14 +83,14 @@ class MyApp extends StatelessWidget {
         
       ],
       child: MaterialApp(
-          title: 'Suja Manufacturing',
+          title: 'prominous Manufacturing',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
                 seedColor: Color.fromARGB(255, 45, 54, 104)),
             useMaterial3: true,
           ),
           debugShowCheckedModeBanner: false,
-          home: const LoginPage()),
+          home: const ProminousLoginPage()),
     );
   }
 }

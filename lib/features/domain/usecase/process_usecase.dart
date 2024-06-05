@@ -1,5 +1,5 @@
-import 'package:suja/features/domain/entity/process_entity.dart';
-import 'package:suja/features/domain/repository/process_repository.dart';
+import 'package:prominous/features/domain/entity/process_entity.dart';
+import 'package:prominous/features/domain/repository/process_repository.dart';
 
 class ProcessUsecase {
   final ProcessRepository processRepository;

@@ -6,18 +6,18 @@
     "configurations": [
     
         {
-            "name": "suja_manufacturing_app",
+            "name": "prominous_manufacturing_app",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "suja_manufacturing_app (profile mode)",
+            "name": "prominous_manufacturing_app (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "suja_manufacturing_app (release mode)",
+            "name": "prominous_manufacturing_app (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

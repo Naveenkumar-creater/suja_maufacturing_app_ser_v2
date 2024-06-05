@@ -1,6 +1,6 @@
-import 'package:suja/constant/request_model.dart';
-import 'package:suja/features/data/core/api_constant.dart';
-import 'package:suja/features/data/model/attendance_count.dart';
+import 'package:prominous/constant/request_model.dart';
+import 'package:prominous/features/data/core/api_constant.dart';
+import 'package:prominous/features/data/model/attendance_count.dart';
 
 abstract class AttendanceCountDataSOurce {
   Future<AttendanceCountModel> getAttCount(int id, String token);

@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:percent_indicator/linear_percent_indicator.dart';
 // import 'package:provider/provider.dart';
-// import 'package:suja/features/presentation_layer/provider/product_provider.dart';
+// import 'package:prominous/features/presentation_layer/provider/product_provider.dart';
 
 // import '../../api_services/product_di.dart';
 

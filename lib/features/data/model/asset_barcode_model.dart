@@ -1,6 +1,6 @@
 
 
-import 'package:suja/features/domain/entity/scan_asset_barcode_entity.dart';
+import 'package:prominous/features/domain/entity/scan_asset_barcode_entity.dart';
 
 class ScanAssetBarcodeModel extends ScanAssetBarcodeEntity {
     ScanAssetBarcodeModel({

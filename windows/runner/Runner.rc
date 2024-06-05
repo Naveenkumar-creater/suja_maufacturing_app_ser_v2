@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "suja" "\0"
+            VALUE "FileDescription", "prominous" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "suja" "\0"
+            VALUE "InternalName", "prominous" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "suja.exe" "\0"
-            VALUE "ProductName", "suja" "\0"
+            VALUE "OriginalFilename", "prominous.exe" "\0"
+            VALUE "ProductName", "prominous" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

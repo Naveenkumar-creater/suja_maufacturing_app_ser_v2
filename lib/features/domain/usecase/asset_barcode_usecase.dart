@@ -1,7 +1,7 @@
-import 'package:suja/features/domain/entity/actual_qty_entity.dart';
-import 'package:suja/features/domain/entity/scan_asset_barcode_entity.dart';
-import 'package:suja/features/domain/repository/actual_qty_repo.dart';
-import 'package:suja/features/domain/repository/asset_barcode_repo.dart';
+import 'package:prominous/features/domain/entity/actual_qty_entity.dart';
+import 'package:prominous/features/domain/entity/scan_asset_barcode_entity.dart';
+import 'package:prominous/features/domain/repository/actual_qty_repo.dart';
+import 'package:prominous/features/domain/repository/asset_barcode_repo.dart';
 
 class AssetBarcodeUsecase{
 

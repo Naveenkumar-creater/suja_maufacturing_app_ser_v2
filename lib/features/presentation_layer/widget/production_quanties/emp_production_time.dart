@@ -16,6 +16,7 @@ class _UpdateTimeState extends State<UpdateTime> {
   late int currentDay;
   late int currentHour;
   late int currentMinute;
+  late int currentSecond;
   late String currentTime; // Initialized to avoid null check
 
   @override
@@ -27,8 +28,9 @@ class _UpdateTimeState extends State<UpdateTime> {
     currentDay = now.day;
     currentHour = now.hour;
     currentMinute = now.minute;
+    currentSecond=now.second;
     currentTime =
-        '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}'; // Initial time display
+        '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString()}'; // Initial time display
   }
 
   @override
@@ -71,6 +73,7 @@ class _UpdateTimeState extends State<UpdateTime> {
                 } else {
                   currentHour += 1;
                   currentMinute = 0;
+                  
                 }
               }
             });
@@ -85,7 +88,7 @@ class _UpdateTimeState extends State<UpdateTime> {
           onPressed: () async {
             final TimeOfDay? result = await showTimePicker(
               context: context,
-              initialTime: TimeOfDay(hour: currentHour, minute: currentMinute),
+              initialTime: TimeOfDay(hour: currentHour, minute: currentMinute, ),
               initialEntryMode: TimePickerEntryMode.input,
               builder: (BuildContext context, Widget? child) {
                 return MediaQuery(
@@ -102,6 +105,7 @@ class _UpdateTimeState extends State<UpdateTime> {
                 // Update only the time part, keeping the date part fixed
                 currentHour = result.hour;
                 currentMinute = result.minute;
+                
               });
               updateTime();
             }
@@ -115,7 +119,7 @@ class _UpdateTimeState extends State<UpdateTime> {
   void updateTime() {
     setState(() {
       currentTime =
-          '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}'; // Update currentTime
+          '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString()}'; // Update currentTime
     });
     widget.onTimeChanged(currentTime); // Call the callback with the updated time
   }

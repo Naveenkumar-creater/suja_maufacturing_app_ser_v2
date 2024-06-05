@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:suja/constant/utilities/customwidgets/custom_textform_field.dart';
-import 'package:suja/features/presentation_layer/api_services/emp_details.dart';
+import 'package:prominous/constant/utilities/customwidgets/custom_textform_field.dart';
+import 'package:prominous/features/presentation_layer/api_services/emp_details.dart';
 import '../../api_services/login_di.dart';
 
 class Login extends StatefulWidget {

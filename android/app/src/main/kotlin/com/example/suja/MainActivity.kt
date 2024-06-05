@@ -1,4 +1,4 @@
-package com.example.suja
+package com.example.prominous
 
 import io.flutter.embedding.android.FlutterActivity
 

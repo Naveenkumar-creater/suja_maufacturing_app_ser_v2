@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:suja/features/domain/entity/shift_status_entity.dart';
+import 'package:prominous/features/domain/entity/shift_status_entity.dart';
 
 class ShiftStatusProvider extends ChangeNotifier {
   ShiftStatusEntity? _user;

@@ -1,5 +1,5 @@
-import 'package:suja/features/domain/entity/shift_status_entity.dart';
-import 'package:suja/features/domain/repository/shift_status_repo.dart';
+import 'package:prominous/features/domain/entity/shift_status_entity.dart';
+import 'package:prominous/features/domain/repository/shift_status_repo.dart';
 
 class ShiftStatusUsecase {
   final ShiftStatusRepository shiftStatusRepository;

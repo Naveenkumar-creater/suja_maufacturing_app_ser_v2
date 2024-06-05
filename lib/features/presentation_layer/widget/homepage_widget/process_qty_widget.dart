@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suja/features/presentation_layer/api_services/actual_qty_di.dart';
-import 'package:suja/features/presentation_layer/api_services/plan_qty_di.dart';
-import 'package:suja/features/presentation_layer/provider/actual_qty_provider.dart';
-import 'package:suja/features/presentation_layer/provider/plan_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/plan_qty_di.dart';
+import 'package:prominous/features/presentation_layer/provider/actual_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/plan_qty_provider.dart';
 
 class ProcessQtyWidget extends StatefulWidget {
   final int? id;
@@ -73,7 +73,9 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
                                                                       8))),
                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
-                                                          Text('${planQty}'?? "0",
+                                                          Text(
+                                                            // '${planQty}'?? "0",
+                                                            "0",
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:
@@ -106,7 +108,9 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
                                                                       8))),
                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
-                                                          Text("${actualQty}"??"0",
+                                                          Text(
+                                                            // "${actualQty}"??"0",
+                                                            "0",
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:
@@ -140,9 +144,9 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                          Text(
-  '${((actualQty ?? 0) / (planQty ?? 1) * 100).toStringAsFixed(2)}%' ?? "0%",
+  // '${((actualQty ?? 0) / (planQty ?? 1) * 100).toStringAsFixed(2)}%' ?? "0%",
 
-
+"0",
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:
@@ -175,7 +179,8 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
                                                                       8))),
                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
-                                                          Text('100%',
+                                                          Text(
+                                                            '0',
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:

@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:suja/constant/network_exception.dart';
-import 'package:suja/constant/request_model.dart';
-import 'package:suja/features/data/core/api_constant.dart';
+import 'package:prominous/constant/network_exception.dart';
+import 'package:prominous/constant/request_model.dart';
+import 'package:prominous/features/data/core/api_constant.dart';
 
 class LoginApiClient {
   Future<dynamic> post(String loginId, String password) async {

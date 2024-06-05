@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suja/features/domain/entity/process_entity.dart';
+import 'package:prominous/features/domain/entity/process_entity.dart';
 
 
 class ProcessProvider extends ChangeNotifier {

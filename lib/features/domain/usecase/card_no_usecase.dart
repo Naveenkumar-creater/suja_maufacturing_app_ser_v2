@@ -1,5 +1,5 @@
-import 'package:suja/features/domain/entity/card_no_entity.dart';
-import 'package:suja/features/domain/repository/card_no_repo.dart';
+import 'package:prominous/features/domain/entity/card_no_entity.dart';
+import 'package:prominous/features/domain/repository/card_no_repo.dart';
 
 class CardNoUsecase {
   final CardNoRepository cardNoRepository;

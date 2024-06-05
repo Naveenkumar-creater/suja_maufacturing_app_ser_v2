@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/process_entity.dart';
+import 'package:prominous/features/domain/entity/process_entity.dart';
 
 import '../entity/emp_details_entity.dart';
 

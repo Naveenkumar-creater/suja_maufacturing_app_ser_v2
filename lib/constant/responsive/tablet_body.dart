@@ -4,15 +4,15 @@ import 'package:flutter/widgets.dart';
 
 
 import 'package:provider/provider.dart';
-import 'package:suja/features/presentation_layer/api_services/attendace_count_di.dart';
-import 'package:suja/features/presentation_layer/api_services/process_di.dart';
-import 'package:suja/features/presentation_layer/api_services/shift_status_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/process_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/shift_status_di.dart';
 
-import 'package:suja/features/presentation_layer/provider/attendance_count_provider.dart';
-import 'package:suja/features/presentation_layer/provider/employee_provider.dart';
-import 'package:suja/features/presentation_layer/provider/shift_status_provider.dart';
-import 'package:suja/features/presentation_layer/widget/homepage_widget/process_qty_widget.dart';
-import 'package:suja/features/presentation_layer/widget/homepage_widget/shift_status_widget.dart';
+import 'package:prominous/features/presentation_layer/provider/attendance_count_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
+import 'package:prominous/features/presentation_layer/widget/homepage_widget/process_qty_widget.dart';
+import 'package:prominous/features/presentation_layer/widget/homepage_widget/shift_status_widget.dart';
 
 import '../../features/presentation_layer/provider/process_provider.dart';
 import '../../features/presentation_layer/widget/homepage_widget/employee_details_list.dart';
@@ -72,13 +72,16 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
     final user = Provider.of<ProcessProvider>(context, listen:true).user;
  
     // final processName = user?.listofProcessEntity?.first.processName;
-final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.isNotEmpty ?? false
+
+    // final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.first.processName ?? user?.listofProcessEntity?.first?.processName;
+
+final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.isNotEmpty ?? false
   ? Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.first.processName ?? "Default"
   : "Default";
 
+    // final processId = Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.first.processId ?? user?.listofProcessEntity?.first.processId;
 
-
-    final processId=Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.isNotEmpty ?? false
+    final processId = Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.isNotEmpty ?? false
   ? Provider.of<EmployeeProvider>(context, listen: true).user?.listofEmployeeEntity?.first.processId ?? 1
   : 1;
   
@@ -158,6 +161,7 @@ final processname = Provider.of<EmployeeProvider>(context, listen: true).user?.l
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                       if(processname!="Default")
+
                                 Padding(
                                   padding: const EdgeInsets.all(8),
                             

@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/attendance_count_entity.dart';
+import 'package:prominous/features/domain/entity/attendance_count_entity.dart';
 
 import '../repository/attendance_count_repository.dart';
 

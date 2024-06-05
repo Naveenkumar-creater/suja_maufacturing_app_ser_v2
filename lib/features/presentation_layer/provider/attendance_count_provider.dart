@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suja/features/domain/entity/attendance_count_entity.dart';
+import 'package:prominous/features/domain/entity/attendance_count_entity.dart';
 
 class AttendanceCountProvider extends ChangeNotifier {
   AttendanceEntity? _user;

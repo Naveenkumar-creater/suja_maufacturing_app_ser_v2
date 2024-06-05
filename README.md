@@ -1,4 +1,4 @@
-# suja
+# prominous
 
 A new Flutter project.
 

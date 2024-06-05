@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suja/features/data/core/login_api_client.dart';
-import 'package:suja/features/presentation_layer/page/homepage.dart';
-import 'package:suja/features/presentation_layer/page/loginpage.dart';
+import 'package:prominous/features/data/core/login_api_client.dart';
+import 'package:prominous/features/presentation_layer/page/homepage.dart';
+import 'package:prominous/features/presentation_layer/page/loginpage.dart';
+import 'package:prominous/features/presentation_layer/page/prominous_login_page.dart';
 import '../../../constant/show_pop_error.dart';
 import '../../data/datasource/remote/login_datasource.dart';
 import '../../data/repository/login_repository_impl.dart';
@@ -59,7 +60,7 @@ class LoginApiService {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const ProminousLoginPage()),
         result: (route) => false,
       );
     } catch (e) {

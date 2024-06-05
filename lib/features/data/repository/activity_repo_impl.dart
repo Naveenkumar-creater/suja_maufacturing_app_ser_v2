@@ -1,7 +1,7 @@
-import 'package:suja/features/data/datasource/remote/activity_datasource.dart';
-import 'package:suja/features/data/model/activity_model.dart';
+import 'package:prominous/features/data/datasource/remote/activity_datasource.dart';
+import 'package:prominous/features/data/model/activity_model.dart';
 
-import 'package:suja/features/domain/repository/activity_repo.dart';
+import 'package:prominous/features/domain/repository/activity_repo.dart';
 
 class ActivityRepositoryImpl extends ActivityRepository{
   final  ActivityDatasource activityDatasource;

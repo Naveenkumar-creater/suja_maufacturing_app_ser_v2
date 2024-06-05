@@ -1,5 +1,5 @@
-import 'package:suja/features/domain/entity/AllocationEntity.dart';
-import 'package:suja/features/domain/repository/allocation_repo.dart';
+import 'package:prominous/features/domain/entity/AllocationEntity.dart';
+import 'package:prominous/features/domain/repository/allocation_repo.dart';
 
 class AllocationUsecases {
   final AllocationRepository allocationRepository;

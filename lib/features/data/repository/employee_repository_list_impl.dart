@@ -1,4 +1,4 @@
-import 'package:suja/features/data/model/employee_model.dart';
+import 'package:prominous/features/data/model/employee_model.dart';
 import '../../domain/repository/employee_repository.dart';
 import '../datasource/remote/employee_datasource.dart';
 

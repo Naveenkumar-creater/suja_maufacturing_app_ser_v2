@@ -1,6 +1,6 @@
-import 'package:suja/features/data/datasource/remote/emp_production_entry_datasourcel.dart';
+import 'package:prominous/features/data/datasource/remote/emp_production_entry_datasourcel.dart';
 
-import 'package:suja/features/domain/repository/emp_production_repository.dart';
+import 'package:prominous/features/domain/repository/emp_production_repository.dart';
 
 import '../../domain/entity/emp_production_entity.dart';
 

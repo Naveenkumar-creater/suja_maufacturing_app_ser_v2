@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suja/features/domain/entity/AllocationEntity.dart';
+import 'package:prominous/features/domain/entity/AllocationEntity.dart';
 
 class AllocationProvider extends ChangeNotifier {
   AllocationEntity? _user;

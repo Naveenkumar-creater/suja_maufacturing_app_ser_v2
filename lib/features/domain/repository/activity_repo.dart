@@ -1,4 +1,4 @@
-import 'package:suja/features/domain/entity/activity_entity.dart';
+import 'package:prominous/features/domain/entity/activity_entity.dart';
 
 abstract class ActivityRepository{
   Future<ActivityEntity>getActivity(int id,int deptis,String token);
