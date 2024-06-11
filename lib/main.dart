@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prominous/features/presentation_layer/provider/edit_entry_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/page/loginpage.dart';
 import 'package:prominous/features/presentation_layer/page/prominous_login_page.dart';
@@ -77,7 +78,10 @@ class MyApp extends StatelessWidget {
            ChangeNotifierProvider<TargetQtyProvider>(
           create: (_) => TargetQtyProvider(),),
  ChangeNotifierProvider<ShiftStatusProvider>(
-          create: (_) => ShiftStatusProvider(),)
+          create: (_) => ShiftStatusProvider(),),
+
+          ChangeNotifierProvider<EditEntryProvider>(
+          create: (_) => EditEntryProvider(),)
 
           
         

@@ -8,14 +8,14 @@ import 'package:prominous/features/presentation_layer/provider/card_no_provider.
 class CardNoScanner extends StatefulWidget {
   final int? empId;
   final int? processId;
-  final int? shiftId;
+
   final Function(String, String)? onCardDataReceived;
 
   const CardNoScanner({
     Key? key,
     this.empId,
     this.processId,
-    this.shiftId,
+
     this.onCardDataReceived,
   }) : super(key: key);
 

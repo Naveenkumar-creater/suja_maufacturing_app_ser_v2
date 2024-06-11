@@ -12,7 +12,7 @@ import 'package:prominous/features/presentation_layer/api_services/employee_di.d
 import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import '../../../../constant/request_model.dart';
-import 'emp_production_entry.dart';
+import '../emp_production_entry_widget/emp_production_entry.dart';
 import '../../../../constant/show_pop_error.dart';
 import '../../../data/core/api_constant.dart';
 import '../../api_services/process_di.dart';
@@ -207,7 +207,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
   @override
   Widget build(BuildContext context) {
     final employeeResponse =
-        Provider.of<EmployeeProvider>(context, listen: false)
+        Provider.of<EmployeeProvider>(context, listen: true)
             .user
             ?.listofEmployeeEntity;
     print(employeeResponse);
@@ -386,7 +386,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             child: Container(
                               width: 120,
                               alignment: Alignment.center,
-                              child: Text(employee.productQty ?? "",
+                              child: Text(employee.productQty.toString() ?? "",
                                   style: TextStyle(
                                       color: Colors.grey.shade600,
                                       fontSize: 12)),
@@ -418,7 +418,8 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                                     employee.flattdate,
                                   );
                                   print('switched to: $index');
- employeeApiService.employeeList( 
+                                  
+                                   employeeApiService.employeeList( 
                                         context: context,
                                         processid: employee.processId ?? 0,
                                         deptid: widget.deptid ?? 1,
@@ -426,7 +427,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
 
                                   attendanceCountService.getAttCount(
                                       context: context,
-                                      id: employee.processId ?? 0);
+                                      id: employee.processId ?? 0, deptid:widget.deptid , psid: widget.psid ?? 0);
                                 },
                               ),
                             ),

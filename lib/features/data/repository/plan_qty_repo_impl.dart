@@ -10,8 +10,8 @@ class PlanQtyRepositoryImpl extends PlanQtyRepository{
   PlanQtyRepositoryImpl(this.planQtyDatasource); 
 
   @override
-  Future<PlanQuantityModel> getPlanQty(int id, String token) async{
-   PlanQuantityModel result= await planQtyDatasource.getPlanQty(id, token);
+  Future<PlanQuantityModel> getPlanQty(int id,int psid, String token) async{
+   PlanQuantityModel result= await planQtyDatasource.getPlanQty(id,psid, token);
     return result;
   }
 

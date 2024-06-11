@@ -8,14 +8,14 @@ import 'package:prominous/features/domain/usecase/attendance_count.dart';
 import 'package:prominous/features/presentation_layer/provider/attendance_count_provider.dart';
 
 class AttendanceCountService {
-  Future<void> getAttCount({required BuildContext context, required id}) async {
+  Future<void> getAttCount({required BuildContext context, required int id,required int deptid,required int psid}) async {
     try {
       SharedPreferences shref = await SharedPreferences.getInstance();
       String token = shref.getString("client_token") ?? "";
       final attendanceCountUseCases = AttendanceCountUseCases(
           AttendanceCountRepositoryImpl(AttendanceCountDataSOurceImpl()));
 
-      final user = await attendanceCountUseCases.execute(id, token);
+      final user = await attendanceCountUseCases.execute(id, deptid, psid, token);
 
       Provider.of<AttendanceCountProvider>(context, listen: false)
           .setUser(user);

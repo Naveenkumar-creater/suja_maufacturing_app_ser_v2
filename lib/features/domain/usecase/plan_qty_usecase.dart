@@ -8,7 +8,7 @@ class PlanQtyUsecase{
   final PlanQtyRepository planQtyRepository;
   PlanQtyUsecase(this.planQtyRepository);
 
-  Future<PlanQtyEntity>execute(int id,String token)async{
-return planQtyRepository.getPlanQty(id, token);
+  Future<PlanQtyEntity>execute(int id,int psid, String token)async{
+return planQtyRepository.getPlanQty(id,psid,token);
   }
 }

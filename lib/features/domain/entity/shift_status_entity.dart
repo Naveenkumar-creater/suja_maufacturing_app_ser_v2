@@ -27,6 +27,8 @@ class ShiftStatusdetailEntity {
         required this.shiftName,
         required this.psShiftDate,
         required this.psCloseTime,
+        required this.shiftFromTime,
+        required this.shiftToTime
     });
 
     final int? psDeptId;
@@ -38,9 +40,11 @@ class ShiftStatusdetailEntity {
     final String? shiftName;
     final String? psShiftDate;
     final String? psCloseTime;
+    final String? shiftFromTime;
+    final String? shiftToTime; 
     
     @override
   // TODO: implement props
-  List<Object?> get props => [psDeptId,psShiftId,psShiftStatus,psOpenTime];
+  List<Object?> get props => [psDeptId,psShiftId,shiftFromTime,shiftToTime,psShiftStatus,psOpenTime];
     
     }

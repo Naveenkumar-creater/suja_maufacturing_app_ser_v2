@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:prominous/constant/request_data_model/delete_production_entry.dart';
+import 'package:prominous/constant/responsive/tablet_body.dart';
+import 'package:prominous/features/data/model/activity_model.dart';
+import 'package:prominous/features/domain/entity/activity_entity.dart';
+import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/edit_emp_production_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prominous/constant/lottieLoadingAnimation.dart';
@@ -40,12 +45,10 @@ class EmpProductionEntryPage extends StatefulWidget {
   final String? barcode;
   final int? cardno;
   final int? assetid;
-  final int? shiftId;
   final int? deptid;
   bool? isload;
-  final int?attendceStatus;
   final int? psid;
-
+    final int? attendceStatus;
   final String? attenceid;
 
   EmpProductionEntryPage(
@@ -56,11 +59,10 @@ class EmpProductionEntryPage extends StatefulWidget {
       this.cardno,
       this.assetid,
       this.isload,
-      this.shiftId,
       this.deptid,
       this.psid,
       this.attenceid,
-       this.attendceStatus})
+      this.attendceStatus})
       : super(key: key);
 
   @override
@@ -72,7 +74,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
   final TextEditingController rejectedQController = TextEditingController();
   final TextEditingController reworkQController = TextEditingController();
   final TextEditingController targetQtyController = TextEditingController();
-    final TextEditingController batchNOController = TextEditingController();
+  final TextEditingController batchNOController = TextEditingController();
   final ProductApiService productApiService = ProductApiService();
   final RecentActivityService recentActivityService = RecentActivityService();
   final ActivityService activityService = ActivityService();
@@ -88,20 +90,20 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
   late int currentHour;
   late int currentMinute;
   late String currentTime;
-  late int currentSecond; 
-  
+  late int currentSecond;
+  bool visible = true;
   String? selectedName;
 
-TimeOfDay timeofDay = TimeOfDay.now();
+  TimeOfDay timeofDay = TimeOfDay.now();
   late DateTime currentDateTime;
- // Initialized to avoid null check
+  // Initialized to avoid null check
 
   List<Map<String, dynamic>> submittedDataList = [];
 
   String? dropdownProduct;
   String? activityDropdown;
   String? lastUpdatedTime;
-    String? currentDate;
+  String? currentDate;
   int? reworkValue;
   int? productid;
   int? activityid;
@@ -112,8 +114,8 @@ TimeOfDay timeofDay = TimeOfDay.now();
 
   EmpProductionEntryService empProductionEntryService =
       EmpProductionEntryService();
-      
-        EmployeeApiService employeeApiService = EmployeeApiService();
+
+  EmployeeApiService employeeApiService = EmployeeApiService();
 
   Future<void> updateproduction(int? processid) async {
     final empid = Provider.of<EmployeeProvider>(context, listen: false)
@@ -130,25 +132,26 @@ TimeOfDay timeofDay = TimeOfDay.now();
         .user
         ?.scanCardForItem
         ?.pcItemId;
-            final assetid = Provider.of<AssetBarcodeProvider>(context, listen: false)
+    final assetid = Provider.of<AssetBarcodeProvider>(context, listen: false)
         .user
         ?.scanAseetBarcode
         ?.pamAssetId;
 
-          final pcid = Provider.of<CardNoProvider>(context, listen: false)
+    final pcid = Provider.of<CardNoProvider>(context, listen: false)
         .user
         ?.scanCardForItem
         ?.pcId;
-              final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
+    final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
         ?.shiftStatusdetailEntity
         ?.psShiftId;
-        final ppId = Provider.of<TargetQtyProvider>(context, listen: false)
+    final ppId = Provider.of<TargetQtyProvider>(context, listen: false)
         .user
         ?.targetQty
         ?.ppid;
-        
- DateTime parsedLastUpdatedTime = DateFormat('yyyy-MM-dd HH:mm').parse(lastUpdatedTime!);
+
+    DateTime parsedLastUpdatedTime =
+        DateFormat('yyyy-MM-dd HH:mm').parse(lastUpdatedTime!);
     final empproduction = responsedata;
     print(empproduction);
     if (empproduction != null) {
@@ -178,27 +181,27 @@ TimeOfDay timeofDay = TimeOfDay.now();
         ipdGoodQty: int.tryParse(goodQController.text) ?? 0,
         batchno: int.tryParse(batchNOController.text),
         targetqty: int.tryParse(targetQtyController.text),
-        
+
         ipdCardNo: int.tryParse(cardNo.toString()) ?? empproduction.ipdcardno,
 
-
-        ipdpaid:  activityid ?? 0,
+        ipdpaid: activityid ?? 0,
         ipdFromTime: empproduction.ipdfromtime == ""
             ? currentDateTime.toString()
             : empproduction.ipdfromtime,
 
         ipdToTime: lastUpdatedTime ?? currentDateTime,
         ipdDate: currentDateTime.toString(),
-        ipdId: activityid == empproduction.ipdpaid ?  empproduction.ipdid : 0,
-        ipdPcId: pcid??empproduction.ipdpcid,
+        ipdId: 0,
+        // activityid == empproduction.ipdpaid ? empproduction.ipdid : 0,
+        ipdPcId: pcid ?? empproduction.ipdpcid,
         ipdDeptId: widget.deptid ?? 1,
         ipdAssetId: assetid ?? 0,
         //ipdcardno: empproduction.first.ipdcardno,
         ipdItemId: itemid ?? empproduction.itemid,
         ipdMpmId: processid,
-        emppersonId: widget.empid ?? 0,  
-        ipdpsid: widget.psid, 
-        ppid:ppId??0 , 
+        emppersonId: widget.empid ?? 0,
+        ipdpsid: widget.psid,
+        ppid: ppId ?? 0,
         shiftid: Shiftid,
       );
 
@@ -245,27 +248,25 @@ TimeOfDay timeofDay = TimeOfDay.now();
     }
   }
 
-  
-
-
-    Future<void> empCloseShift() async {
+  Future<void> empCloseShift() async {
     final process_id = Provider.of<EmployeeProvider>(context, listen: false)
         .user
         ?.listofEmployeeEntity
         ?.first
         .processId;
-            final shitId = Provider.of<ShiftStatusProvider>(context, listen: false)
+    final shitId = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
-        ?.shiftStatusdetailEntity?.psShiftId;
-                final shiftStatus = Provider.of<ShiftStatusProvider>(context, listen: false)
+        ?.shiftStatusdetailEntity
+        ?.psShiftId;
+    final shiftStatus = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
-        ?.shiftStatusdetailEntity?.psShiftStatus;
-          final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
+        ?.shiftStatusdetailEntity
+        ?.psShiftStatus;
+    final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
         ?.shiftStatusdetailEntity
         ?.psShiftId;
 
-     
     final attdid = Provider.of<EmployeeProvider>(context, listen: false)
         .user
         ?.listofEmployeeEntity
@@ -275,20 +276,79 @@ TimeOfDay timeofDay = TimeOfDay.now();
     String token = pref.getString("client_token") ?? "";
     DateTime now = DateTime.now();
     //DateTime today = DateTime(now.year, now.month, now.day)
-      int dt;
+    int dt;
 
-      dt = int.tryParse(widget.attenceid ?? "") ?? 0;
+    dt = int.tryParse(widget.attenceid ?? "") ?? 0;
 
     final requestBody = EmpCloseShift(
-        apiFor: "emp_close_shift",
-        clientAuthToken: token, 
-        psid: widget.psid, 
-        attShiftStatus: 2,
-        attid: dt ,
-        attendenceStatus:widget.attendceStatus, 
-       
-       );
+      apiFor: "emp_close_shift",
+      clientAuthToken: token,
+      psid: widget.psid,
+      attShiftStatus: 2,
+      attid: dt,
+      attendenceStatus: widget.attendceStatus,
+    );
 
+    final requestBodyjson = jsonEncode(requestBody.toJson());
+
+    print(requestBodyjson);
+
+    const timeoutDuration = Duration(seconds: 30);
+    try {
+      http.Response response = await http
+          .post(
+            Uri.parse(ApiConstant.baseUrl),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: requestBodyjson,
+          )
+          .timeout(timeoutDuration);
+
+      // ignore: avoid_print
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        try {
+          final responseJson = jsonDecode(response.body);
+          // loadEmployeeList();
+          print(responseJson);
+          return responseJson;
+        } catch (e) {
+          // Handle the case where the response body is not a valid JSON object
+          throw ("Invalid JSON response from the server");
+        }
+      } else {
+        throw ("Server responded with status code ${response.statusCode}");
+      }
+    } on TimeoutException {
+      throw ('Connection timed out. Please check your internet connection.');
+    } catch (e) {
+      ShowError.showAlert(context, e.toString());
+    }
+  }
+
+  delete({
+    int? ipdid,
+    int? ipdpsid,
+  }) async {
+    // final ipdid = Provider.of<RecentActivityProvider>(context, listen: false)
+    //     .user!
+    //     .recentActivitesEntityList
+    //     ?.first
+    //     .ipdid;
+    // final ipdpsid = Provider.of<RecentActivityProvider>(context, listen: false)
+    //     .user!
+    //     .recentActivitesEntityList
+    //     ?.first
+    //     .ipdpsid;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String token = pref.getString("client_token") ?? "";
+    final requestBody = DeleteProductionEntryModel(
+        apiFor: "delete_entry",
+        clientAuthToken: token,
+        ipdid: ipdid,
+        ipdpsid: ipdpsid);
     final requestBodyjson = jsonEncode(requestBody.toJson());
 
     print(requestBodyjson);
@@ -352,11 +412,7 @@ TimeOfDay timeofDay = TimeOfDay.now();
             : "0";
       });
     }
-
- 
   }
-
-
 
   @override
   void initState() {
@@ -371,7 +427,7 @@ TimeOfDay timeofDay = TimeOfDay.now();
       updateinitial();
     });
 
- currentDateTime = DateTime.now();
+    currentDateTime = DateTime.now();
     now = DateTime.now();
     currentYear = now.year;
     currentMonth = now.month;
@@ -379,22 +435,83 @@ TimeOfDay timeofDay = TimeOfDay.now();
     currentHour = now.hour;
     currentMinute = now.minute;
     currentSecond = now.second;
+    final shiftid= Provider.of<ShiftStatusProvider>(context, listen: false)
+              .user
+              ?.shiftStatusdetailEntity?.psShiftId;
+String? shiftTime;
+
+final shiftToTimeString = Provider.of<ShiftStatusProvider>(context, listen: false)
+  .user
+  ?.shiftStatusdetailEntity?.shiftToTime;
+
+if (shiftToTimeString != null) {
+  // Parse the shiftToTime
+  final shiftToTimeParts = shiftToTimeString.split(':');
+  final now = DateTime.now();
+  final shiftToTime = DateTime(
+    now.year,
+    now.month,
+    now.day,
+    int.parse(shiftToTimeParts[0]),
+    int.parse(shiftToTimeParts[1]),
+    int.parse(shiftToTimeParts[2]),
+  );
+
+  // Get the current time
+  final currentTime = DateTime.now();
+
+  final shiftFromTimeString = Provider.of<ShiftStatusProvider>(context, listen: false)
+    .user
+    ?.shiftStatusdetailEntity?.shiftFromTime;
+
+  if (shiftFromTimeString != null) {
+    // Parse the shiftFromTime
+    final shiftFromTimeParts = shiftFromTimeString.split(':');
+    final shiftFromTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      int.parse(shiftFromTimeParts[0]),
+      int.parse(shiftFromTimeParts[1]),
+      int.parse(shiftFromTimeParts[2]),
+    );
+
+    // Check if the current time is within the shift time range
+    if (currentTime.isAfter(shiftFromTime) && currentTime.isBefore(shiftToTime)) {
+      // Current time is within the shift time
+      final timeString = '${currentTime.hour}:${currentTime.minute}:${currentTime.second}';
+      shiftTime = timeString;
+    } else {
+      // Current time exceeds the shift time
+      print("Current time exceeds the shift time.");
+      shiftTime = shiftToTimeString;
+    }
+  } else {
+    print("shiftFromTime is not available.");
+    // Handle the case where shiftFromTime is not available
+  }
+} else {
+  print("shiftToTime is not available.");
+  // Handle the case where shiftToTime is not available
+}
+
+
     lastUpdatedTime =
-          '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString()}:${currentSecond.toString()}';
-          currentDate='$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString()}:${currentSecond.toString()}';
+        '$currentYear-$currentMonth-$currentDay $shiftTime';
+    currentDate =
+        '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString()}:${currentSecond.toString()}';
   }
 
   @override
   void dispose() {
-    
     super.dispose();
     // Dispose text controllers
     targetQtyController.dispose();
     goodQController.dispose();
     rejectedQController.dispose();
-
   }
-    String _formatDateTime(DateTime dateTime) {
+
+  String _formatDateTime(DateTime dateTime) {
     return DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
   }
 
@@ -422,6 +539,7 @@ TimeOfDay timeofDay = TimeOfDay.now();
           context: context,
           id: widget.processid ?? 0,
           deptid: widget.deptid ?? 0);
+
       final productionEntry =
           Provider.of<EmpProductionEntryProvider>(context, listen: false)
               .user
@@ -433,9 +551,10 @@ TimeOfDay timeofDay = TimeOfDay.now();
       if (initialValue != null) {
         setState(() {
           isChecked = initialValue == 1;
-             goodQController.text = productionEntry?.goodqty?.toString() ?? "";
-      rejectedQController.text = productionEntry?.rejqty?.toString() ?? "";
-      batchNOController.text= productionEntry?.ipdbatchno.toString() ?? ""; // Set isChecked based on initialValue
+          goodQController.text = productionEntry?.goodqty?.toString() ?? "";
+          rejectedQController.text = productionEntry?.rejqty?.toString() ?? "";
+          batchNOController.text = productionEntry?.ipdbatchno.toString() ??
+              ""; // Set isChecked based on initialValue
         });
       }
       // Update cardNo with the retrieved cardNumber
@@ -468,9 +587,13 @@ TimeOfDay timeofDay = TimeOfDay.now();
               child: Container(
                 width: 200,
                 height: 150,
-               decoration: BoxDecoration( color: Colors.white,borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:32,),
+                  padding: const EdgeInsets.only(
+                    top: 32,
+                  ),
                   child: Column(children: [
                     const Text("Confirm you submission"),
                     const SizedBox(
@@ -483,15 +606,13 @@ TimeOfDay timeofDay = TimeOfDay.now();
                           ElevatedButton(
                             onPressed: () async {
                               try {
-                                 
-                                    await empCloseShift();
-                                   await employeeApiService.employeeList(
-                            context: context,
-                            deptid: widget.deptid ?? 1,
-                            processid: widget.processid ?? 0,
-                            psid: widget.psid ?? 0);
-                                    Navigator.pop(context);
-                               
+                                await empCloseShift();
+                                await employeeApiService.employeeList(
+                                    context: context,
+                                    deptid: widget.deptid ?? 1,
+                                    processid: widget.processid ?? 0,
+                                    psid: widget.psid ?? 0);
+                                Navigator.pop(context);
                               } catch (error) {
                                 // Handle and show the error message here
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -536,9 +657,13 @@ TimeOfDay timeofDay = TimeOfDay.now();
               child: Container(
                 width: 200,
                 height: 150,
-                decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:32,),
+                  padding: const EdgeInsets.only(
+                    top: 32,
+                  ),
                   child: Column(children: [
                     const Text("Confirm you submission"),
                     const SizedBox(
@@ -556,11 +681,9 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                         goodQController.text.isNotEmpty ||
                                     rejectedQController.text.isNotEmpty ||
                                     reworkQController.text.isNotEmpty) {
-                             
-                                   await updateproduction(widget.processid);
-                                   await _fetchARecentActivity();
-                                    Navigator.pop(context);
-                                  
+                                  await updateproduction(widget.processid);
+                                  await _fetchARecentActivity();
+                                  Navigator.pop(context);
                                 }
                               } catch (error) {
                                 // Handle and show the error message here
@@ -600,14 +723,15 @@ TimeOfDay timeofDay = TimeOfDay.now();
         Provider.of<EmpProductionEntryProvider>(context, listen: false)
             .user
             ?.empProductionEntity;
-            
 
     final recentActivity =
         Provider.of<RecentActivityProvider>(context, listen: false)
             .user
             ?.recentActivitesEntityList;
     print(productionEntry);
-    final fromtime = productionEntry?.ipdfromtime =="" ?currentDate:productionEntry?.ipdfromtime;
+    final fromtime = productionEntry?.ipdfromtime == ""
+        ? currentDate
+        : productionEntry?.ipdfromtime;
 
     final productname = Provider.of<ProductProvider>(context, listen: false)
         .user
@@ -617,9 +741,8 @@ TimeOfDay timeofDay = TimeOfDay.now();
         .user
         ?.activityEntity;
 
-    final activityName =
-        activity?.map((process) => process.paActivityName)?.toSet()?.toList() ??
-            [];
+    // final activityName = activity?.map((process) => process.paActivityName)?.toSet()?.toList() ??
+    //         [];
 
     final ProductNames =
         productname?.map((process) => process.productName)?.toSet()?.toList() ??
@@ -628,14 +751,24 @@ TimeOfDay timeofDay = TimeOfDay.now();
         .user
         ?.scanAseetBarcode;
 
+    final  shiftFromtime = Provider.of<ShiftStatusProvider>(context, listen: false)
+        .user
+        ?.shiftStatusdetailEntity?.shiftFromTime;
+            final shiftTotime = Provider.of<ShiftStatusProvider>(context, listen: false)
+        .user
+        ?.shiftStatusdetailEntity?.shiftToTime;
+
+        
     final cardNumber = Provider.of<CardNoProvider>(context, listen: false)
         .user
         ?.scanCardForItem;
-       
 
     final processName = Provider.of<EmployeeProvider>(context, listen: false)
-        .user
-        ?.listofEmployeeEntity?.first.processName ?? "";
+            .user
+            ?.listofEmployeeEntity
+            ?.first
+            .processName ??
+        "";
     // Set cardNo with the retrieved value
 
     // Update cardNo with the retrieved cardNumber
@@ -668,7 +801,12 @@ TimeOfDay timeofDay = TimeOfDay.now();
                         children: [
                           IconButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                 employeeApiService.employeeList(
+                                      context: context,
+                                      processid: widget.processid?? 0,
+                                      deptid: widget.deptid ?? 1,
+                                      psid: widget.psid ?? 0);
+                             Navigator.of(context).push(MaterialPageRoute(builder:(context) => ResponsiveTabletHomepage(),));
                               },
                               icon: Icon(Icons.arrow_back)),
                           Text(
@@ -696,63 +834,51 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                       width: 300,
                                       height: 300,
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                8),
+                                        borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
                                       ),
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.all(
-                                                8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceAround,
+                                              MainAxisAlignment.spaceAround,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .center,
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      'From Time :'),
+                                                  Text('From Time :'),
                                                   SizedBox(
                                                     width: 16,
                                                   ),
-                                                  Text(
-                                                      '${fromtime}'),
+                                                  Text('${fromtime}'),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      'End Time :'),
+                                                  Text('End Time :'),
                                                   SizedBox(
                                                     width: 16,
                                                   ),
-                                                  Text(
-                                                      '${lastUpdatedTime}'),
+                                                  Text('${lastUpdatedTime}'),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: UpdateTime(
-                                                onTimeChanged:
-                                                    (time) {
+                                                onTimeChanged: (time) {
                                                   setState(() {
-                                                    lastUpdatedTime =
-                                                        time.toString(); // Update the manually set time
+                                                    lastUpdatedTime = time
+                                                        .toString(); // Update the manually set time
                                                   });
-                                                },
+                                                }, shiftFromTime: shiftFromtime?? "", shiftToTime: shiftTotime ?? "",
                                               ),
                                             ),
                                             Expanded(child: Text("")),
-                                             Expanded(child: Text(""))
-                              
+                                            Expanded(child: Text(""))
                                           ],
                                         ),
                                       ),
@@ -766,21 +892,16 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                       width: 300,
                                       height: 300,
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                8),
+                                        borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
                                       ),
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.all(
-                                                8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
+                                              CrossAxisAlignment.start,
                                           children: [
-                                             Expanded(
+                                            Expanded(
                                               child: Row(
                                                 children: [
                                                   Text(
@@ -790,13 +911,10 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                                   ),
                                                   SizedBox(
                                                     width: 180,
-                                  
-                                                    child:
-                                                        CustomNumField(
+                                                    child: CustomNumField(
                                                       controller:
                                                           batchNOController,
-                                                      hintText:
-                                                          'Batch No  ',
+                                                      hintText: 'Batch No  ',
                                                     ),
                                                   ),
                                                 ],
@@ -807,31 +925,23 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                                 children: [
                                                   Text('Card NO '),
                                                   CardNoScanner(
-                                                    empId: widget
-                                                        .empid,
-                                                    processId: widget
-                                                        .processid,
-                                                    shiftId: widget
-                                                        .shiftId,
+                                                    empId: widget.empid,
+                                                    processId: widget.processid,
+                                                
                                                     onCardDataReceived:
                                                         (scannedCardNo,
                                                             scannedProductName) {
                                                       setState(() {
-                                                        cardNo =
-                                                            scannedCardNo;
+                                                        cardNo = scannedCardNo;
                                                         productName =
                                                             scannedProductName;
                                                       });
                                                     },
                                                   ),
-                                                  SizedBox(
-                                                      width: 16),
+                                                  SizedBox(width: 16),
                                                   Text(':'),
-                                                  SizedBox(
-                                                      width: 8),
-                                                  Text(
-                                                      '  ${cardNo}' ??
-                                                          "0"),
+                                                  SizedBox(width: 8),
+                                                  Text('  ${cardNo}' ?? "0"),
                                                 ],
                                               ),
                                             ),
@@ -842,137 +952,100 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                                     height: 8,
                                                   ),
                                                   Text(
-                                                      "prominous Ref                :     ${productName}" ??
+                                                      "Item Ref                :     ${productName}" ??
                                                           "0"),
                                                 ],
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                      'Activity                  :'),
-                                                  SizedBox(
-                                                      width: 18),
-                                                  // DropdownButton<String?>(
-                                                  //     items: ProductNames,
-                                                  //     onChanged: onChanged)
-                                                  Container(
-                                                    width: 150,
-                                                    height: 40,
-                                                    decoration:
-                                                        BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: Colors
-                                                              .grey),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  5)),
-                                                    ),
-                                                    child:
-                                                        DropdownButton<
-                                                            String>(
-                                                      value:
-                                                          activityDropdown,
-                                                          
-                              
-                                                      hint: Text(
-                                                          "Select"), // Default value is 'Select'
-                                                      underline:
-                                                          Container(
-                                                        height: 5,
-                                                      ),
-                                                      isExpanded:
-                                                          true,
-                                                      onChanged:
-                                                          (String?
-                                                              newvalue) async{
-                                                        setState(
-                                                            () {
-                                                          activityDropdown =
-                                                              newvalue;
-                                                                  });
-                                                          // Set the productid only if newvalue is not null
-                                                          if (newvalue !=
-                                                              null) {
-                                                            activityid = activity!
-                                                                .firstWhere((product) =>
-                                                                    product.paActivityName ==
-                                                                    newvalue)
-                                                                ?.paId;
-                                                            final itemid = Provider.of<CardNoProvider>(context,
-                                                                    listen: false)
-                                                                .user
-                                                                ?.scanCardForItem
-                                                                ?.pcItemId;
-                              
-                                                          await targetQtyApiService.getTargetQty(
-                                                                context:
-                                                                    context,
-                                                                paId: activityid ??
-                                                                    0,
-                                                                deptid: widget.deptid ??
-                                                                    1,
-                                                              
-                                                                psid:
-                                                                    widget.psid ?? 0, empid: widget.empid ?? 0 );
-                                                                                         final targetqty = Provider.of<TargetQtyProvider>(context, listen: false)
-          .user
-          ?.targetQty
-          ?.targetqty;  
-                              setState(() {
-                                  targetQtyController.text = targetqty.toString(); 
-                              });
-                                                                   
-                                                    
-                                                 
-                                                          } else {
-                                                            productid =
-                                                                null;
-                                                          }
-                                                    
-                                                      },
-                                                      items: activityName
-                                                              ?.map(
-                                                                  (activityName) {
-                                                            return DropdownMenuItem<
-                                                                String>(onTap:(){
-                                                                  setState(() {
-                                                                    selectedName=activityName;
-                                                                  });
-                                                                } ,
-                                                              value:
-                                                                  activityName,
-                                                              child:
-                                                                  Text(
-                                                                activityName ??
-                                                                    "",
-                                                                style:
-                                                                    TextStyle(color: Colors.black),
-                                                              ),
-                                                            );
-                                                          }).toList() ??
-                                                          [], // Add toList() to avoid null error
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+Expanded(
+  child: Row(
+    children: [
+      Text('Activity                  :'),
+      SizedBox(width: 18),
+      Container(
+        width: 150,
+        height: 40,
+        decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Colors.grey),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
+        child: DropdownButtonFormField<String>(
+          value: activityDropdown,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            border: InputBorder.none,
+          ),
+          hint: Text("Select"),
+          isExpanded: true,
+          onChanged: (String? newvalue) async {
+            if (newvalue != null) {
+              setState(() {
+                activityDropdown = newvalue;
+              });
+
+              final selectedActivity = activity?.firstWhere(
+                    (activity) => activity.paActivityName == newvalue,
+                    orElse: () => ActivityProduct(paActivityName: '', paId: 0, paMpmId: 0),
+                  );
+
+              if (selectedActivity != null && selectedActivity.paId != null) {
+                activityid = selectedActivity.paId ?? 0;
+
+                await targetQtyApiService.getTargetQty(
+                  context: context,
+                  paId: activityid??0,
+                  deptid: widget.deptid ?? 1,
+                  psid: widget.psid ?? 0,
+                  empid: widget.empid ?? 0,
+                );
+
+                final targetqty = Provider.of<TargetQtyProvider>(context, listen: false)
+                    .user
+                    ?.targetQty
+                    ?.targetqty;
+
+                setState(() {
+                  targetQtyController.text = targetqty?.toString() ?? '';
+                });
+              }
+            } else {
+              setState(() {
+                activityDropdown = null;
+                activityid = 0;
+              });
+            }
+          },
+          items: activity != null
+              ? activity
+                  .map((activityName) => activityName.paActivityName)
+                  .where((name) => name != null && name.isNotEmpty)
+                  .toSet()
+                  .map((uniqueName) {
+                    return DropdownMenuItem<String>(
+                      value: uniqueName,
+                      child: Text(
+                        uniqueName!,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    );
+                  }).toList()
+              : [],
+        ),
+      ),
+    ],
+  ),
+),
+
+
                                             Expanded(
                                               child: Row(
                                                 children: [
                                                   Text('Asset Id'),
-                                                  SizedBox(
-                                                      width: 8),
+                                                  SizedBox(width: 8),
                                                   ScanBarcode(
-                                                    empId: widget
-                                                        .empid,
-                                                    processId: widget
-                                                        .processid,
-                                                    shiftId: widget
-                                                        .shiftId,
+                                                    empId: widget.empid,
+                                                    processId: widget.processid,
+                                                  
                                                     onCardDataReceived:
                                                         (scannedAssetId) {
                                                       setState(() {
@@ -981,14 +1054,10 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                                       });
                                                     },
                                                   ),
-                                                  SizedBox(
-                                                      width: 10),
+                                                  SizedBox(width: 10),
                                                   Text(':'),
-                                                  SizedBox(
-                                                      width: 15),
-                                                  Text(
-                                                      '${assetID}' ??
-                                                          "1"),
+                                                  SizedBox(width: 15),
+                                                  Text('${assetID}' ?? "1"),
                                                 ],
                                               ),
                                             ),
@@ -1005,37 +1074,29 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                       width: 300,
                                       height: 300,
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                8),
+                                        borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
                                       ),
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.all(
-                                                8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .center,
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      'Good Qty        :'),
+                                                  Text('Good Qty        :'),
                                                   SizedBox(
                                                     width: 16,
                                                   ),
                                                   SizedBox(
                                                     width: 180,
                                                     height: 100,
-                                                    child:
-                                                        CustomNumField(
+                                                    child: CustomNumField(
                                                       controller:
                                                           goodQController,
-                                                      hintText:
-                                                          'Good Quantity',
+                                                      hintText: 'Good Quantity',
                                                     ),
                                                   ),
                                                 ],
@@ -1045,16 +1106,14 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                             Expanded(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      'Rejected Qty   :'),
+                                                  Text('Rejected Qty   :'),
                                                   SizedBox(
                                                     width: 16,
                                                   ),
                                                   SizedBox(
                                                     width: 180,
                                                     height: 100,
-                                                    child:
-                                                        CustomNumField(
+                                                    child: CustomNumField(
                                                       controller:
                                                           rejectedQController,
                                                       hintText:
@@ -1064,26 +1123,24 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(height:20),
+                                            SizedBox(height: 20),
                                             Expanded(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      'Target Qty       :'),
+                                                  Text('Target Qty       :'),
                                                   SizedBox(
                                                     width: 16,
                                                   ),
-                                                    SizedBox(
-                                                      width: 180,
-                                                      height: 100,
-                                                      child:
-                                                          CustomNumField(
-                                                        controller:
-                                                            targetQtyController,
-                                                        hintText:
-                                                            'Target Quantity',
-                                                      ),
+                                                  SizedBox(
+                                                    width: 180,
+                                                    height: 100,
+                                                    child: CustomNumField(
+                                                      controller:
+                                                          targetQtyController,
+                                                      hintText:
+                                                          'Target Quantity',
                                                     ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -1091,28 +1148,19 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                             Expanded(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      'Rework            :'),
+                                                  Text('Rework            :'),
                                                   SizedBox(
                                                     width: 60,
                                                     height: 40,
                                                     child: Checkbox(
-                                                      value:
-                                                          isChecked,
-                                                      activeColor:
-                                                          Colors
-                                                              .green,
-                                                      onChanged:
-                                                          (newValue) {
-                                                        setState(
-                                                            () {
+                                                      value: isChecked,
+                                                      activeColor: Colors.green,
+                                                      onChanged: (newValue) {
+                                                        setState(() {
                                                           isChecked =
-                                                              newValue ??
-                                                                  false;
+                                                              newValue ?? false;
                                                           reworkValue =
-                                                              isChecked
-                                                                  ? 1
-                                                                  : 0;
+                                                              isChecked ? 1 : 0;
                                                         });
                                                         print(
                                                             "reworkvalue  ${reworkValue}");
@@ -1123,8 +1171,7 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                                 ],
                                               ),
                                             ),
-                                            Expanded(
-                                                child: Text(''))
+                                            Expanded(child: Text(''))
                                           ],
                                         ),
                                       ),
@@ -1136,13 +1183,14 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                 height: 8,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   ElevatedButton(
-                                    onPressed: selectedName!=null?() {
-                                      _submitPop(context);
-                                    }:null,
+                                    onPressed: selectedName != null
+                                        ? () {
+                                            _submitPop(context);
+                                          }
+                                        : null,
                                     child: Text('Submit'),
                                   ),
                                   SizedBox(
@@ -1157,8 +1205,7 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Recent Activities',
@@ -1177,84 +1224,70 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                           height: 80,
                                           width: double.infinity,
                                           decoration: const BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.only(
-                                                      topLeft: Radius
-                                                          .circular(8),
-                                                      topRight: Radius
-                                                          .circular(8)),
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(8),
+                                                  topRight: Radius.circular(8)),
                                               color: Color.fromARGB(
                                                   255, 45, 54, 104)),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .center,
+                                                MainAxisAlignment.center,
                                             children: [
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
+                                                alignment: Alignment.centerLeft,
                                                 width: 100,
                                                 child: Text('S.NO',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
                                               ),
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
-                                                width: 200,
+                                                alignment: Alignment.center,
+                                                width: 150, 
                                                 child: Text('Prev Time',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
                                               ),
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
-                                                width: 200,
-                                                child: Text(
-                                                    'Product Name',
+                                                alignment: Alignment.center,
+                                                width: 150,
+                                                child: Text('Product Name',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
                                               ),
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
-                                                width: 200,
+                                                alignment: Alignment.center,
+                                                width: 150,
                                                 child: Text('Good Qty',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
                                               ),
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
-                                                width: 200,
-                                                child: Text(
-                                                    'Rejected Qty',
+                                                alignment: Alignment.center,
+                                                width: 150,
+                                                child: Text('Rejected Qty',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
                                               ),
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
-                                                width: 200,
+                                                alignment: Alignment.center,
+                                                width: 150,
                                                 child: Text('Rework ',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
                                               ),
                                               Container(
-                                                alignment:
-                                                    Alignment.center,
-                                                width: 100,
-                                                child: Text(
-                                                    'Edit Entries',
+                                                alignment: Alignment.center,
+                                                width: 150,
+                                                child: Text('Edit Entries',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .white)),
+                                                        color: Colors.white)),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: 150,
+                                                child: Text('Delete Entry',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ),
                                             ],
                                           ),
@@ -1262,144 +1295,157 @@ TimeOfDay timeofDay = TimeOfDay.now();
                                         Container(
                                           decoration: const BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.only(
-                                                      bottomLeft: Radius
-                                                          .circular(8),
-                                                      bottomRight:
-                                                          Radius
-                                                              .circular(
-                                                                  8))),
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(8),
+                                                  bottomRight:
+                                                      Radius.circular(8))),
                                           width: double.infinity,
                                           height: 160,
                                           child: ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount:
-                                                recentActivity?.length,
-                                            itemBuilder:
-                                                (context, index) {
+                                            itemCount: recentActivity?.length,
+                                            itemBuilder: (context, index) {
                                               final data =
-                                                  recentActivity?[
-                                                      index];
+                                                  recentActivity?[index];
                                               return Container(
-                                                decoration:
-                                                    BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   border: Border(
-                                                      bottom: BorderSide(
-                                                          width: 1,
-                                                          color: Colors
-                                                              .grey
-                                                              .shade300)),
+                                                    bottom: BorderSide(
+                                                        width: 1,
+                                                        color: Colors
+                                                            .grey.shade300),
+                                                  ),
                                                   color: index % 2 == 0
-                                                      ? Colors
-                                                          .grey.shade50
-                                                      : Colors.grey
-                                                          .shade100,
+                                                      ? Colors.grey.shade50
+                                                      : Colors.grey.shade100,
                                                 ),
                                                 height: 80,
                                                 width: double.infinity,
                                                 child: Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center,
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 100,
+                                                          Alignment.centerLeft,
+                                                      width: 150,
                                                       child: Text(
                                                         ' ${index + 1}  ',
                                                         style: TextStyle(
                                                             color: Colors
-                                                                .grey
-                                                                .shade700),
+                                                                .grey.shade700),
                                                       ),
                                                     ),
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 200,
+                                                          Alignment.center,
+                                                      width: 100,
                                                       child: Text(
                                                         ' ${data?.ipdtotime ?? ''}  ',
                                                         style: TextStyle(
                                                             color: Colors
-                                                                .grey
-                                                                .shade700),
+                                                                .grey.shade700),
                                                       ),
                                                     ),
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 200,
+                                                          Alignment.center,
+                                                      width: 150,
                                                       child: Text(
                                                         ' ${data?.ipditemid ?? ''}  ',
                                                         style: TextStyle(
                                                             color: Colors
-                                                                .grey
-                                                                .shade700),
+                                                                .grey.shade700),
                                                       ),
                                                     ),
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 200,
+                                                          Alignment.center,
+                                                      width: 150,
                                                       child: Text(
                                                         '  ${data?.ipdgoodqty ?? ''} ',
                                                         style: TextStyle(
                                                             color: Colors
-                                                                .grey
-                                                                .shade700),
+                                                                .grey.shade700),
                                                       ),
                                                     ),
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 200,
+                                                          Alignment.center,
+                                                      width: 150,
                                                       child: Text(
                                                         '  ${data?.ipdrejqty ?? ''}',
                                                         style: TextStyle(
                                                             color: Colors
-                                                                .grey
-                                                                .shade700),
+                                                                .grey.shade700),
                                                       ),
                                                     ),
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 200,
-                                                     
+                                                          Alignment.center,
+                                                      width: 150,
                                                       child: Text(
                                                         '  ${data?.ipdreworkflag ?? ''} ',
                                                         style: TextStyle(
                                                             color: Colors
-                                                                .grey
-                                                                .shade700),
+                                                                .grey.shade700),
                                                       ),
                                                     ),
                                                     Container(
                                                       alignment:
-                                                          Alignment
-                                                              .center,
-                                                      width: 100,
+                                                          Alignment.center,
+                                                      width: 150,
                                                       child: IconButton(
                                                         onPressed: () {
-                                                          // updateproduction(
-                                                          //     widget
-                                                          //         .processid);
+                                                          Navigator.push(context,MaterialPageRoute(builder: (context) => EditEmpProductionEntryPage(
+                                                            deptid: data?.deptid ??1057,
+                                                            empid: data?.ipdempid ?? 0,
+                                                            isload: true,
+                                                            processid: data?.processid??0,
+                                                            psid: data?.ipdpsid,
+                                                            ipdid: data?.ipdid,
+                                                            attenceid: widget.attenceid,
+                                                            attendceStatus: widget.attendceStatus,
+
+                                                          ),));
                                                         },
                                                         icon: const Icon(
                                                             Icons.edit,
                                                             size: 20,
-                                                            color: Colors
-                                                                .blue),
+                                                            color: Colors.blue),
                                                       ),
                                                     ),
+                                                    if (index == 0)
+                                                      Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        width: 150,
+                                                        child: IconButton(
+                                                          onPressed: () async {
+                                                            // updateproduction(widget.processid);
+                                                            await delete(
+                                                                ipdid:
+                                                                    data?.ipdid ??
+                                                                        0,
+                                                                ipdpsid:
+                                                                    data?.ipdpsid ??
+                                                                        0);
+                                                            await _fetchARecentActivity();
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.delete,
+                                                              size: 20,
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                      ),
+                                                    if (index != 0)
+                                                      Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 150,
+                                                          child: Text("")),
                                                   ],
                                                 ),
                                               );

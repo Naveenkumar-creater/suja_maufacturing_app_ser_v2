@@ -6,7 +6,7 @@ class ActualQtyUsecase{
   final ActualQtyRepository actualQtyRepository;
   ActualQtyUsecase(this.actualQtyRepository);
 
-  Future<ActualQtyEntity>execute(int id,String token)async{
-return actualQtyRepository.getActualQty(id, token);
+  Future<ActualQtyEntity>execute(int id,int psid, String token)async{
+return actualQtyRepository.getActualQty(id,psid, token);
   }
 }

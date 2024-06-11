@@ -70,7 +70,7 @@ class ListOfEmployee extends ListofEmployeeEntity {
   final String? timing;
   final int? emp_mgr;
   //final int? productId;
-  final String? productQty;
+  final int? productQty;
   final String? productName;
   //final int? attendance;
   final String? attendanceid;

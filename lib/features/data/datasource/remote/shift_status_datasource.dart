@@ -1,4 +1,3 @@
-import 'package:prominous/features/data/model/recent_activity_model.dart';
 import 'package:prominous/features/data/model/shift_status_model.dart';
 
 import '../../../../constant/request_model.dart';

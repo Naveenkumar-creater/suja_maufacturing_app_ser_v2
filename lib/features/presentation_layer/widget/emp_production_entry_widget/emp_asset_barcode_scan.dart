@@ -4,17 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:prominous/constant/show_pop_error.dart';
 import 'package:prominous/features/presentation_layer/api_services/asset_barcode_di.dart';
 import 'package:prominous/features/presentation_layer/provider/asset_barcode_provier.dart';
-import 'package:prominous/features/presentation_layer/widget/homepage_widget/emp_production_entry.dart';
+import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_production_entry.dart';
 
 
 class ScanBarcode extends StatefulWidget {
 
   final int? empId;
   final int? processId;
-   final int?shiftId;
    final Function(String)? onCardDataReceived;
   const ScanBarcode({
-    super.key, this.empId, this.processId, this.shiftId,this.onCardDataReceived
+    super.key, this.empId, this.processId,this.onCardDataReceived
   });
 
 

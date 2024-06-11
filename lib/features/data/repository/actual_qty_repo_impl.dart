@@ -12,8 +12,8 @@ class ActualQtyRepositoryImpl extends ActualQtyRepository{
   ActualQtyRepositoryImpl(this.actualQtyDatasource); 
 
   @override
-  Future<ActualQuantityModel> getActualQty(int id, String token) async{
-   ActualQuantityModel result= await actualQtyDatasource.getActualQty(id, token);
+  Future<ActualQuantityModel> getActualQty(int id,int psid, String token) async{
+   ActualQuantityModel result= await actualQtyDatasource.getActualQty(id,psid, token);
     return result;
   }
 

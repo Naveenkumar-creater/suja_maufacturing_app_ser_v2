@@ -35,8 +35,12 @@ class RecentActivitiesList extends RecentActivitiesEntityList{
     final int? ipdReworkFlag;
     final DateTime? ipdFromTime;
     final int? ipdAssetId;
+    final int? ipdid;
+    final int?ipdpsid;
+    final int? processid;
+    final int? deptid;
 
-    RecentActivitiesList({
+    RecentActivitiesList( {
         required this.ipdCardNo,
         required this.ipdRejQty,
         required this.ipdGoodQty,
@@ -46,13 +50,20 @@ class RecentActivitiesList extends RecentActivitiesEntityList{
         required this.ipdReworkFlag,
         required this.ipdFromTime,
         required this.ipdAssetId,
-    }):super(ipdassetid: ipdAssetId,ipdcardno: ipdCardNo,ipdempid: ipdEmpId,ipdfromtime: ipdFromTime,ipdgoodqty: ipdGoodQty,ipditemid: ipdItemId,ipdrejqty: ipdRejQty,ipdreworkflag: ipdReworkFlag,ipdtotime: ipdToTime);
+        required this.ipdid,
+        required this.ipdpsid,
+        required this.processid,
+        required this.deptid
+
+    }):super(ipdid:ipdid,processid:processid,deptid:deptid,   ipdpsid:ipdpsid, ipdassetid: ipdAssetId,ipdcardno: ipdCardNo,ipdempid: ipdEmpId,ipdfromtime: ipdFromTime,ipdgoodqty: ipdGoodQty,ipditemid: ipdItemId,ipdrejqty: ipdRejQty,ipdreworkflag: ipdReworkFlag,ipdtotime: ipdToTime);
 
   
 
     factory RecentActivitiesList.fromJson(Map<String, dynamic> json){ 
         return RecentActivitiesList(
+
             ipdCardNo: json["ipd_card_no"],
+            processid:json["ipd_mpm_id"],
             ipdRejQty: json["ipd_rej_qty"],
             ipdGoodQty: json["ipd_good_qty"],
             ipdEmpId: json["ipd_emp_id"],
@@ -61,6 +72,9 @@ class RecentActivitiesList extends RecentActivitiesEntityList{
             ipdReworkFlag: json["ipd_rework_flag"],
             ipdFromTime: DateTime.tryParse(json["ipd_from_time"] ?? ""),
             ipdAssetId: json["ipd_asset_id"],
+            ipdid: json["ipd_id"],
+            ipdpsid:json["ipd_ps_id"],
+            deptid: json["ipd_dept_id"]
         );
     }
 
@@ -74,6 +88,11 @@ class RecentActivitiesList extends RecentActivitiesEntityList{
         "ipd_rework_flag": ipdReworkFlag,
         "ipd_from_time": ipdFromTime?.toIso8601String(),
         "ipd_asset_id": ipdAssetId,
+        "ipd_id":ipdid,
+        "ipd_ps_id":ipdpsid,
+        "ipd_mpm_id":processid,
+        "ipd_dept_id":deptid
+
     };
 
 }

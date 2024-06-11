@@ -7,7 +7,8 @@ import 'package:prominous/features/presentation_layer/provider/plan_qty_provider
 
 class ProcessQtyWidget extends StatefulWidget {
   final int? id;
-  const ProcessQtyWidget({super.key, required this.id});
+    final int? psid;
+  const ProcessQtyWidget({super.key, required this.id, this.psid});
 
   @override
   State<ProcessQtyWidget> createState() => _ProcessQtyWidgetState();
@@ -15,7 +16,7 @@ class ProcessQtyWidget extends StatefulWidget {
 
 class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
   
-  final ActualQtyService actualQtyService =ActualQtyService();
+ ActualQtyService actualQtyService =ActualQtyService();
   PlanQtyService planQtyService=PlanQtyService();
  bool  isLoading = false; 
 
@@ -30,9 +31,9 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
 
    Future<void> _fetchActualQty() async {
     try {
-      await actualQtyService.getActualQty(context: context, id: widget.id??0);
+      await actualQtyService.getActualQty(context: context, id: widget.id??0,psid: widget.psid ??0);
 
-      await planQtyService.getPlanQty(context: context, id: widget.id ??0 );
+      await planQtyService.getPlanQty(context: context, id: widget.id ??0, psid: widget.psid ??0 );
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
       });
@@ -74,8 +75,8 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                           Text(
-                                                            // '${planQty}'?? "0",
-                                                            "0",
+                                                            '${planQty}'?? "0",
+                                                           
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:
@@ -109,8 +110,8 @@ class _ProcessQtyWidgetState extends State<ProcessQtyWidget> {
                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                           Text(
-                                                            // "${actualQty}"??"0",
-                                                            "0",
+                                                            "${actualQty}"??"0",
+                                                          
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:

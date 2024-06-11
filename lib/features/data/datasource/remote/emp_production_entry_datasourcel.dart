@@ -2,7 +2,6 @@
 
 import 'package:prominous/features/data/model/emp_production_model.dart';
 
-import '../../../../constant/request_model.dart';
 import '../../core/emp_production_entry_client.dart';
 
 abstract class EmpProductionEntryDatasource {

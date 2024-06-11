@@ -312,7 +312,7 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
                                               height: 8,
                                             ),
 
-                                            ProcessQtyWidget(id: processId,)
+                                            ProcessQtyWidget(id: processId,psid:psId)
                                           ],
                                         ),
                                       ),

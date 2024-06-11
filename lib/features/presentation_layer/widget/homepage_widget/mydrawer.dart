@@ -168,13 +168,13 @@ class _MyDrawerState extends State<MyDrawer> {
 
                           // Continue with other asynchronous operations sequentially
                           await attendanceCountService.getAttCount(
-                              context: context, id: processId);
+                              context: context, id: processId, deptid: deptId, psid: psId);
 
                           await actualQtyService.getActualQty(
-                              context: context, id: processId);
+                              context: context, id: processId,psid: psId);
 
                           await planQtyService.getPlanQty(
-                              context: context, id: processId);
+                              context: context, id: processId, psid: psId);
                         } catch (e) {
                           // Handle any errors that occur during the async operations
                           print('Error fetching data: $e');

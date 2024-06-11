@@ -19,29 +19,20 @@ class ActivityModel extends ActivityEntity{
 
 }
 
-class ActivityProduct extends ActivityProductList{
-    ActivityProduct({
-        required this.paActivityName,
-        required this.paId,
-        required this.paMpmId,
-    }) : super(paActivityName:paActivityName , paId: paId, paMpmId: paMpmId);
+class ActivityProduct extends ActivityProductList {
+  ActivityProduct({
+    required String paActivityName,
+    required int paId,
+    required int paMpmId,
+  }) : super(paActivityName: paActivityName, paId: paId, paMpmId: paMpmId);
 
-    final String? paActivityName;
-    final int? paId;
-    final int? paMpmId;
-
-    factory ActivityProduct.fromJson(Map<String, dynamic> json){ 
-        return ActivityProduct(
-            paActivityName: json["pa_activity_name"],
-            paId: json["pa_id"],
-            paMpmId: json["pa_mpm_id"],
-        );
-    }
-
-    // Map<String, dynamic> toJson() => {
-    //     "pa_activity_name": paActivityName,
-    //     "pa_id": paId,
-    //     "pa_mpm_id": paMpmId,
-    // };
-
+  factory ActivityProduct.fromJson(Map<String, dynamic> json) {
+    return ActivityProduct(
+      paActivityName: json["pa_activity_name"] as String? ?? '',
+      paId: json["pa_id"] as int? ?? 0,
+      paMpmId: json["pa_mpm_id"] as int? ?? 0,
+    );
+  }
 }
+
+

@@ -20,7 +20,7 @@ import 'package:prominous/features/presentation_layer/provider/plan_qty_provider
 
 class PlanQtyService {
   Future<void> getPlanQty(
-      {required BuildContext context, required int id}) async {
+      {required BuildContext context, required int id,required int psid}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -35,7 +35,7 @@ class PlanQtyService {
         ),
       );
 
-      PlanQtyEntity user = await recentActivityUseCase.execute(id, token);
+      PlanQtyEntity user = await recentActivityUseCase.execute(id,psid,token);
 
       Provider.of<PlanQtyProvider>(context, listen: false).setUser(user);
 

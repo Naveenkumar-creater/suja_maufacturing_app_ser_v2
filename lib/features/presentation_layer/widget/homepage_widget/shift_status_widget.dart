@@ -3,6 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/plan_qty_di.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +39,9 @@ class _ProcessQtyWidgetState extends State<ShitStatusWidget> {
 
   ShiftStatusService shiftStatusService = ShiftStatusService();
   EmployeeApiService employeeApiService = EmployeeApiService();
+    AttendanceCountService attendanceCountService = AttendanceCountService();
+    ActualQtyService actualQtyService =ActualQtyService();
+  PlanQtyService planQtyService=PlanQtyService();
   bool isLoading = false;
 
   @override
@@ -64,11 +70,26 @@ class _ProcessQtyWidgetState extends State<ShitStatusWidget> {
   //   }
   // }
 
-  void closeShiftPop(BuildContext context) {
-  final employeeResponse =
-      Provider.of<EmployeeProvider>(context, listen: false)
-          .user
-          ?.listofEmployeeEntity;
+void closeShiftPop(BuildContext context) async {
+  final employeeResponse = await Provider.of<EmployeeProvider>(context, listen: false)
+      .user
+      ?.listofEmployeeEntity;
+
+print(employeeResponse);
+  // Check if all elements have fl_att_status == 0 and fl_att_shift_status == 0
+  bool allMatchCondition = employeeResponse?.every((employee) =>
+      employee.flattstatus == 0 && employee.flattshiftstatus == 0) ?? false;
+
+// final employees = employeeResponse
+//       ?.where((employee) => employee.flattstatus == 0)
+//       .toList();
+//   // Check if all elements have fl_att_status == 0 and fl_att_shift_status == 1 and employee.flpsid == widget.psid
+//   bool allMatchFirstCondition = employees?.any((employee) =>
+//        employee.flattshiftstatus == 1) ?? false;
+
+  // Log the results for debugging
+  print("allMatchCondition: $allMatchCondition");
+  // print("allMatchFirstCondition: $allMatchFirstCondition");
 
   // Filter elements with fl_att_status == 1 and fl_att_shift_status == 1
   final employeesWithFlattstatus1AndFlattshiftstatus1 = employeeResponse
@@ -76,11 +97,16 @@ class _ProcessQtyWidgetState extends State<ShitStatusWidget> {
           employee.flattstatus == 1 && employee.flattshiftstatus == 1)
       .toList();
 
-  // Check if all elements with fl_att_status == 1 have fl_att_shift_status == 2 and match the psid
-  bool allSatisfySecondCondition = employeeResponse
-      ?.where((employee) => employee.flattstatus == 1)
-      .every((employee) => employee.flattshiftstatus == 2) ?? false;
+  // Filter elements with fl_att_status == 1
+  final employeesWithFlattstatus1 = employeeResponse
+      ?.where((employee) => employee.flattstatus == 1 && employee.flattshiftstatus == 2)
+      .toList();
 
+  // Check if all elements with fl_att_status == 1 have fl_att_shift_status == 2
+  bool allSatisfySecondCondition = employeesWithFlattstatus1
+      ?.every((employee) => employee.flattstatus == 1 && employee.flattshiftstatus == 2) ?? false;
+
+  print("allSatisfySecondCondition: $allSatisfySecondCondition");
   // Display the dialog based on the conditions
   showDialog(
     context: context,
@@ -90,122 +116,158 @@ class _ProcessQtyWidgetState extends State<ShitStatusWidget> {
           width: 400,
           height: 200,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white),
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+          ),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(32),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    employeesWithFlattstatus1AndFlattshiftstatus1 != null &&
-                            employeesWithFlattstatus1AndFlattshiftstatus1.isNotEmpty
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Note - "The supervisor\'s shift can only be closed once all employee shifts have been completed."',
-                                style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              Container(
-                                height: 400,
-                                width: double.infinity,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      employeesWithFlattstatus1AndFlattshiftstatus1.length,
-                                  itemBuilder: (context, index) {
-                                    final employee =
-                                        employeesWithFlattstatus1AndFlattshiftstatus1[index];
-                                    return Container(
-                                      height: 45,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "${index + 1}. ${employee?.personFname}",
-                                            style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
+                    if (allMatchCondition)
+                      Column(
+                        children: [
+                          Text(
+                            'Note - "At least one employee should be present on the floor to close the shift."',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.red,
+                            ),
+                          ),
+                          SizedBox(height: 32),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            child: Text("Retry", style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
+                      )
+                    // else if (allMatchFirstCondition)
+                    //   Column(
+                    //     children: [
+                    //       Text(
+                    //         'Note - "At least one employee should be present on the floor to close the shift."',
+                    //         style: TextStyle(
+                    //           fontStyle: FontStyle.italic,
+                    //           color: Colors.red,
+                    //         ),
+                    //       ),
+                    //       SizedBox(height: 32),
+                    //       ElevatedButton(
+                    //         onPressed: () {
+                    //           Navigator.of(context).pop(); // Close the dialog
+                    //         },
+                    //         child: Text("Retry", style: TextStyle(color: Colors.red)),
+                    //       ),
+                    //     ],
+                    //   )
+                    else if (employeesWithFlattstatus1AndFlattshiftstatus1 != null &&
+                             employeesWithFlattstatus1AndFlattshiftstatus1.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Note - "The supervisor\'s shift can only be closed once all employee shifts have been completed."',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.red,
+                            ),
+                          ),
+                          Container(
+                            height: 400,
+                            width: double.infinity,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: employeesWithFlattstatus1AndFlattshiftstatus1.length,
+                              itemBuilder: (context, index) {
+                                final employee = employeesWithFlattstatus1AndFlattshiftstatus1[index];
+                                return Container(
+                                  height: 45,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "${index + 1}. ${employee?.personFname}",
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 12,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
-                        : allSatisfySecondCondition
-                            ? Column(
-                                children: [
-                                  Text(
-                                    'Note - "Shifts of all present employees are closed, continue closing the shift."',
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.green,
-                                    ),
+                                    ],
                                   ),
-                                  SizedBox(height: 32),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        isLoading = true; // Indicate loading
-                                      });
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    else if (allSatisfySecondCondition == true)
+                      Column(
+                        children: [
+                          Text(
+                            'Note - "Shifts of all present employees are closed, continue closing the shift."',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.green,
+                            ),
+                          ),
+                          SizedBox(height: 32),
+                          ElevatedButton(
+                            onPressed: () async {
+                              // Using a separate variable to manage loading state within this function
+                              bool isLoading = true;
 
-                                      try {
-                                        // Perform all asynchronous operations
-                                        await closeShift();
-                                        await shiftStatusService.getShiftStatus(
-                                          context: context,
-                                          deptid: widget.deptid,
-                                          processid: widget.processid,
-                                        );
+                              try {
+                                // Perform all asynchronous operations
+                                await closeShift();
+                                await shiftStatusService.getShiftStatus(
+                                  context: context,
+                                  deptid: widget.deptid,
+                                  processid: widget.processid,
+                                );
 
-                                        await employeeApiService.employeeList(
-                                          context: context,
-                                          deptid: widget.deptid ?? 1,
-                                          processid: widget.processid ?? 0,
-                                          psid: widget.psid ?? 0,
-                                        );
-                                        Navigator.of(context).pop();
-                                      } catch (e) {
-                                        // Handle any errors that occur during the async operations
-                                        print('Error: $e');
-                                      } finally {
-                                        setState(() {
-                                          isLoading =
-                                              false; // Indicate completion
-                                          // Update any other state variables as needed
-                                        });
-                                      }
-                                    },
-                                    child: Text("Close Shift",
-                                        style: TextStyle(color: Colors.green)),
-                                  ),
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  Text(
-                                    'Note - "The supervisor\'s shift can only be closed once all employee shifts have been completed."',
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(); // Close the dialog
-                                    },
-                                    child: Text("Retry",
-                                        style: TextStyle(color: Colors.red)),
-                                  ),
-                                ],
-                              )
+                                await employeeApiService.employeeList(
+                                  context: context,
+                                  deptid: widget.deptid ?? 1,
+                                  processid: widget.processid ?? 0,
+                                  psid: widget.psid ?? 0,
+                                );
+                                  await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: 0);
+
+      await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
+                                Navigator.of(context).pop();
+                              } catch (e) {
+                                // Handle any errors that occur during the async operations
+                                print('Error: $e');
+                              } finally {
+                                isLoading = false; // Indicate completion
+                                // Update any other state variables as needed
+                              }
+                            },
+                            child: Text("Close Shift", style: TextStyle(color: Colors.green)),
+                          ),
+                        ],
+                      )
+                    else
+                      Column(
+                        children: [
+                          Text(
+                            'Note - "The supervisor\'s shift can only be closed once all employee shifts have been completed."',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.red,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            child: Text("Retry", style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -409,6 +471,12 @@ class _ProcessQtyWidgetState extends State<ShitStatusWidget> {
                           deptid: widget.deptid ?? 1,
                           processid: widget.processid ?? 0,
                           psid: widget.psid ?? 0);
+
+                          
+                      await attendanceCountService.getAttCount(
+                                      context: context,
+                                      id: widget.processid ?? 0, deptid:widget.deptid ?? 1 , psid: widget.psid ?? 0);
+
                     } catch (e) {
                       // Handle any errors that occur during the async operations
                       print('Error: $e');

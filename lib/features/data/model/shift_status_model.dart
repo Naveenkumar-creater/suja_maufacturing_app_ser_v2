@@ -26,7 +26,9 @@ class ShiftStatus extends ShiftStatusdetailEntity {
         required this.shiftName,
         required this.psShiftDate,
         required this.psCloseTime,
-    }):super(psDeptId: psDeptId,psCloseTime: psCloseTime,psId: psId,psMpmId: psMpmId,psOpenTime: psOpenTime,psShiftDate: psShiftDate,psShiftId: psShiftId,psShiftStatus: psShiftStatus,shiftName: shiftName);
+        required this.shiftFromTime,
+        required this.shiftToTime
+    }):super(psDeptId: psDeptId,psCloseTime: psCloseTime,shiftFromTime:shiftFromTime,shiftToTime:shiftToTime,     psId: psId,psMpmId: psMpmId,psOpenTime: psOpenTime,psShiftDate: psShiftDate,psShiftId: psShiftId,psShiftStatus: psShiftStatus,shiftName: shiftName);
 
 
     final int? psDeptId;
@@ -38,6 +40,8 @@ class ShiftStatus extends ShiftStatusdetailEntity {
     final String? shiftName;
     final String? psShiftDate;
     final String? psCloseTime;
+    final String? shiftFromTime;
+    final String? shiftToTime;
 
     factory ShiftStatus.fromJson(Map<String, dynamic> json){ 
         return ShiftStatus(
@@ -50,6 +54,8 @@ class ShiftStatus extends ShiftStatusdetailEntity {
             shiftName: json["shift_name"],
             psShiftDate: json["ps_shift_date"],
             psCloseTime: json["ps_close_time"],
+            shiftFromTime:json["shift_from_time"],
+            shiftToTime:json["shift_to_time"]
         );
     }
 

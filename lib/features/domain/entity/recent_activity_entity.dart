@@ -20,9 +20,12 @@ class RecentActivitiesEntityList extends Equatable {
   final int ?ipditemid;
   final int ?ipdreworkflag;
   final int ?ipdassetid;
+  final int? ipdid;
   final DateTime ?ipdfromtime;
   final DateTime ?ipdtotime;
-
+  final int? ipdpsid;
+  final int?processid;
+  final int?deptid;
   RecentActivitiesEntityList({
       required this.ipdcardno,
       required this.ipdrejqty,
@@ -32,11 +35,17 @@ class RecentActivitiesEntityList extends Equatable {
       required this.ipdreworkflag,
       required this.ipdassetid,
       required this.ipdfromtime,
-      required this.ipdtotime});
+      required this.ipdtotime,
+      required this.ipdid,
+      required this.processid, 
+      required this.ipdpsid,
+      required this.deptid
+      });
 
   @override
   List<Object?> get props => [
         ipdcardno,
+        ipdid,
         ipdrejqty,
         ipdgoodqty,
         ipdempid,
@@ -44,6 +53,9 @@ class RecentActivitiesEntityList extends Equatable {
         ipdreworkflag,
         ipdassetid,
         ipdfromtime,
-        ipdtotime
+        ipdtotime,
+        ipdpsid,
+        processid,
+        deptid
       ];
 }

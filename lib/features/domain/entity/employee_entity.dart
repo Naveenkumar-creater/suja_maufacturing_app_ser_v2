@@ -39,7 +39,7 @@ class ListofEmployeeEntity extends Equatable {
   final int? emp_mgr;
   final String ? attendanceid;
   //final int? productId;
-  final String ? productQty;
+  final int ? productQty;
   final String? productName;
   //final int? attendance;
   final String? flattdate;
@@ -58,14 +58,10 @@ class ListofEmployeeEntity extends Equatable {
         personFname,
         timing,
         emp_mgr,
-        // shifId,
         itemId,
         flattshiftstatus,
-        // shitStatus,
-        //productId,
         productQty,
         productName,
-        //attendance,
         attendanceid,
         flattdate,
         flattstatus,
@@ -90,8 +86,6 @@ class ListofEmployeeEntity extends Equatable {
       processName: processName,
       productQty:productQty,
          flattshiftstatus: flattshiftstatus,
-      // shifId: shifId,
-      // shitStatus: shitStatus,
       itemId: itemId,
       flpsid:flpsid
     );
