@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class CustomNumField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
-  final Function(String?)? validation;
+  final String? Function(String?)? validation;
   final String hintText;
   final Function()? onEditingComplete;
+  final TextInputType? keyboardtype;
+  final bool isAlphanumeric;
 
   const CustomNumField({
     required this.controller,
@@ -14,6 +17,8 @@ class CustomNumField extends StatelessWidget {
     this.validation,
     required this.hintText,
     this.onEditingComplete,
+    this.keyboardtype,
+    this.isAlphanumeric = false,
   });
 
   @override
@@ -21,29 +26,33 @@ class CustomNumField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
-      keyboardType: TextInputType.number, // Only allows numeric input
+      keyboardType: keyboardtype ?? TextInputType.number,
       inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly, // Restricts to digits only
+        if (!isAlphanumeric) FilteringTextInputFormatter.digitsOnly,
       ],
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10),
-          constraints: BoxConstraints(maxHeight: 40, maxWidth: 200),
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.black38, fontSize: 16),
-          labelStyle: const TextStyle(fontSize: 12),
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(color: Colors.grey, width: 1)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(color: Colors.grey, width: 1)),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(color: Colors.grey, width: 1))),
+        contentPadding: EdgeInsets.all(10),
+        constraints: BoxConstraints(maxHeight: 40, maxWidth: 200),
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.black38, fontSize: 16),
+        labelStyle: const TextStyle(fontSize: 12),
+        filled: true,
+        fillColor: Colors.white,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
+      ),
       onEditingComplete: onEditingComplete,
-      validator: validation as String? Function(String?)?,
+      validator: validation,
     );
   }
 }

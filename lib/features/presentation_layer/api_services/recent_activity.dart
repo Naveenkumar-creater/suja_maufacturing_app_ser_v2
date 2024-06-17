@@ -15,7 +15,7 @@ import '../../data/datasource/remote/allocation_datasource.dart';
 import '../../domain/entity/AllocationEntity.dart';
 import '../../domain/repository/allocation_repo.dart';
 
-class RecentActivityService {
+class   RecentActivityService {
   Future<void> getRecentActivity(
       {required BuildContext context, required int id,required int deptid, required int psid}) async {
     try {

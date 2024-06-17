@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prominous/features/data/model/shift_status_model.dart';
+import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_close_shift_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prominous/constant/request_data_model/send_attendence_model.dart';
@@ -93,7 +95,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
   //             .user
   //             ?.shiftStatusdetailEntity
   //             ?.psMpmId;
-              
+
   //     employeeApiService.employeeList(
   //         context: context,
   //         deptid: widget.deptid,
@@ -126,18 +128,19 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
         ?.listofEmployeeEntity
         ?.first
         .processId;
-            final shitId = Provider.of<ShiftStatusProvider>(context, listen: false)
+    final shitId = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
-        ?.shiftStatusdetailEntity?.psShiftId;
-                final shiftStatus = Provider.of<ShiftStatusProvider>(context, listen: false)
+        ?.shiftStatusdetailEntity
+        ?.psShiftId;
+    final shiftStatus = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
-        ?.shiftStatusdetailEntity?.psShiftStatus;
-          final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
+        ?.shiftStatusdetailEntity
+        ?.psShiftStatus;
+    final Shiftid = Provider.of<ShiftStatusProvider>(context, listen: false)
         .user
         ?.shiftStatusdetailEntity
         ?.psShiftId;
 
-     
     final attdid = Provider.of<EmployeeProvider>(context, listen: false)
         .user
         ?.listofEmployeeEntity
@@ -147,11 +150,10 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
     String token = pref.getString("client_token") ?? "";
     DateTime now = DateTime.now();
     //DateTime today = DateTime(now.year, now.month, now.day);;
-   
+
     int dt;
 
-      dt = int.tryParse(attendanceid ?? "") ?? 0;
-   
+    dt = int.tryParse(attendanceid ?? "") ?? 0;
 
     final requestBody = SendAttendencereqModel(
         apiFor: "floor_attendance",
@@ -202,6 +204,115 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
     } catch (e) {
       ShowError.showAlert(context, e.toString());
     }
+  }
+
+  void _closeShiftPop(
+    BuildContext context,
+    String attenceid,
+    int attendceStatus,
+    int empPersonid,
+    int processid,
+  ) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+              child: Container(
+                width: 200,
+                height: 150,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 32,
+                  ),
+                  child: Column(children: [
+                    const Text("Confirm you submission"),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                await employeeApiService.employeeList(
+                                  context: context,
+                                  processid: processid ?? 0,
+                                  deptid: widget.deptid ?? 1,
+                                  psid: widget.psid ?? 0,
+                                );
+
+                                // Call the EmpClossShift.empCloseShift method
+
+                                await EmpClosesShift.empCloseShift(
+                                    'emp_close_shift',
+                                    widget.psid ?? 0,
+                                    1,
+                                    attenceid ?? " ",
+                                    attendceStatus ?? 0);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EmpProductionEntryPage(
+                                      empid: empPersonid!,
+                                      processid: processid ?? 1,
+                                      deptid: widget.deptid,
+                                      isload: true,
+                                      attenceid: attenceid,
+                                      attendceStatus: attendceStatus,
+                                      // shiftId: widget.shiftid,
+                                      psid: widget.psid,
+                                    ),
+                                  ),
+                                );
+
+                                // Fetch employee list
+
+                                // await employeeApiService.employeeList(
+                                //     context: context,
+                                //     deptid: widget.deptid ?? 1,
+                                //     //processid: widget.processid ?? 0,
+                                //     psid: widget.psid ?? 0);
+                              } catch (error) {
+                                // Handle and show the error message here
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(error.toString()),
+                                    backgroundColor: Colors.amber,
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text("Submit"),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Go back")),
+                        ],
+                      ),
+                    )
+                  ]),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -321,6 +432,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                     String today = DateFormat('yyyy-MM-dd').format(now);
 
                     String? dt = employee.flattdate;
+                    int? shiftstatus = employee?.flattshiftstatus;
                     initialindex = employee.flattstatus;
 
                     String? flattDate = dt; // Parse dt to DateTime if not null
@@ -418,16 +530,18 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                                     employee.flattdate,
                                   );
                                   print('switched to: $index');
-                                  
-                                   employeeApiService.employeeList( 
-                                        context: context,
-                                        processid: employee.processId ?? 0,
-                                        deptid: widget.deptid ?? 1,
-                                        psid: widget.psid ?? 0);
+
+                                  employeeApiService.employeeList(
+                                      context: context,
+                                      processid: employee.processId ?? 0,
+                                      deptid: widget.deptid ?? 1,
+                                      psid: widget.psid ?? 0);
 
                                   attendanceCountService.getAttCount(
                                       context: context,
-                                      id: employee.processId ?? 0, deptid:widget.deptid , psid: widget.psid ?? 0);
+                                      id: employee.processId ?? 0,
+                                      deptid: widget.deptid,
+                                      psid: widget.psid ?? 0);
                                 },
                               ),
                             ),
@@ -439,80 +553,116 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                               width: 120,
                               child: ElevatedButton(
                                 child: Text("Change"),
-                                onPressed:  initialindex ==
-                                            0 // Disable the button if toggle label is "A"
-                                        ? null:
-                                    () {
-                                  setState(() {
-                                    showEmployeeAllocationPopup(
-                                        employee.empPersonid,
-                                        employee.mfgpempid,
-                                        employee.processId,
-                                        widget.deptid ?? 0
+                                onPressed: initialindex ==
+                                        0 // Disable the button if toggle label is "A"
+                                    ? null
+                                    : () {
+                                        setState(() {
+                                          showEmployeeAllocationPopup(
+                                              employee.empPersonid,
+                                              employee.mfgpempid,
+                                              employee.processId,
+                                              widget.deptid ?? 0
 
-                                        // widget?.shiftid ??0,
+                                              // widget?.shiftid ??0,
 
-                                        );
-                                    employeeApiService.employeeList(
-                                        context: context,
-                                        processid: employee.processId ?? 0,
-                                        deptid: widget.deptid ?? 1,
-                                        psid: widget.psid ?? 0);
-                                  });
-                                },
+                                              );
+                                          employeeApiService.employeeList(
+                                              context: context,
+                                              processid:
+                                                  employee.processId ?? 0,
+                                              deptid: widget.deptid ?? 1,
+                                              psid: widget.psid ?? 0);
+                                        });
+                                      },
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed:
-                                    // Access the EmployeeProvider
-                                    initialindex ==
-                                            0 // Disable the button if toggle label is "A"
-                                        ? null:
-                                    () {
-                                  final employeeProvider =
-                                      Provider.of<EmployeeProvider>(context,
-                                          listen: false);
+                          if (shiftstatus == 1)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  width: 100,
+                                  child: ElevatedButton(
+                                    onPressed: initialindex == 0
+                                        ? null
+                                        : () {
+                                            final employeeProvider =
+                                                Provider.of<EmployeeProvider>(
+                                                    context,
+                                                    listen: false);
 
-                                  // Get the employee ID of the current employee
-                                  final employeeId =
-                                      employeeResponse[index].empPersonid;
+                                            // Get the employee ID of the current employee
+                                            final employeeId =
+                                                employeeResponse[index]
+                                                    .empPersonid;
 
-                                  // Update the employee ID in the provider
-                                  employeeProvider
-                                      .updateEmployeeId(employeeId!);
+                                            // Update the employee ID in the provider
+                                            employeeProvider
+                                                .updateEmployeeId(employeeId!);
 
-                                  // Navigate to the ProductionQuantityPage
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EmpProductionEntryPage(
-                                              empid: employee.empPersonid!,
-                                              processid: process_id ?? 1,
-                                              deptid: widget.deptid,
-                                              isload: true,
-                                              attenceid:employee.attendanceid,
-                                              attendceStatus: employee.flattstatus,
-                                              //  shiftId: widget.shiftid,
-                                              psid: widget.psid),
-                                    ),
-                                  );
-                                  
-                                  employeeApiService.employeeList(
-                                      context: context,
-                                      processid: employee.processId ?? 0,
-                                      deptid: widget.deptid ?? 1,
-                                      psid: widget.psid ?? 0);
-                                },
-                                child: Text("Add"),
-                              ),
-                            ),
-                          ),
+                                            // Navigate to the ProductionQuantityPage
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EmpProductionEntryPage(
+                                                  empid: employee.empPersonid!,
+                                                  processid: process_id ?? 1,
+                                                  deptid: widget.deptid,
+                                                  isload: true,
+                                                  attenceid:
+                                                      employee.attendanceid,
+                                                  attendceStatus:
+                                                      employee.flattstatus,
+                                                  // shiftId: widget.shiftid,
+                                                  psid: widget.psid,
+                                                ),
+                                              ),
+                                            );
+
+                                            // Fetch employee list
+                                            employeeApiService.employeeList(
+                                              context: context,
+                                              processid:
+                                                  employee.processId ?? 0,
+                                              deptid: widget.deptid ?? 1,
+                                              psid: widget.psid ?? 0,
+                                            );
+                                          },
+                                    child: Text("Add"),
+                                  )),
+                            )
+                          else if (shiftstatus == 2)
+                            ElevatedButton(
+                              onPressed: initialindex == 0
+                                  ? null
+                                  : () {
+                                      final employeeProvider =
+                                          Provider.of<EmployeeProvider>(context,
+                                              listen: false);
+
+                                      // Get the employee ID of the current employee
+                                      final employeeId =
+                                          employeeResponse[index].empPersonid;
+
+                                      // Update the employee ID in the provider
+                                      employeeProvider
+                                          .updateEmployeeId(employeeId!);
+                                      print(shiftstatus);
+
+                                      _closeShiftPop(
+                                          context,
+                                          employee.attendanceid ?? "",
+                                          employee.flattstatus ?? 0,
+                                          employee.empPersonid ?? 0,
+                                          employee.processId ?? 0);
+
+                                      // Navigate to the ProductionQuantityPage
+                                    },
+                              child: Text("Reopen",
+                                  style: TextStyle(color: Colors.red)),
+                            )
                         ],
                       ),
                     );

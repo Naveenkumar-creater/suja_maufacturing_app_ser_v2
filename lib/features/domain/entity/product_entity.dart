@@ -23,7 +23,8 @@ class ListofProductEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        productName, productid
+        productName, 
+        productid
         //,plannedQty
       ];
 }
