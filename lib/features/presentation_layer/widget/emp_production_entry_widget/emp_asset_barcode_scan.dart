@@ -27,31 +27,29 @@ class _ScanBarcodeState extends State<ScanBarcode> {
      final AssetBarcodeService assetBarcodeService=AssetBarcodeService();
   @override
   Widget build(BuildContext context) {
-    return Card(elevation: 5,
-    shadowColor: Colors.black,
-      child: Container(
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          // color: widget.themeState.isDarkTheme
-          //     ? const Color(0xFF424242)
-          //     : Colors.white,
-        ),
-        child: InkWell(
-          onTap: _scanQrCode,
-          child: const Column(
-            children: [
-          
-                Icon(
-                  Icons.camera_alt,
-                  color: Colors.blue,
-                  size: 40,
-                )
-              // Headings(
-              //   text: "Scan Barcode",
-              // )
-            ],
-          ),
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+      color: Colors.grey.shade200,
+        // color: widget.themeState.isDarkTheme
+        //     ? const Color(0xFF424242)
+        //     : Colors.white,
+      ),
+      child: InkWell(
+        onTap: _scanQrCode,
+        child: const Column(
+          children: [
+        
+              Icon(
+                Icons.camera_alt,
+                color: Colors.blue,
+                size: 40,
+              )
+            // Headings(
+            //   text: "Scan Barcode",
+            // )
+          ],
         ),
       ),
     );

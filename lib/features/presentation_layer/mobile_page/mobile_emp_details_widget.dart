@@ -4,8 +4,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prominous/features/data/core/api_constant.dart';
 import 'package:prominous/features/data/model/shift_status_model.dart';
+import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
 import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_close_shift_widget.dart';
+import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_production_entry.dart';
+import 'package:prominous/features/presentation_layer/widget/homepage_widget/employe_allocation_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prominous/constant/request_data_model/send_attendence_model.dart';
@@ -14,14 +18,10 @@ import 'package:prominous/features/presentation_layer/api_services/employee_di.d
 import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import '../../../../constant/request_model.dart';
-import '../emp_production_entry_widget/emp_production_entry.dart';
 import '../../../../constant/show_pop_error.dart';
-import '../../../data/core/api_constant.dart';
-import '../../api_services/process_di.dart';
-import '../../provider/employee_provider.dart';
-import 'employe_allocation_popup.dart';
 
-class EmployeeDetailsList extends StatefulWidget {
+
+class MobileEmployeeDetailsList extends StatefulWidget {
   // final int id;
   // final int shiftid;
   final int deptid;
@@ -29,7 +29,7 @@ class EmployeeDetailsList extends StatefulWidget {
 
   final Function? refreshCallback;
 
-  const EmployeeDetailsList({
+  const MobileEmployeeDetailsList({
     Key? key,
     // required this.id,
     // required this.shiftid,
@@ -39,10 +39,10 @@ class EmployeeDetailsList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EmployeeDetailsList> createState() => _EmployeeDetailsListState();
+  State<MobileEmployeeDetailsList> createState() => _MobileEmployeeDetailsListState();
 }
 
-class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
+class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
   EmployeeApiService employeeApiService = EmployeeApiService();
   AttendanceCountService attendanceCountService = AttendanceCountService();
 
@@ -355,7 +355,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                   alignment: Alignment.center,
+                            alignment: Alignment.center,
                             width: 120,
                             child: Text('Name',
                                 style: TextStyle(color: Colors.white))),
@@ -381,7 +381,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          width: 100,
+                          width: 120,
                           alignment: Alignment.center,
                           child: Text('Production Qty',
                               style: TextStyle(color: Colors.white)),
@@ -408,10 +408,10 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          width: 120,
+                          width: 100,
                           alignment: Alignment.center,
                           child:
-                              Text('Production Entry', style: TextStyle(color: Colors.white)),
+                              Text('', style: TextStyle(color: Colors.white)),
                         ),
                       ),
                     ],
@@ -447,15 +447,16 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       width: double.infinity,
                       child: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                alignment: Alignment.center,
-                                width: 50,
-                                child: Text('${index + 1}',
-                                    style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12))),
+                          Column(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  width: 50,
+                                  child: Text('${index + 1}',
+                                      style: TextStyle(
+                                          color: Colors.grey.shade600,
+                                          fontSize: 12))),
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -490,7 +491,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              width: 100,
+                              width: 120,
                               alignment: Alignment.center,
                               child: Text(employee.productQty.toString() ?? "",
                                   style: TextStyle(
@@ -576,7 +577,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                  width: 120,
+                                  width: 100,
                                   child: ElevatedButton(
                                     onPressed: initialindex == 0
                                         ? null

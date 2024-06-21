@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prominous/features/presentation_layer/page/loginpage_layout.dart';
 import 'package:prominous/features/presentation_layer/provider/edit_entry_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/page/loginpage.dart';
@@ -94,7 +95,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           debugShowCheckedModeBanner: false,
-          home: const ProminousLoginPage()),
+          home: const LoginPageLayout()),
     );
   }
 }

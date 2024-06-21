@@ -14,7 +14,10 @@ class EditEntryApiservice{
 
   Future<void>getEntryValues({
       required BuildContext context,
-    required int psId,required int ipdid,required int deptid,
+    required int psId,
+    required int ipdid,
+    required int empid,
+     required int deptid
   })async {
     try {
       SharedPreferences   pref=await SharedPreferences.getInstance();
@@ -26,7 +29,7 @@ class EditEntryApiservice{
     )
       );
 
-      EditEntryEntity editEntry =await  editEntryusecase.execute(ipdid, psId, deptid, token);
+      EditEntryEntity editEntry =await  editEntryusecase.execute(ipdid, empid, psId, deptid, token);
 
       Provider.of<EditEntryProvider>(context,listen: false).setUser(editEntry);
     } catch (e) {

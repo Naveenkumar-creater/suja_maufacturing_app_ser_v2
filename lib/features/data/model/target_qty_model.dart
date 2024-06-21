@@ -21,17 +21,21 @@ class TargetQty extends TargetQty1 {
   TargetQty({
     required this.targetqty,
     required this.ppid,
+    required this.achivedtargetqty
   }) : super(targetqty: targetqty ?? 0,
-  ppid:ppid
+  ppid:ppid,
+  achivedtargetqty:achivedtargetqty
   ); // Ensure actualQty is not null
 
   final int? targetqty;
   final int? ppid;
+  final int?achivedtargetqty;
 
   factory TargetQty.fromJson(Map<String, dynamic> json) {
     return TargetQty(
        ppid: json["pp_id"] ?? 0,
-      targetqty: json["target_qty"] ?? 0, // Provide a default value if Actual_qty is null
+      targetqty: json["target_qty"] ?? 0,
+      achivedtargetqty:json["ach_target_qty"] // Provide a default value if Actual_qty is null
     );
   }
 

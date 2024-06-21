@@ -66,6 +66,8 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
   final int?ipdbatchno;
   final int?personid;
   final int?ipdpaid;
+  final int?totalRejqty;
+  final int?totalGoodqty;
 
   const ListProductionEntry(  {
     required this.ipdcardno,
@@ -83,7 +85,9 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
     required this.ipdtotime,
     required this.ipddeptid,
     required this.itemid,
-    required this.ipdpaid
+    required this.ipdpaid,
+    required this.totalGoodqty,
+    required this.totalRejqty
   }) : super(
             ipdcardno: ipdcardno,
             ipdmpmid: ipdmpmid,
@@ -100,7 +104,9 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
             itemid: itemid,
             ipdbatchno:ipdbatchno,
             personid:personid,
-            ipdpaid:ipdpaid
+            ipdpaid:ipdpaid,
+            totalGoodqty:totalGoodqty,
+            totalRejqty:totalRejqty,
             );
 
   factory ListProductionEntry.fromJson(Map<String, dynamic> json) {
@@ -121,6 +127,9 @@ class ListProductionEntry extends ListOfEmpProductionEntity {
       ipddeptid: json["ipd_dept_id"],
       personid:json["person_id"],
       ipdbatchno:json["ipd_batch_no"],
+      totalGoodqty:json["totalgoodqty"],
+      totalRejqty:json["totalrejqty"]
+
       
 
     );

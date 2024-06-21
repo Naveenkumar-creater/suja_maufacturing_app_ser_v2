@@ -39,48 +39,77 @@ class _UpdateTimeState extends State<UpdateTime> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ElevatedButton(
-          onPressed: () {
-            // Decrease time by 30 minutes
-            setState(() {
-              if (currentMinute >= 30) {
-                currentMinute -= 30;
-              } else {
-                if (currentHour == 0) {
-                  currentHour = 23;
-                  currentMinute = 30;
+
+      SizedBox(
+        width:30 ,
+        height: 30,
+        child: FloatingActionButton(
+            heroTag: 'decrementButton', 
+            backgroundColor: 
+            
+           Color.fromARGB(255, 236, 72, 72),
+            tooltip: 'Decrement',
+         mini: true,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            onPressed: (){
+        
+                setState(() {
+                if (currentMinute >= 30) {
+                  currentMinute -= 30;
                 } else {
-                  currentHour -= 1;
-                  currentMinute = 30;
+                  if (currentHour == 0) {
+                    currentHour = 23;
+                    currentMinute = 30;
+                  } else {
+                    currentHour -= 1;
+                    currentMinute = 30;
+                  }
                 }
-              }
-            });
-            updateTime(); // Update time after each change
-          },
-          child: Text('- 30 Mins'),
+              });
+              updateTime(); 
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: const Icon(Icons.minimize , color: Colors.white, size: 20,),
+            ),
+         ),
+      ),
+
+
+       
+        SizedBox(
+          width: 32,
         ),
         SizedBox(
-          width: 16,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // Increase time by 30 minutes
-            setState(() {
-              if (currentMinute < 30) {
-                currentMinute += 30;
-              } else {
-                if (currentHour == 23) {
-                  currentHour = 0;
-                  currentMinute = 0;
+           width:30 ,
+        height: 30,
+
+          child: FloatingActionButton(
+  heroTag: 'IncrementButton', 
+            
+             backgroundColor:  Color.fromRGBO(82, 170, 94, 1.0),
+            tooltip: 'Increment',
+         mini: true,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            onPressed: () {
+              // Increase time by 30 minutes
+              setState(() {
+                if (currentMinute < 30) {
+                  currentMinute += 30;  
                 } else {
-                  currentHour += 1;
-                  currentMinute = 0;
+                  if (currentHour == 23) {
+                    currentHour = 0;
+                    currentMinute = 0;
+                  } else {
+                    currentHour += 1;
+                    currentMinute = 0;
+                  }
                 }
-              }
-            });
-            updateTime(); // Update time after each change
-          },
-          child: Text('+ 30 Mins'),
+              });
+              updateTime(); // Update time after each change
+            },
+            child:   const Icon(Icons.add, color: Colors.white, size: 20),
+          ),
         ),
         SizedBox(
           width: 16,
@@ -174,3 +203,5 @@ class _UpdateTimeState extends State<UpdateTime> {
     widget.onTimeChanged(currentTime); // Call the callback with the updated time
   }
 }
+
+

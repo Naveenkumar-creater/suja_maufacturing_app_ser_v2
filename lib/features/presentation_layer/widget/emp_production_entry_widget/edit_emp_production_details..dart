@@ -10,8 +10,10 @@ import 'package:prominous/constant/request_data_model/delete_production_entry.da
 import 'package:prominous/constant/responsive/tablet_body.dart';
 import 'package:prominous/constant/utilities/customwidgets/custombutton.dart';
 import 'package:prominous/features/data/model/activity_model.dart';
-import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/edit_emp_production_details..dart';
+import 'package:prominous/features/presentation_layer/api_services/edit_entry_di.dart';
+import 'package:prominous/features/presentation_layer/provider/edit_entry_provider.dart';
 import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_close_shift_widget.dart';
+import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_production_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prominous/constant/lottieLoadingAnimation.dart';
@@ -23,7 +25,6 @@ import 'package:prominous/features/presentation_layer/api_services/employee_di.d
 import 'package:prominous/features/presentation_layer/api_services/recent_activity.dart';
 import 'package:prominous/features/presentation_layer/api_services/target_qty_di.dart';
 import 'package:prominous/features/presentation_layer/provider/activity_provider.dart';
-import 'package:prominous/features/presentation_layer/provider/asset_barcode_provier.dart';
 import 'package:prominous/features/presentation_layer/provider/card_no_provider.dart';
 import 'package:prominous/features/presentation_layer/provider/emp_production_entry_provider.dart';
 import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
@@ -40,37 +41,33 @@ import '../../../../constant/show_pop_error.dart';
 import '../../../data/core/api_constant.dart';
 import '../../../../constant/utilities/customnum_field.dart';
 
-class EmpProductionEntryPage extends StatefulWidget {
-  final int? empid;
+class EditEmpProductionEntryPage extends StatefulWidget {
+ final int? empid;
   final int? processid;
-  final String? barcode;
-  final int? cardno;
-  final int? assetid;
   final int? deptid;
   bool? isload;
   final int? psid;
-  final int? attendceStatus;
+  final int?ipdid;
+   final int? attendceStatus;
   final String? attenceid;
 
-  EmpProductionEntryPage(
+  EditEmpProductionEntryPage(
       {Key? key,
       this.empid,
       this.processid,
-      this.barcode,
-      this.cardno,
-      this.assetid,
       this.isload,
       this.deptid,
       this.psid,
       this.attenceid,
-      this.attendceStatus})
+      this.attendceStatus,
+      this.ipdid})
       : super(key: key);
 
   @override
-  State<EmpProductionEntryPage> createState() => _EmpProductionEntryPageState();
+  State<EditEmpProductionEntryPage> createState() => _EditEmpProductionEntryPageState();
 }
 
-class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
+class _EditEmpProductionEntryPageState extends State<EditEmpProductionEntryPage> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController goodQController = TextEditingController();
   final TextEditingController rejectedQController = TextEditingController();
@@ -84,6 +81,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
   final RecentActivityService recentActivityService = RecentActivityService();
   final ActivityService activityService = ActivityService();
   final TargetQtyApiService targetQtyApiService = TargetQtyApiService();
+    EditEntryApiservice editEntryApiservice = EditEntryApiservice();
 
   bool isChecked = false;
 
@@ -125,10 +123,8 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
   EmployeeApiService employeeApiService = EmployeeApiService();
 
   Future<void> updateproduction(int? processid) async {
-    final responsedata =
-        Provider.of<EmpProductionEntryProvider>(context, listen: false)
-            .user
-            ?.empProductionEntity;
+ final responsedata =
+        Provider.of<EditEntryProvider>(context, listen: false).editEntry?.editEntry;
 
     final pcid = Provider.of<CardNoProvider>(context, listen: false)
         .user
@@ -171,7 +167,7 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
         // rejectedQuantities: empproduction.first.rejqty,
         // reworkQuantities: empproduction.first.ipdflagid,
         ipdRejQty: int.tryParse(rejectedQController.text) ?? 0,
-        ipdReworkFlag: reworkValue ?? empproduction.ipdflagid,
+        ipdReworkFlag: reworkValue ?? empproduction.ipdReworkFlag,
         ipdGoodQty: int.tryParse(goodQController.text) ?? 0,
         batchno: int.tryParse(batchNOController.text),
         targetqty: int.tryParse(targetQtyController.text),
@@ -179,15 +175,15 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
         ipdCardNo: int.tryParse(cardNoController.text.toString()),
 
         ipdpaid: activityid ?? 0,
-        ipdFromTime: empproduction.ipdfromtime == ""
+        ipdFromTime: empproduction.ipdFromTime == ""
             ? currentDateTime.toString()
-            : empproduction.ipdfromtime,
+            : empproduction.ipdFromTime,
 
         ipdToTime: lastUpdatedTime ?? currentDateTime,
         ipdDate: currentDateTime.toString(),
-        ipdId: 0,
+        ipdId: widget.ipdid,
         // activityid == empproduction.ipdpaid ? empproduction.ipdid : 0,
-        ipdPcId: pcid ?? empproduction.ipdpcid,
+        ipdPcId: pcid ?? empproduction.ipdPcId,
         ipdDeptId: widget.deptid ?? 1,
         ipdAssetId: int.tryParse(assetCotroller.text.toString()),
         //ipdcardno: empproduction.first.ipdcardno,
@@ -242,150 +238,28 @@ class _EmpProductionEntryPageState extends State<EmpProductionEntryPage> {
     }
   }
 
-void _closeShiftPop(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: Colors.white,
-            child: WillPopScope(
-              onWillPop: () async {
-                return false;
-              },
-              child: Container(
-                width: 200,
-                height: 150,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 32,
-                  ),
-                  child: Column(children: [
-                    const Text("Confirm you submission"),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              try {
-                                 await EmpClosesShift.empCloseShift(
-                                    'emp_close_shift',
-                                    widget.psid ?? 0,
-                                    2,
-                                    widget.attenceid ?? " ",
-                                    widget.attendceStatus ?? 0);
-                                await employeeApiService.employeeList(
-                                    context: context,
-                                    deptid: widget.deptid ?? 1,
-                                    processid: widget.processid ?? 0,
-                                    psid:  widget.psid ?? 0);
-                                Navigator.pop(context);
-                              } catch (error) {
-                                // Handle and show the error message here
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(error.toString()),
-                                    backgroundColor: Colors.amber,
-                                  ),
-                                );
-                              }
-                            },
-                            child: const Text("Submit"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Go back")),
-                        ],
-                      ),
-                    )
-                  ]),
-                ),
-              ),
-            ),
-          );
-        });
-  }
 
-  delete({
-    int? ipdid,
-    int? ipdpsid,
-  }) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String token = pref.getString("client_token") ?? "";
-    final requestBody = DeleteProductionEntryModel(
-        apiFor: "delete_entry",
-        clientAuthToken: token,
-        ipdid: ipdid,
-        ipdpsid: ipdpsid);
-    final requestBodyjson = jsonEncode(requestBody.toJson());
 
-    print(requestBodyjson);
-
-    const timeoutDuration = Duration(seconds: 30);
-    try {
-      http.Response response = await http
-          .post(
-            Uri.parse(ApiConstant.baseUrl),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: requestBodyjson,
-          )
-          .timeout(timeoutDuration);
-
-      // ignore: avoid_print
-      print(response.body);
-
-      if (response.statusCode == 200) {
-        try {
-          final responseJson = jsonDecode(response.body);
-          // loadEmployeeList();
-          print(responseJson);
-          return responseJson;
-        } catch (e) {
-          // Handle the case where the response body is not a valid JSON object
-          throw ("Invalid JSON response from the server");
-        }
-      } else {
-        throw ("Server responded with status code ${response.statusCode}");
-      }
-    } on TimeoutException {
-      throw ('Connection timed out. Please check your internet connection.');
-    } catch (e) {
-      ShowError.showAlert(context, e.toString());
-    }
-  }
-
+  
   void updateinitial() {
     if (widget.isload == true) {
-      final productionEntry =
-          Provider.of<EmpProductionEntryProvider>(context, listen: false)
-              .user
-              ?.empProductionEntity;
+      final EditproductionEntry =
+          Provider.of<EditEntryProvider>(context, listen: false)
+              .editEntry
+              ?.editEntry;
       final productname = Provider.of<ProductProvider>(context, listen: false)
           .user
           ?.listofProductEntity;
 
       setState(() {
-        assetCotroller.text = productionEntry?.ipdassetid?.toString() ?? "0";
-        cardNoController.text = productionEntry?.ipdcardno?.toString() ?? "0";
+        assetCotroller.text = EditproductionEntry?.ipdAssetId?.toString() ?? "0";
+        cardNoController.text = EditproductionEntry?.ipdCardNo?.toString() ?? "0";
 
         // If itemid is not 0, find the matching product name
-        productNameController.text = (productionEntry?.itemid != 0
+        productNameController.text = (EditproductionEntry?.ipdItemId != 0
             ? productname
                 ?.firstWhere(
-                  (product) => productionEntry?.itemid == product.productid,
+                  (product) => EditproductionEntry?.ipdItemId == product.productid,
                 )
                 .productName
             : "0")!;
@@ -483,6 +357,7 @@ void _closeShiftPop(BuildContext context) {
         '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString().padLeft(2, '0')}';
   }
 
+
   @override
   void dispose() {
     super.dispose();
@@ -499,22 +374,14 @@ void _closeShiftPop(BuildContext context) {
   Future<void> _fetchARecentActivity() async {
     try {
       // Fetch data
-      await empProductionEntryService.productionentry(
-          context: context,
-          id: widget.empid ?? 0,
-          deptid: widget.deptid ?? 0,
-          psid: widget.psid ?? 0);
+   await editEntryApiservice.getEntryValues(
+          context: context, psId: widget.psid ??0, ipdid: widget.ipdid ??0, empid: widget.empid ?? 0, deptid: widget.deptid ??0,
+          );
 
       await productApiService.productList(
           context: context,
           id: widget.processid ?? 1,
           deptId: widget.deptid ?? 0);
-
-      await recentActivityService.getRecentActivity(
-          context: context,
-          id: widget.empid ?? 0,
-          deptid: widget.deptid ?? 0,
-          psid: widget.psid ?? 0);
 
       await activityService.getActivity(
           context: context,
@@ -522,19 +389,19 @@ void _closeShiftPop(BuildContext context) {
           deptid: widget.deptid ?? 0);
 
       final productionEntry =
-          Provider.of<EmpProductionEntryProvider>(context, listen: false)
-              .user
-              ?.empProductionEntity;
+          Provider.of<EditEntryProvider>(context, listen: false)
+              .editEntry
+              ?.editEntry;
 
       // Access fetched data and set initial values
-      final initialValue = productionEntry?.ipdflagid;
+      final initialValue = productionEntry?.ipdReworkFlag;
 
       if (initialValue != null) {
         setState(() {
           isChecked = initialValue == 1;
-          goodQController.text = productionEntry?.goodqty?.toString() ?? "";
-          rejectedQController.text = productionEntry?.rejqty?.toString() ?? "";
-          batchNOController.text = productionEntry?.ipdbatchno.toString() ??
+          goodQController.text = productionEntry?.ipdGoodQty?.toString() ?? "";
+          rejectedQController.text = productionEntry?.ipdRejQty?.toString() ?? "";
+          batchNOController.text = productionEntry?.ipdBatchNo.toString() ??
               ""; // Set isChecked based on initialValue
         });
       }
@@ -595,75 +462,17 @@ void _closeShiftPop(BuildContext context) {
                                     reworkQController.text.isNotEmpty) {
                                   await updateproduction(widget.processid);
                                   await _fetchARecentActivity();
-                                  Navigator.pop(context);
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>      EmpProductionEntryPage(
+                                              empid: widget.empid,
+                                              processid: widget.processid ?? 1,
+                                              deptid: widget.deptid,
+                                              isload: true,
+                                              attenceid:widget.attenceid,
+                                              attendceStatus: widget.attendceStatus,
+                                              //  shiftId: widget.shiftid,
+                                              psid: widget.psid),));
+                               
                                 }
-                              } catch (error) {
-                                // Handle and show the error message here
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(error.toString()),
-                                    backgroundColor: Colors.amber,
-                                  ),
-                                );
-                              }
-                            },
-                            child: const Text("Submit"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Go back")),
-                        ],
-                      ),
-                    )
-                  ]),
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  void deletePop(BuildContext context, ipdid, ipdpsid) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: Colors.white,
-            child: WillPopScope(
-              onWillPop: () async {
-                return false;
-              },
-              child: Container(
-                width: 200,
-                height: 150,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 32,
-                  ),
-                  child: Column(children: [
-                    const Text("Confirm you submission"),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              try {
-                                await delete(
-                                    ipdid: ipdid ?? 0, ipdpsid: ipdpsid ?? 0);
-                                await _fetchARecentActivity();
-                                Navigator.pop(context);
                               } catch (error) {
                                 // Handle and show the error message here
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -698,59 +507,43 @@ void _closeShiftPop(BuildContext context) {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final productionEntry =
-        Provider.of<EmpProductionEntryProvider>(context, listen: false)
-            .user
-            ?.empProductionEntity;
+ final editEntry =
+        Provider.of<EditEntryProvider>(context, listen: false)
+            .editEntry
+            ?.editEntry; 
+            
+            final fromtime = editEntry?.ipdFromTime == ""
+        ? currentDate
+        : editEntry?.ipdFromTime;
 
-    final totalGoodQty = productionEntry?.totalGoodqty;
-    final totalRejQty = productionEntry?.totalRejqty;
- final productname = Provider.of<ProductProvider>(context, listen: false)
-          .user
-          ?.listofProductEntity;
-    
+
+
+    final totalGoodQty = editEntry?.totalGoodqty;
+    final totalRejQty = editEntry?.totalRejqty;
 
     final recentActivity =
         Provider.of<RecentActivityProvider>(context, listen: false)
             .user
             ?.recentActivitesEntityList;
-    print(productionEntry);
-    final fromtime = productionEntry?.ipdfromtime == ""
-        ? currentDate
-        : productionEntry?.ipdfromtime;
+    print(editEntry);
 
-    // final productname = Provider.of<ProductProvider>(context, listen: false)
-    //     .user
-    //     ?.listofProductEntity;
+
+   
+ final totime = editEntry?.ipdFromTime == ""
+        ? currentDate
+        :editEntry ?.ipdToTime;
+   
 
     final activity = Provider.of<ActivityProvider>(context, listen: false)
         .user
         ?.activityEntity;
 
-    // final activityName = activity?.map((process) => process.paActivityName)?.toSet()?.toList() ??
-    //         [];
+    final activityName =
+        activity?.map((process) => process.paActivityName)?.toSet()?.toList() ??
+            [];
+        "";
 
-    // final ProductNames =
-    //     productname?.map((process) => process.productName)?.toSet()?.toList() ??
-    //         [];
-    // final asset = Provider.of<AssetBarcodeProvider>(context, listen: false)
-    //     .user
-    //     ?.scanAseetBarcode;
-
-    final shiftFromtime =
-        Provider.of<ShiftStatusProvider>(context, listen: false)
-            .user
-            ?.shiftStatusdetailEntity
-            ?.shiftFromTime;
-    final shiftTotime = Provider.of<ShiftStatusProvider>(context, listen: false)
-        .user
-        ?.shiftStatusdetailEntity
-        ?.shiftToTime;
-
-    // final cardNumber = Provider.of<CardNoProvider>(context, listen: false)
-    //     .user
-    //     ?.scanCardForItem;
-
+        
     final processName = Provider.of<EmployeeProvider>(context, listen: false)
             .user
             ?.listofEmployeeEntity
@@ -783,14 +576,7 @@ void _closeShiftPop(BuildContext context) {
               leading: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
-                    employeeApiService.employeeList(
-                        context: context,
-                        processid: widget.processid ?? 0,
-                        deptid: widget.deptid ?? 1,
-                        psid: widget.psid ?? 0);
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ResponsiveTabletHomepage(),
-                    ));
+                    Navigator.pop(context);
                   }),
               title: Text(
                 '${processName}',
@@ -824,7 +610,7 @@ void _closeShiftPop(BuildContext context) {
                                         BorderRadius.all(Radius.circular(5))),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 15, right: 15 ,top: 5),
+                                      left: 15, right: 15),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -849,45 +635,15 @@ void _closeShiftPop(BuildContext context) {
                                                     color: Colors.black54)),
 
                                                     SizedBox(width: 20,),
-                                                      Text(' ${lastUpdatedTime}',
+                                                      Text(' ${totime}',
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.black54)),
-                                                    SizedBox(width: 30,),
-                                                     UpdateTime(
-                                              onTimeChanged: (time) {
-                                                setState(() {
-                                                  lastUpdatedTime = time
-                                                      .toString(); // Update the manually set time
-                                                });
-                                              },
-                                              shiftFromTime:
-                                                  shiftFromtime ?? "",
-                                              shiftToTime: shiftTotime ?? "",
-                                            ),
                                           ],
                                         ),
                                       ),
 
-                                        SizedBox(
-                                        height: 40,
-                                        child: CustomButton(
-                                                    width: 150,
-                                                    height: 50,
-                                                    onPressed: () {
-
-                                       _closeShiftPop(context);
-                                        },
-                                        child: Text('Close Shift',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.white)),
-                                                    backgroundColor: Colors.green,
-                                                    borderRadius: BorderRadius.circular(50),
-                                                  ),
-                                      ),
-                                    
-                                      SizedBox(width: 10,),
+                                       
 
                                       SizedBox(
                                         height: 40,
@@ -1266,7 +1022,7 @@ void _closeShiftPop(BuildContext context) {
                                                       });
                                                     },
                                                   ),
-                                                  SizedBox(width: 16),
+                                                  SizedBox(width: 18),
                                                   SizedBox(
                                                     width: 150,
                                                     height: 40,
@@ -1488,288 +1244,7 @@ void _closeShiftPop(BuildContext context) {
                                     ),
                                   ),
                                 ],
-                              ),
-                            
-                             
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   children: [
-                              //     Text(
-                              //       'Recent Activities',
-                              //       style: TextStyle(
-                              //         fontSize: 20,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              SizedBox(height: 10),
-                              (recentActivity != null &&
-                                      recentActivity.isNotEmpty)
-                                  ? Column(
-                                      children: [
-                                        Container(
-                                          height: 55,
-                                          width: double.infinity,
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(8),
-                                                  topRight: Radius.circular(8)),
-                                              color: Color.fromARGB(
-                                                  255, 45, 54, 104)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.centerLeft,
-                                                width: 100,
-                                                child: Text('S.NO',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Prev Time',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Product Name',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Good Qty',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Rejected Qty',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Rework ',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Edit Entries',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                width: 150,
-                                                child: Text('Delete Entry',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(8),
-                                                  bottomRight:
-                                                      Radius.circular(8))),
-                                          width: double.infinity,
-                                          height: 275,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: recentActivity?.length,
-                                            itemBuilder: (context, index) {
-                                              final data =
-                                                  recentActivity?[index];
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                    bottom: BorderSide(
-                                                        width: 1,
-                                                        color: Colors
-                                                            .grey.shade300),
-                                                  ),
-                                                  color: index % 2 == 0
-                                                      ? Colors.grey.shade50
-                                                      : Colors.grey.shade100,
-                                                ),
-                                                height: 80,
-                                                width: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      width: 100,
-                                                      child: Text(
-                                                        ' ${index + 1}  ',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .grey.shade900),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                       alignment:
-                                                          Alignment.centerRight,
-                                                      width: 150,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 35),
-                                                        child: Text(
-                                                          ' ${data?.ipdtotime ?? ''}  ',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .grey.shade900),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      width: 150,
-                                                      child: Text(
-                                                       
-                                                        '${
-                                                       (data?.ipditemid != 0
-            ? productname
-                ?.firstWhere(
-                  (product) =>data?.ipditemid == product.productid,
-                )
-                .productName
-            : " ")}',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .grey.shade900),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      width: 150,
-                                                      child: Text(
-                                                        '  ${data?.ipdgoodqty ?? ''} ',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .grey.shade900),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      width: 150,
-                                                      child: Text(
-                                                        '  ${data?.ipdrejqty ?? ''}',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .grey.shade900),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      width: 150,
-                                                      child: Text(
-                                                        '  ${data?.ipdreworkflag == 0 ? 'NO' : "Yes"} ',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .grey.shade900),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      width: 150,
-                                                      child: IconButton(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        EditEmpProductionEntryPage(
-                                                                  deptid:
-                                                                      data?.deptid ??
-                                                                          1057,
-                                                                  empid:
-                                                                      data?.ipdempid ??
-                                                                          0,
-                                                                  isload: true,
-                                                                  processid:
-                                                                      data?.processid ??
-                                                                          0,
-                                                                  psid: data
-                                                                      ?.ipdpsid,
-                                                                  ipdid: data
-                                                                      ?.ipdid,
-                                                                  attenceid: widget
-                                                                      .attenceid,
-                                                                  attendceStatus:
-                                                                      widget
-                                                                          .attendceStatus,
-                                                                ),
-                                                              ));
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons
-                                                                .mode_edit_outline_outlined,
-                                                            size: 25,
-                                                            color: Colors.blue),
-                                                      ),
-                                                    ),
-                                                    if (index == 0)
-                                                      Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        width: 150,
-                                                        child: IconButton(
-                                                          onPressed: () async {
-                                                            // updateproduction(widget.processid);
-                                                            deletePop(
-                                                                context,
-                                                                data?.ipdid ??
-                                                                    0,
-                                                                data?.ipdpsid ??
-                                                                    0);
-                                                          },
-                                                          icon: const Icon(
-                                                              Icons.delete,
-                                                              size: 25,
-                                                              color:
-                                                                  Colors.red),
-                                                        ),
-                                                      ),
-                                                    if (index != 0)
-                                                      Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 150,
-                                                          child: Text("")),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Center(
-                                      child: Text("No data available"),
-                                    ),
+                              ),  
                             ],
                           ),
                         ),

@@ -18,7 +18,7 @@ class CustomNumField extends StatelessWidget {
     required this.hintText,
     this.onEditingComplete,
     this.keyboardtype,
-    this.isAlphanumeric = false,
+    this.isAlphanumeric = false, 
   });
 
   @override
@@ -38,6 +38,12 @@ class CustomNumField extends StatelessWidget {
         labelStyle: const TextStyle(fontSize: 12),
         filled: true,
         fillColor: Colors.white,
+
+        errorStyle: TextStyle(
+      fontSize: 10.0, // Adjust the font size as needed
+      height: 0.1, // Adjust the height to control spacing
+    ),
+ 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide(color: Colors.grey, width: 1),

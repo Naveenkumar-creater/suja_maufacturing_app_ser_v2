@@ -28,6 +28,8 @@ class   ListOfEmpProductionEntity extends Equatable {
   final int?ipdpaid;
   final int?ipdbatchno;
   final int?personid;
+  final int? totalRejqty;
+  final int?totalGoodqty;
   const ListOfEmpProductionEntity(
       {required this.ipdcardno,
       required this.ipdmpmid,
@@ -44,7 +46,10 @@ class   ListOfEmpProductionEntity extends Equatable {
       required this.ipddeptid, 
       required this. ipdbatchno,
        required this. personid,
-      required this.ipdpaid});
+      required this.ipdpaid,
+      required this.totalGoodqty,
+      required this.totalRejqty
+      });
 
   @override
   List<Object?> get props => [

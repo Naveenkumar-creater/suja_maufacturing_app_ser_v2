@@ -124,7 +124,8 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
     return Scaffold(
       // backgroundColor: defaultBackgroundColor,
 
-      body: SingleChildScrollView(scrollDirection: Axis.vertical,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Container(width: size.width,
         height: size.height,
           child: Padding(

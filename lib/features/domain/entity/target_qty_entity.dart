@@ -14,12 +14,13 @@ class TargetQtyEntity extends Equatable {
 }
 
 class  TargetQty1 extends Equatable{
-  const TargetQty1( {required this.ppid, required this.targetqty});
+  const TargetQty1( {required this.ppid, required this.targetqty,required this.achivedtargetqty});
   final int? targetqty;
   final int? ppid;
+  final int? achivedtargetqty;
 
   @override
   // TODO: implement props
-  List<Object?> get props =>[targetqty,ppid];
+  List<Object?> get props =>[targetqty,ppid,achivedtargetqty];
 
 } 

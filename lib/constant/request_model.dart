@@ -123,7 +123,7 @@ class ApiRequestDataModel {
       "ipd_rej_qty": rejectedQuantities,
       "ipd_rework_flag": reworkQuantities,
       "fl_att_status": attstatus,
-      "fl_att_emp_id": emppersonid,
+      // "fl_att_emp_id": emppersonid,
       "fl_att_in_time": attintime != null ? attintime!.toString() : null,
       "fl_att_date": attdate != null ? attdate!.toString() : null,
       "fl_att_id": attid,

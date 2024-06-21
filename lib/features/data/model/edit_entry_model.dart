@@ -35,11 +35,15 @@ class EditEntry extends EditEntrySubEntity {
         required this.ipdPcId,
         required this.ipdPaId,
         required this.personId,
+        required this.totalGoodqty,
+        required this.totalRejqty
     }):super(ipdAssetId:ipdAssetId,ipdBatchNo:ipdBatchNo,ipdCardNo:ipdCardNo,ipdDate: ipdDate,ipdDeptId:ipdDeptId,ipdFromTime: ipdFromTime,
     
     ipdGoodQty: ipdGoodQty,ipdId: ipdId,ipdItemId:ipdItemId,ipdMpmId: ipdMpmId,ipdPaId: ipdPaId,ipdPcId: ipdPcId,ipdRejQty:ipdRejQty ,
     
-    ipdReworkFlag: ipdReworkFlag,ipdToTime: ipdToTime,personId: personId );
+    ipdReworkFlag: ipdReworkFlag,ipdToTime: ipdToTime,personId: personId, totalGoodqty:totalGoodqty,
+    totalRejqty:totalRejqty
+     );
 
     final int? ipdMpmId;
     final String? ipdToTime;
@@ -57,6 +61,8 @@ class EditEntry extends EditEntrySubEntity {
     final int? ipdPcId;
     final int? ipdPaId;
     final int? personId;
+    final int?  totalGoodqty;
+    final int?  totalRejqty;
 
     factory EditEntry.fromJson(Map<String, dynamic> json){ 
         return EditEntry(
@@ -76,6 +82,9 @@ class EditEntry extends EditEntrySubEntity {
             ipdPcId: json["ipd_pc_id"],
             ipdPaId: json["ipd_pa_id"],
             personId: json["person_id"],
+              totalGoodqty:json["totalgoodqty"],
+      totalRejqty:json["totalrejqty"]
+
         );
     }
 
