@@ -235,8 +235,15 @@ print(employeeResponse);
                                   psid: widget.psid ?? 0,
                                 );
                                   await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: 0);
+                                     attendanceCountService.getAttCount(
+                                      context: context,
+                                      id: widget.processid ?? 0,
+                                      deptid: widget.deptid ??0,
+                                      psid: widget.psid ?? 0);
 
       await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
+      await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: widget.psid ??0);
+
                                 Navigator.of(context).pop();
                               } catch (e) {
                                 // Handle any errors that occur during the async operations
@@ -476,6 +483,10 @@ print(employeeResponse);
                       await attendanceCountService.getAttCount(
                                       context: context,
                                       id: widget.processid ?? 0, deptid:widget.deptid ?? 1 , psid: widget.psid ?? 0);
+                                       await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
+      await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: widget.psid ??0);
+
+
 
                     } catch (e) {
                       // Handle any errors that occur during the async operations

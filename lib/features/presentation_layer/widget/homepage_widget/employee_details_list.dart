@@ -348,7 +348,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Container(
-                            width: 50,
+                            width: 40,
                             child: Text('S.NO',
                                 style: TextStyle(color: Colors.white))),
                       ),
@@ -363,7 +363,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          width: 100,
+                          width: 120,
                           alignment: Alignment.center,
                           child: Text('Prev Product',
                               style: TextStyle(color: Colors.white)),
@@ -372,7 +372,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          width: 150,
+                          width: 100,
                           alignment: Alignment.center,
                           child: Text('Prev Time',
                               style: TextStyle(color: Colors.white)),
@@ -381,7 +381,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          width: 100,
+                          width: 120,
                           alignment: Alignment.center,
                           child: Text('Production Qty',
                               style: TextStyle(color: Colors.white)),
@@ -390,7 +390,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          width: 90,
+                          width: 110,
                           alignment: Alignment.center,
                           child: Text('Attendance',
                               style: TextStyle(color: Colors.white)),
@@ -451,7 +451,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                                 alignment: Alignment.center,
-                                width: 50,
+                                width: 40,
                                 child: Text('${index + 1}',
                                     style: TextStyle(
                                         color: Colors.grey.shade600,
@@ -461,7 +461,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                                 alignment: Alignment.center,
-                                width: 125,
+                                width: 120,
                                 child: Text(employee?.personFname ?? '',
                                     style: TextStyle(
                                         color: Colors.grey.shade600,
@@ -471,7 +471,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                                 alignment: Alignment.center,
-                                width: 100,
+                                width: 120,
                                 child: Text(employee?.productName ?? '',
                                     style: TextStyle(
                                         color: Colors.grey.shade600,
@@ -481,16 +481,19 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                                 alignment: Alignment.center,
-                                width: 150,
-                                child: Text(employee.timing.toString(),
-                                    style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12))),
+                                width: 100,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Text(employee.timing.toString(),
+                                      style: TextStyle(
+                                          color: Colors.grey.shade600,
+                                          fontSize: 12)),
+                                )),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              width: 100,
+                              width: 120,
                               alignment: Alignment.center,
                               child: Text(employee.productQty.toString() ?? "",
                                   style: TextStyle(
@@ -502,7 +505,7 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               alignment: Alignment.center,
-                              width: 90,
+                              width: 110,
                               child: ToggleSwitch(
                                 minWidth: 40.0,
                                 cornerRadius: 20.0,
@@ -574,88 +577,100 @@ class _EmployeeDetailsListState extends State<EmployeeDetailsList> {
                           ),
                           if (shiftstatus == 1)
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(left: 10,right: 10),
                               child: Container(
                                   width: 120,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                      onPressed: initialindex == 0
+                                          ? null
+                                          : () {
+                                              final employeeProvider =
+                                                  Provider.of<EmployeeProvider>(
+                                                      context,
+                                                      listen: false);
+                                    
+                                              // Get the employee ID of the current employee
+                                              final employeeId =
+                                                  employeeResponse[index]
+                                                      .empPersonid;
+                                    
+                                              // Update the employee ID in the provider
+                                              employeeProvider
+                                                  .updateEmployeeId(employeeId!);
+                                    
+                                              // Navigate to the ProductionQuantityPage
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EmpProductionEntryPage(
+                                                    empid: employee.empPersonid!,
+                                                    processid: process_id ?? 1,
+                                                    deptid: widget.deptid,
+                                                    isload: true,
+                                                    attenceid:
+                                                        employee.attendanceid,
+                                                    attendceStatus:
+                                                        employee.flattstatus,
+                                                    // shiftId: widget.shiftid,
+                                                    psid: widget.psid,
+                                                  ),
+                                                ),
+                                              );
+                                    
+                                              // Fetch employee list
+                                              employeeApiService.employeeList(
+                                                context: context,
+                                                processid:
+                                                    employee.processId ?? 0,
+                                                deptid: widget.deptid ?? 1,
+                                                psid: widget.psid ?? 0,
+                                              );
+                                            },
+                                      child: Text("Add"),
+                                    ),
+                                  )),
+                            )
+                          else if (shiftstatus == 2)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                 width: 120,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
                                     onPressed: initialindex == 0
                                         ? null
                                         : () {
                                             final employeeProvider =
-                                                Provider.of<EmployeeProvider>(
-                                                    context,
+                                                Provider.of<EmployeeProvider>(context,
                                                     listen: false);
-
+                                  
                                             // Get the employee ID of the current employee
                                             final employeeId =
-                                                employeeResponse[index]
-                                                    .empPersonid;
-
+                                                employeeResponse[index].empPersonid;
+                                  
                                             // Update the employee ID in the provider
                                             employeeProvider
                                                 .updateEmployeeId(employeeId!);
-
+                                            print(shiftstatus);
+                                  
+                                            _closeShiftPop(
+                                                context,
+                                                employee.attendanceid ?? "",
+                                                employee.flattstatus ?? 0,
+                                                employee.empPersonid ?? 0,
+                                                employee.processId ?? 0);
+                                  
                                             // Navigate to the ProductionQuantityPage
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EmpProductionEntryPage(
-                                                  empid: employee.empPersonid!,
-                                                  processid: process_id ?? 1,
-                                                  deptid: widget.deptid,
-                                                  isload: true,
-                                                  attenceid:
-                                                      employee.attendanceid,
-                                                  attendceStatus:
-                                                      employee.flattstatus,
-                                                  // shiftId: widget.shiftid,
-                                                  psid: widget.psid,
-                                                ),
-                                              ),
-                                            );
-
-                                            // Fetch employee list
-                                            employeeApiService.employeeList(
-                                              context: context,
-                                              processid:
-                                                  employee.processId ?? 0,
-                                              deptid: widget.deptid ?? 1,
-                                              psid: widget.psid ?? 0,
-                                            );
                                           },
-                                    child: Text("Add"),
-                                  )),
-                            )
-                          else if (shiftstatus == 2)
-                            ElevatedButton(
-                              onPressed: initialindex == 0
-                                  ? null
-                                  : () {
-                                      final employeeProvider =
-                                          Provider.of<EmployeeProvider>(context,
-                                              listen: false);
-
-                                      // Get the employee ID of the current employee
-                                      final employeeId =
-                                          employeeResponse[index].empPersonid;
-
-                                      // Update the employee ID in the provider
-                                      employeeProvider
-                                          .updateEmployeeId(employeeId!);
-                                      print(shiftstatus);
-
-                                      _closeShiftPop(
-                                          context,
-                                          employee.attendanceid ?? "",
-                                          employee.flattstatus ?? 0,
-                                          employee.empPersonid ?? 0,
-                                          employee.processId ?? 0);
-
-                                      // Navigate to the ProductionQuantityPage
-                                    },
-                              child: Text("Reopen",
-                                  style: TextStyle(color: Colors.red)),
+                                    child: Text("Reopen",
+                                        style: TextStyle(color: Colors.red)),
+                                  ),
+                                ),
+                              ),
                             )
                         ],
                       ),

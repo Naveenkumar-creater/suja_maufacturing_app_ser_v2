@@ -1361,7 +1361,7 @@ void _closeShiftPop(BuildContext context) {
                                                                 color: Colors
                                                                     .black87)),
                                                         SizedBox(
-                                                          width: 58,
+                                                          width: 60,
                                                         ),
                                                         Text("${totalGoodQty}",
                                                             style: TextStyle(
@@ -1468,7 +1468,7 @@ void _closeShiftPop(BuildContext context) {
                                                                 fontSize: 17,
                                                                 color: Colors
                                                                     .black87)),
-                                                        SizedBox(width: 55),
+                                                        SizedBox(width: 60),
                                                         Text(
                                                           "${achivedTargetQty == null ? "0" : achivedTargetQty}",
                                                           style: TextStyle(
