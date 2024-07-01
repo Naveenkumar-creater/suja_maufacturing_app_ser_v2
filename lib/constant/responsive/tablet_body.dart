@@ -139,7 +139,7 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
                     Container(
                       child: MyDrawer(),
                      width: 250,
-                  height: size.height*0.95,
+                  height: size.height*0.94,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.grey[200],
@@ -153,7 +153,7 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
                       child: Column(
                         children: [
                           Container(
-                            height: size.height*0.95,
+                            height: size.height*0.94,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),

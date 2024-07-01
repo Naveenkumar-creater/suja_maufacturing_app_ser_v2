@@ -1589,7 +1589,7 @@ void _closeShiftPop(BuildContext context) {
                                                       Radius.circular(8))),
                                           width: double.infinity,
                                        
-                                      height: size.height*0.39,
+                                      height: size.height*0.37,
                                           child: ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: recentActivity?.length,
