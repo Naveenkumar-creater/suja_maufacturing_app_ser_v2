@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class CustomNumField extends StatelessWidget {
   final TextEditingController controller;
@@ -10,6 +9,9 @@ class CustomNumField extends StatelessWidget {
   final Function()? onEditingComplete;
   final TextInputType? keyboardtype;
   final bool isAlphanumeric;
+  final OutlineInputBorder? enabledBorder;
+  final OutlineInputBorder? focusedBorder;
+  final OutlineInputBorder? border;
 
   const CustomNumField({
     required this.controller,
@@ -18,7 +20,10 @@ class CustomNumField extends StatelessWidget {
     required this.hintText,
     this.onEditingComplete,
     this.keyboardtype,
-    this.isAlphanumeric = false, 
+    this.isAlphanumeric = false,
+    this.enabledBorder,
+    this.focusedBorder,
+    this.border,
   });
 
   @override
@@ -38,24 +43,25 @@ class CustomNumField extends StatelessWidget {
         labelStyle: const TextStyle(fontSize: 12),
         filled: true,
         fillColor: Colors.white,
-
         errorStyle: TextStyle(
-      fontSize: 10.0, // Adjust the font size as needed
-      height: 0.1, // Adjust the height to control spacing
-    ),
- 
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: Colors.grey, width: 1),
+          fontSize: 10.0, // Adjust the font size as needed
+          height: 0.1, // Adjust the height to control spacing
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: Colors.grey, width: 1),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: Colors.grey, width: 1),
-        ),
+        enabledBorder: enabledBorder ??
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(color: Colors.grey, width: 1),
+            ),
+        focusedBorder: focusedBorder ??
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey, width: 1),
+            ),
+        border: border ??
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(color: Colors.grey, width: 1),
+            ),
       ),
       onEditingComplete: onEditingComplete,
       validator: validation,

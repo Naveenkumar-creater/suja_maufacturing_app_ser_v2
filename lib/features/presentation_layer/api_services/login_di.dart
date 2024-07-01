@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prominous/features/presentation_layer/page/loginpage_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prominous/features/data/core/login_api_client.dart';
@@ -60,7 +61,7 @@ class LoginApiService {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ProminousLoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginPageLayout()),
         result: (route) => false,
       );
     } catch (e) {

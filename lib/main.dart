@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prominous/features/presentation_layer/page/loginpage_layout.dart';
 import 'package:prominous/features/presentation_layer/provider/edit_entry_provider.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +25,13 @@ import 'features/presentation_layer/provider/product_provider.dart';
 import 'features/presentation_layer/provider/recent_activity_provider.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //       DeviceOrientation.portraitDown
+  //   ]
+  // );
   runApp(
     const MyApp(),
   );

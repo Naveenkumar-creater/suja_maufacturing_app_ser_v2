@@ -806,7 +806,7 @@ void _closeShiftPop(BuildContext context) {
                     Form(
                       key: _formkey,
                       child: Container(
-                        height: 670,
+                       height: size.height*0.90,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -817,7 +817,7 @@ void _closeShiftPop(BuildContext context) {
                           child: Column(
                             children: [
                               Container(
-                                height: 70,
+                                height:    size.height*0.095,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -934,8 +934,8 @@ void _closeShiftPop(BuildContext context) {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      width: 230,
-                                      height: 230,
+                                      width: size.width*0.30,
+                                      height: size.height*0.30,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
@@ -1316,8 +1316,8 @@ void _closeShiftPop(BuildContext context) {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      width: 230,
-                                      height: 230,
+                               width: size.width*0.30,
+                                      height: size.height*0.30,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
@@ -1588,7 +1588,8 @@ void _closeShiftPop(BuildContext context) {
                                                   bottomRight:
                                                       Radius.circular(8))),
                                           width: double.infinity,
-                                          height: 275,
+                                       
+                                      height: size.height*0.39,
                                           child: ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: recentActivity?.length,

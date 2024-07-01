@@ -592,7 +592,8 @@ class _EditEmpProductionEntryPageState extends State<EditEmpProductionEntryPage>
                     Form(
                       key: _formkey,
                       child: Container(
-                        height: 670,
+
+                                      height: size.height*0.90,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -603,7 +604,8 @@ class _EditEmpProductionEntryPageState extends State<EditEmpProductionEntryPage>
                           child: Column(
                             children: [
                               Container(
-                                height: 70,
+                     
+                                      height: size.height*0.095,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -690,8 +692,8 @@ class _EditEmpProductionEntryPageState extends State<EditEmpProductionEntryPage>
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      width: 230,
-                                      height: 230,
+                        width: size.width*0.30,
+                                      height: size.height*0.30,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
@@ -1072,8 +1074,8 @@ class _EditEmpProductionEntryPageState extends State<EditEmpProductionEntryPage>
                                   ),
                                   Expanded(
                                     child: Container(
-                                      width: 230,
-                                      height: 230,
+                                 width: size.width*0.30,
+                                      height: size.height*0.30,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,

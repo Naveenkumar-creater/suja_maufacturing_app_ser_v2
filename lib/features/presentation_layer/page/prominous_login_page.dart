@@ -21,7 +21,8 @@ class ProminousLoginPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Column(mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(64),

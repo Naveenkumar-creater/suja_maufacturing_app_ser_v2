@@ -49,6 +49,7 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   lottie: ^3.1.0
   dropdown_search: ^5.0.6
+  flutter_svg: ^2.0.10+1
   
   
 
@@ -80,6 +81,7 @@ flutter:
     - assets/config.json
     - assets/animations/
     - assets/images/Prominous-logo-white.png
+    - assets/svg/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -91,10 +93,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Lexend
+      fonts:
+        - asset: fonts/Lexend-VariableFont_wght.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -126,7 +126,8 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
 
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Container(width: size.width,
+        child: Container(
+          width: size.width,
         height: size.height,
           child: Padding(
             padding: const EdgeInsets.only(top:32,left: 8,right: 8,bottom: 8),
@@ -138,7 +139,7 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
                     Container(
                       child: MyDrawer(),
                      width: 250,
-                  height: 710,
+                  height: size.height*0.95,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.grey[200],
@@ -152,7 +153,7 @@ final processname =  Provider.of<EmployeeProvider>(context, listen: true).user?.
                       child: Column(
                         children: [
                           Container(
-                            height: 710,
+                            height: size.height*0.95,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),

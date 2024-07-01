@@ -6,6 +6,7 @@
     "configurations": [
     
     
+    
         {
             "name": "prominous_manufacturing_app",
             "request": "launch",

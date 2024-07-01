@@ -454,6 +454,56 @@ print(employeeResponse);
                     closeShiftPop(context);
                   },
                   child: Text('Close Shift'))
+
+: ShiftStatus == 2 ?
+
+ ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.red),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true; // Indicate loading
+                    });
+
+                    try {
+                      // Perform all asynchronous operations
+                      await openShift();
+                      await shiftStatusService.getShiftStatus(
+                          context: context,
+                          deptid: widget.deptid,
+                          processid: widget.processid);
+                      await employeeApiService.employeeList(
+                          context: context,
+                          deptid: widget.deptid ?? 1,
+                          processid: widget.processid ?? 0,
+                          psid: widget.psid ?? 0);
+
+                          
+                      await attendanceCountService.getAttCount(
+                                      context: context,
+                                      id: widget.processid ?? 0, deptid:widget.deptid ?? 1 , psid: widget.psid ?? 0);
+                                       await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
+      await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: widget.psid ??0);
+
+
+
+                    } catch (e) {
+                      // Handle any errors that occur during the async operations
+                      print('Error: $e');
+                    } finally {
+                      setState(() {
+                        isLoading = false; // Indicate completion
+                        // Update any other state variables as needed
+                      });
+                    }
+                  },
+                  child: Text('Reoopen Shift'),
+                )
+
               : ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:

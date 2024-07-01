@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prominous/constant/show_pop_error.dart';
+import 'package:prominous/constant/utilities/customwidgets/custombutton.dart';
 import 'package:prominous/features/data/core/api_constant.dart';
 import 'package:prominous/features/data/model/shift_status_model.dart';
+import 'package:prominous/features/presentation_layer/mobile_page/mobile_emp_production_entry.dart';
 import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
 import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_close_shift_widget.dart';
 import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_production_entry.dart';
@@ -17,9 +22,6 @@ import 'package:prominous/features/presentation_layer/api_services/attendace_cou
 import 'package:prominous/features/presentation_layer/api_services/employee_di.dart';
 import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import '../../../../constant/request_model.dart';
-import '../../../../constant/show_pop_error.dart';
-
 
 class MobileEmployeeDetailsList extends StatefulWidget {
   // final int id;
@@ -39,12 +41,15 @@ class MobileEmployeeDetailsList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MobileEmployeeDetailsList> createState() => _MobileEmployeeDetailsListState();
+  State<MobileEmployeeDetailsList> createState() =>
+      _MobileEmployeeDetailsListState();
 }
 
 class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
   EmployeeApiService employeeApiService = EmployeeApiService();
   AttendanceCountService attendanceCountService = AttendanceCountService();
+  final ScrollController _scrollController1 = ScrollController();
+  int? _selectedIndex; // State variable to store the selected index
 
   late int? initialindex;
   bool isLoading = true;
@@ -264,7 +269,7 @@ class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        EmpProductionEntryPage(
+                                        MobileEmpProductionEntryPage(
                                       empid: empPersonid!,
                                       processid: processid ?? 1,
                                       deptid: widget.deptid,
@@ -276,8 +281,6 @@ class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
                                     ),
                                   ),
                                 );
-
-                             
                               } catch (error) {
                                 // Handle and show the error message here
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -324,348 +327,110 @@ class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
             .user
             ?.shiftStatusdetailEntity
             ?.psMpmId;
+    double ScreenWidth = MediaQuery.of(context).size.width;
+    double Screenheight = MediaQuery.of(context).size.height;
 
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  height: 80,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(8)),
-                    color: Color.fromARGB(255, 45, 54, 104),
+        padding: const EdgeInsets.only(left:8.0,right: 8),
+        child: Container( decoration: BoxDecoration(
+                    // color: Color.fromARGB(150, 235, 236, 255),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(width: 1, color: Colors.grey.shade400)),
+          child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: employeeResponse?.length ?? 0,
+              itemBuilder: (context, index) {
+                final employee = employeeResponse![index];
+                DateTime now = DateTime.now();
+                String today = DateFormat('yyyy-MM-dd').format(now);
+          
+                String? dt = employee.flattdate;
+                int? shiftstatus = employee?.flattshiftstatus;
+                initialindex = employee.flattstatus;
+          
+                String? flattDate = dt; // Parse dt to DateTime if not null
+          
+                String attdate = flattDate ?? "";
+                return GestureDetector(
+                  child: Container(alignment: Alignment.center,width: double.infinity,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(border: Border(bottom:BorderSide(width: 1,color: Colors.grey.shade300) ),
+                      color: _selectedIndex == index
+                          ? Color.fromARGB(110, 163, 173, 236)
+                          : null,
+                    ), // Set unique background color for selected tile
+                    child: Column(mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          employee!.personFname ?? "",
+                          style: TextStyle(
+                              color: Colors.black54, fontFamily: "Lexend"),
+                        ),
+                       
+                        // _selectedIndex != index
+                        //     ? Container(
+                        //         width: double.infinity,
+                        //         height: 1,
+                        //         decoration:
+                        //             BoxDecoration(color: Colors.grey.shade300),
+                        //       )
+                        //     : Container(
+                        //         width: double.infinity,
+                        //         height: 0,
+                        //         decoration:
+                        //             BoxDecoration(color: Colors.grey.shade300),
+                        //       )
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Container(
-                            width: 50,
-                            child: Text('S.NO',
-                                style: TextStyle(color: Colors.white))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            alignment: Alignment.center,
-                            width: 120,
-                            child: Text('Name',
-                                style: TextStyle(color: Colors.white))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 100,
-                          alignment: Alignment.center,
-                          child: Text('Prev Product',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 150,
-                          alignment: Alignment.center,
-                          child: Text('Prev Time',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 120,
-                          alignment: Alignment.center,
-                          child: Text('Production Qty',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 90,
-                          alignment: Alignment.center,
-                          child: Text('Attendance',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 120,
-                          alignment: Alignment.center,
-                          child: Text('Allocation',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 100,
-                          alignment: Alignment.center,
-                          child:
-                              Text('', style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                    ],
-                  )),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: employeeResponse?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final employee = employeeResponse![index];
-                    DateTime now = DateTime.now();
-                    String today = DateFormat('yyyy-MM-dd').format(now);
-
-                    String? dt = employee.flattdate;
-                    int? shiftstatus = employee?.flattshiftstatus;
-                    initialindex = employee.flattstatus;
-
-                    String? flattDate = dt; // Parse dt to DateTime if not null
-
-                    String attdate =
-                        flattDate ?? ""; // Format flattDate if not null
-
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1, color: Colors.grey.shade300)),
-                        color: index % 2 == 0
-                            ? Colors.grey.shade50
-                            : Colors.grey.shade100,
-                      ),
-                      height: 85,
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: 50,
-                                  child: Text('${index + 1}',
-                                      style: TextStyle(
-                                          color: Colors.grey.shade600,
-                                          fontSize: 12))),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                alignment: Alignment.center,
-                                width: 125,
-                                child: Text(employee?.personFname ?? '',
-                                    style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12))),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                alignment: Alignment.center,
-                                width: 100,
-                                child: Text(employee?.productName ?? '',
-                                    style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12))),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                alignment: Alignment.center,
-                                width: 150,
-                                child: Text(employee.timing.toString(),
-                                    style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12))),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 120,
-                              alignment: Alignment.center,
-                              child: Text(employee.productQty.toString() ?? "",
-                                  style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontSize: 12)),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 90,
-                              child: ToggleSwitch(
-                                minWidth: 40.0,
-                                cornerRadius: 20.0,
-                                activeBgColors: [
-                                  [Colors.red[800]!],
-                                  [Colors.green[800]!]
-                                ],
-                                activeFgColor: Colors.white,
-                                inactiveBgColor: Colors.grey,
-                                initialLabelIndex: initialindex,
-                                totalSwitches: 2,
-                                labels: ['A', 'P'],
-                                radiusStyle: true,
-                                onToggle: (index) async {
-                                  await sendAttendance(
-                                    index,
-                                    employee?.attendanceid ?? "",
-                                    employee.empPersonid,
-                                    employee.flattdate,
-                                  );
-                                  print('switched to: $index');
-
-                                  employeeApiService.employeeList(
-                                      context: context,
-                                      processid: employee.processId ?? 0,
-                                      deptid: widget.deptid ?? 1,
-                                      psid: widget.psid ?? 0);
-
-                                  attendanceCountService.getAttCount(
-                                      context: context,
-                                      id: employee.processId ?? 0,
-                                      deptid: widget.deptid,
-                                      psid: widget.psid ?? 0);
-                                },
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 120,
-                              child: ElevatedButton(
-                                child: Text("Change"),
-                                onPressed: initialindex ==
-                                        0 // Disable the button if toggle label is "A"
-                                    ? null
-                                    : () {
-                                        setState(() {
-                                          showEmployeeAllocationPopup(
-                                              employee.empPersonid,
-                                              employee.mfgpempid,
-                                              employee.processId,
-                                              widget.deptid ?? 0
-
-                                              // widget?.shiftid ??0,
-
-                                              );
-                                          employeeApiService.employeeList(
-                                              context: context,
-                                              processid:
-                                                  employee.processId ?? 0,
-                                              deptid: widget.deptid ?? 1,
-                                              psid: widget.psid ?? 0);
-                                        });
-                                      },
-                              ),
-                            ),
-                          ),
-                          if (shiftstatus == 1)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  width: 100,
-                                  child: ElevatedButton(
-                                    onPressed: initialindex == 0
-                                        ? null
-                                        : () {
-                                            final employeeProvider =
-                                                Provider.of<EmployeeProvider>(
-                                                    context,
-                                                    listen: false);
-
-                                            // Get the employee ID of the current employee
-                                            final employeeId =
-                                                employeeResponse[index]
-                                                    .empPersonid;
-
-                                            // Update the employee ID in the provider
-                                            employeeProvider
-                                                .updateEmployeeId(employeeId!);
-
-                                            // Navigate to the ProductionQuantityPage
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EmpProductionEntryPage(
-                                                  empid: employee.empPersonid!,
-                                                  processid: process_id ?? 1,
-                                                  deptid: widget.deptid,
-                                                  isload: true,
-                                                  attenceid:
-                                                      employee.attendanceid,
-                                                  attendceStatus:
-                                                      employee.flattstatus,
-                                                  // shiftId: widget.shiftid,
-                                                  psid: widget.psid,
-                                                ),
-                                              ),
-                                            );
-
-                                            // Fetch employee list
-                                            employeeApiService.employeeList(
-                                              context: context,
-                                              processid:
-                                                  employee.processId ?? 0,
-                                              deptid: widget.deptid ?? 1,
-                                              psid: widget.psid ?? 0,
-                                            );
-                                          },
-                                    child: Text("Add"),
-                                  )),
-                            )
-                          else if (shiftstatus == 2)
-                            ElevatedButton(
-                              onPressed: initialindex == 0
-                                  ? null
-                                  : () {
-                                      final employeeProvider =
-                                          Provider.of<EmployeeProvider>(context,
-                                              listen: false);
-
-                                      // Get the employee ID of the current employee
-                                      final employeeId =
-                                          employeeResponse[index].empPersonid;
-
-                                      // Update the employee ID in the provider
-                                      employeeProvider
-                                          .updateEmployeeId(employeeId!);
-                                      print(shiftstatus);
-
-                                      _closeShiftPop(
-                                          context,
-                                          employee.attendanceid ?? "",
-                                          employee.flattstatus ?? 0,
-                                          employee.empPersonid ?? 0,
-                                          employee.processId ?? 0);
-
-                                      // Navigate to the ProductionQuantityPage
-                                    },
-                              child: Text("Reopen",
-                                  style: TextStyle(color: Colors.red)),
-                            )
-                        ],
-                      ),
-                    );
+                  onTap: () async {
+                    setState(() {
+                      _selectedIndex = index;
+                      // Update selected index
+                    });
+                    //                         final processId = processList[index].processId ?? 0;
+                    //                         final deptId = processList[index].deptId ?? 0;
+                    //                         try {
+                    //                           // Perform shiftStatusService first
+                    //                                 // Navigator.pop(context);
+                    //                           await shiftStatusService.getShiftStatus(
+                    //                               context: context,
+                    //                               deptid: deptId,
+                    //                               processid: processId);
+                    //                           final psId = Provider.of<ShiftStatusProvider>(context,
+                    //                                       listen: false)
+                    //                                   .user
+                    //                                   ?.shiftStatusdetailEntity
+                    //                                   ?.psId ??
+                    //                               0;
+                              
+                    //                           // Perform employeeApiService next
+                    //                           await employeeApiService.employeeList(
+                    //                               context: context,
+                    //                               processid: processId,
+                    //                               deptid: deptId,
+                    //                               psid: psId);
+                              
+                    //                           // Continue with other asynchronous operations sequentially
+                    //                           await attendanceCountService.getAttCount(
+                    //                               context: context, id: processId, deptid: deptId, psid: psId);
+                              
+                    //                           await actualQtyService.getActualQty(
+                    //                               context: context, id: processId,psid: psId);
+                              
+                    //                           await planQtyService.getPlanQty(
+                    //                               context: context, id: processId, psid: psId);
+                    // Navigator.pop(context);
+                              
+                    //                         } catch (e) {
+                    //                           // Handle any errors that occur during the async operations
+                    //                           print('Error fetching data: $e');
+                    //                         }
                   },
-                ),
-              )
-            ],
-          ),
+                );
+              }),
         ),
       ),
     );

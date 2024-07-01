@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:prominous/features/presentation_layer/api_services/employee_di.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
@@ -17,17 +19,17 @@ import 'package:prominous/features/presentation_layer/provider/process_provider.
 import 'package:prominous/features/presentation_layer/provider/shift_status_provider.dart';
 import 'package:prominous/features/presentation_layer/widget/homepage_widget/shift_status_widget.dart';
 
-import '../../api_services/employee_di.dart';
 
-class MyDrawer extends StatefulWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+
+class MobileMyDrawer extends StatefulWidget {
+  const MobileMyDrawer({Key? key}) : super(key: key);
   static late String? processName;
 
   @override
-  State<MyDrawer> createState() => _MyDrawerState();
+  State<MobileMyDrawer> createState() => _MobileMyDrawerState();
 }
 
-class _MyDrawerState extends State<MyDrawer> {
+class _MobileMyDrawerState extends State<MobileMyDrawer> {
   ProcessApiService processApiService = ProcessApiService();
   EmployeeApiService employeeApiService = EmployeeApiService();
   LoginApiService logout = LoginApiService();
@@ -75,49 +77,66 @@ class _MyDrawerState extends State<MyDrawer> {
 
     return Drawer(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       elevation: 0,
+      width: 250,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
+              
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 170,
-                height: 170,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Hello,',
-                      style:
-                          const TextStyle(fontSize: 18, color: Colors.black54),
-                    ),
-                    Text(
-                      '$userName',
-                      style:
-                          const TextStyle(fontSize: 24, color: Colors.black54),
-                    ),
-                  ],
-                ),
+              padding: const EdgeInsets.only(top:70.0,left: 10),
+              child: Column(
+              
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+          radius: 30, // Adjust the radius as needed
+          backgroundColor: Color.fromARGB(255, 80, 96, 203), // Background color
+          child: Icon(
+            Icons.person, // Profile icon
+            size: 30, // Icon size
+            color: Colors.white, // Icon color
+          ),
+        ),
+SizedBox(width: 10,),
+                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Text(
+                                               'Hello,',
+                                               style:
+                            const TextStyle(fontSize: 18, color: Color.fromARGB(255, 80, 96, 203),fontFamily: "Lexend"),
+                                             ),
+                                             Text(
+                    '${userName}',
+                    style:
+                        const TextStyle(fontSize: 24,  color:Color.fromARGB(255, 80, 96, 203),fontFamily: "Lexend",fontWeight: FontWeight.w500),
+                  ),
+                         ],
+                       ),
+               
+                    ],
+                  ),
+                 
+               
+                ],
               ),
             ),
+            SizedBox(height: 35,),
             ListTile(
               title: Text(
                 'PROCESS AREA ',
-                style: const TextStyle(fontSize: 16, color: Colors.black),
+                style: const TextStyle(fontSize: 16, color: Colors.black,fontFamily: "Lexend"),
               ),
             ),
             Container(
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
               width: double.infinity,
-              height: 400,
+              height: 450,
               child: Scrollbar(
                 controller: _scrollController,
                 radius: Radius.circular(8),
@@ -132,12 +151,35 @@ class _MyDrawerState extends State<MyDrawer> {
                             padding: EdgeInsets.only(bottom: 12, top: 12, left: 16),
                             decoration: BoxDecoration(
                               color: _selectedIndex == index
-                                  ? Colors.blue.withOpacity(0.3)
+                                  ? Color.fromARGB(110, 163, 173, 236)
                                   : null,
                             ), // Set unique background color for selected tile
-                            child: Text(
-                              processList![index].processName ?? "",
-                              style: TextStyle(color: Colors.black54),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  processList![index].processName ?? "",
+                                  style: TextStyle(color: Colors.black54,fontFamily: "Lexend"),
+                                ),
+                                SizedBox(height: 15,),
+                                _selectedIndex != index
+                                  ? 
+                                 
+                                Container(
+                                  width: double.infinity,
+                                  height: 1,
+                                  decoration: BoxDecoration(
+color: Colors.grey.shade100
+                                  ),
+                                )
+                                : Container(
+                                  width: double.infinity,
+                                  height: 0,
+                                  decoration: BoxDecoration(
+color: Colors.grey.shade100
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                       onTap: () async {
@@ -177,7 +219,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
                           await planQtyService.getPlanQty(
                               context: context, id: processId, psid: psId);
-
+Navigator.pop(context);
                   
                         } catch (e) {
                           // Handle any errors that occur during the async operations
@@ -187,14 +229,18 @@ class _MyDrawerState extends State<MyDrawer> {
                     )),
               ),
             ),
+
+            SizedBox(height: 50,),
             ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: Colors.black,
-              ),
+              leading: SvgPicture.asset(
+                    'assets/svg/log-out.svg',
+                    color: Colors.red,
+                          width: 25,
+
+                  ),
               title: const Text(
                 'LOGOUT',
-                style: const TextStyle(fontSize: 16, color: Colors.black),
+                style: const TextStyle(fontSize: 16, color: Colors.black,fontFamily: "Lexend"),
               ),
               onTap: () {
                 logout.logOutUser(context);

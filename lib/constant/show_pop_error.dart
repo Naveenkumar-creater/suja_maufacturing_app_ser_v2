@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ShowError {
+
   static void showAlert(BuildContext? context, String message) {
     if (context != null) {
       showDialog(
@@ -23,3 +24,4 @@ class ShowError {
     }
   }
 }
+
