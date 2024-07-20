@@ -9,7 +9,7 @@ class EmpDetailsClient {
   dynamic getEmpDetails(String token) async {
     ApiRequestDataModel requestData = ApiRequestDataModel(
       clientAuthToken: token,
-      apiFor: "emp_details",
+      apiFor: "emp_details_v1",
     );
 
     const timeoutDuration = Duration(seconds: 10);
@@ -46,12 +46,12 @@ class EmpDetailsClient {
 
         return responseJson;
       } else {
-        throw ("Invalid Operator Id");
+        throw ("No Employee List");
       }
     } on TimeoutException {
       throw ('Connection timed out. Please check your internet connection.');
     } catch (e) {
-      throw ("Invalid Operator Id");
+      throw ("No Employee List");
     }
   }
 }

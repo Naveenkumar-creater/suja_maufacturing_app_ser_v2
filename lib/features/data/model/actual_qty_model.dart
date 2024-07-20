@@ -9,7 +9,7 @@ class ActualQuantityModel extends ActualQtyEntity {
 
   factory ActualQuantityModel.fromJson(Map<String, dynamic> json) {
     return ActualQuantityModel(
-      actualQty: json["response_data"]["Actual_Qty"] == null 
+      actualQty: json["response_data"]["Actual_Qty"].isEmpty  
           ? ActualQty(actualQty: 0) // Set default value if Actual_Qty is null
           : ActualQty.fromJson(json["response_data"]["Actual_Qty"]),
     );

@@ -1,5 +1,5 @@
 class ProductionEntryReqModel {
-    ProductionEntryReqModel({
+    ProductionEntryReqModel( {
       required this.apiFor,
       required this.clientAuthToken,
         required this.ipdMpmId,
@@ -16,13 +16,14 @@ class ProductionEntryReqModel {
         required this.ipdFromTime,
         required this.ipdPcId,
         // required this.mpmBatchProcess,
-        required this.emppersonId,
+        // required this.emppersonId,
         required this.ipdpaid,
         required this.targetqty,
-        required this.batchno,
+        // required this.batchno,
         required this.ipdpsid,
         required this.ppid,
-         required this.shiftid
+         required this.shiftid,
+         required this.ipdreworkableqty
 
     });
       final String? apiFor;
@@ -41,13 +42,14 @@ class ProductionEntryReqModel {
     final String? ipdFromTime;
     final int? ipdPcId;
     // final int? mpmBatchProcess;
-    final int? emppersonId;
+    // final int? emppersonId;
     final int?  ipdpaid;
     final int?targetqty;
-    final int?batchno;
+    // final int?batchno;
     final int? ipdpsid;
     final int? ppid;
     final int? shiftid;
+    final int? ipdreworkableqty;
     // factory ProductionEntryReqModel.fromJson(Map<String, dynamic> json){ 
     //     return ProductionEntryReqModel(
     //         ipdMpmId: json["ipd_mpm_id"],
@@ -84,17 +86,43 @@ class ProductionEntryReqModel {
         "ipd_item_id": ipdItemId,
         "ipd_id": ipdId,
         "ipd_from_time": ipdFromTime,
-        "emp_personid": emppersonId,
+        // "emp_personid": emppersonId,
           'ipd_pa_id':  ipdpaid,
           "ipd_ps_id":ipdpsid,
           "pp_plan_qty":targetqty,
-          "ipd_batch_no":batchno,
+          // "ipd_batch_no":batchno,
           "pp_id":ppid,
-          "pp_shift_id": shiftid
+          "pp_shift_id": shiftid,
+
+          "ipd_reworkable_qty":ipdreworkableqty
 
     };
 
 }
 
 
-  
+  // {
+  //     'client_aut_token': "",
+  //     'api_for': "edit_entry_v1",
+  //       "ipd_mpm_id": 1,
+  //       "ipd_to_time": "",
+  //       "ipd_rework_flag": 1,
+  //       "ipd_asset_id": 40,
+  //       "ipd_card_no": 1001,
+  //       "ipd_pc_id":1,
+  //       "ipd_rej_qty": 50,
+  //       "ipd_dept_id": 1057,
+  //       "ipd_date": "",
+  //       "ipd_good_qty": 50,
+  //       "ipd_item_id": 57,
+  //       "ipd_id": 2,
+  //       "ipd_from_time": "",
+  //         'ipd_pa_id':  1,
+  //         "ipd_ps_id":120,
+  //         "pp_plan_qty":500,
+  //         "pp_id":1,
+  //         "pp_shift_id": 1,
+
+  //         "ipd_reworkable_qty":20
+
+  //   };

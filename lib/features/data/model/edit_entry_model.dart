@@ -18,7 +18,7 @@ class EditEntryModel extends EditEntryEntity{
 }
 
 class EditEntry extends EditEntrySubEntity {
-    EditEntry({
+    EditEntry( {
         required this.ipdMpmId,
         required this.ipdToTime,
         required this.ipdReworkFlag,
@@ -34,15 +34,28 @@ class EditEntry extends EditEntrySubEntity {
         required this.ipdFromTime,
         required this.ipdPcId,
         required this.ipdPaId,
-        required this.personId,
+        // required this.personId,
         required this.totalGoodqty,
-        required this.totalRejqty
+         required this.totalRejqty,
+         required this.ipdPwsEmpCount ,
+
+     required this. ipdReworkableQty,
+      required this.ipdScrapQty,
+       required this.pwsId
+
+
+
+
     }):super(ipdAssetId:ipdAssetId,ipdBatchNo:ipdBatchNo,ipdCardNo:ipdCardNo,ipdDate: ipdDate,ipdDeptId:ipdDeptId,ipdFromTime: ipdFromTime,
     
     ipdGoodQty: ipdGoodQty,ipdId: ipdId,ipdItemId:ipdItemId,ipdMpmId: ipdMpmId,ipdPaId: ipdPaId,ipdPcId: ipdPcId,ipdRejQty:ipdRejQty ,
     
-    ipdReworkFlag: ipdReworkFlag,ipdToTime: ipdToTime,personId: personId, totalGoodqty:totalGoodqty,
-    totalRejqty:totalRejqty
+    ipdReworkFlag: ipdReworkFlag,ipdToTime: ipdToTime,
+    // personId: personId, 
+    totalGoodqty:totalGoodqty,
+    // totalRejqty:totalRejqty,
+
+    ipdPwsEmpCount: ipdPwsEmpCount, ipdReworkableQty: ipdReworkableQty ,ipdScrapQty: ipdScrapQty, pwsId: pwsId, totalRejqty: totalRejqty
      );
 
     final int? ipdMpmId;
@@ -60,9 +73,15 @@ class EditEntry extends EditEntrySubEntity {
     final String? ipdFromTime;
     final int? ipdPcId;
     final int? ipdPaId;
-    final int? personId;
+    // final int? personId;
     final int?  totalGoodqty;
     final int?  totalRejqty;
+
+        final int ? ipdPwsEmpCount ;
+
+     final int ? ipdReworkableQty;
+      final int? ipdScrapQty;
+       final int ?pwsId;
 
     factory EditEntry.fromJson(Map<String, dynamic> json){ 
         return EditEntry(
@@ -81,9 +100,36 @@ class EditEntry extends EditEntrySubEntity {
             ipdFromTime: json["ipd_from_time"],
             ipdPcId: json["ipd_pc_id"],
             ipdPaId: json["ipd_pa_id"],
-            personId: json["person_id"],
+            // personId: json["person_id"],
               totalGoodqty:json["totalgoodqty"],
-      totalRejqty:json["totalrejqty"]
+      totalRejqty:json["totalrejqty"],
+          
+     ipdPwsEmpCount: json["ipd_pws_emp_count"],
+
+      ipdReworkableQty: json["ipd_reworkable_qty"],
+      ipdScrapQty: json["ipd_scrap_qty"],
+       pwsId: json["pws_id"],
+
+
+
+
+
+
+
+
+  
+      
+
+
+
+
+
+
+
+  
+
+
+ 
 
         );
     }

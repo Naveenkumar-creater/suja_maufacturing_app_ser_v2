@@ -13,7 +13,7 @@ class ShiftStatusDatasourceImpl extends ShiftStatusDatasource {
   Future<ShiftStatusModel> getShiftStatus(int deptid,int processid, String token) async {
   
       ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "shift_status", clientAuthToken: token,deptId:deptid, processId: processid);
+          apiFor: "shift_status_v1", clientAuthToken: token,deptId:deptid, processId: processid);
      final response = await ApiConstant.makeApiRequest(requestBody: requestbody);
     final result = ShiftStatusModel.fromJson(response);
       print(result);

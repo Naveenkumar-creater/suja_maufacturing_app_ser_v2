@@ -11,7 +11,7 @@ import 'package:prominous/features/presentation_layer/provider/asset_barcode_pro
 
 class AssetBarcodeService {
   Future<void> getAsset(
-      {required BuildContext context, required int processid,required int assetid}) async {
+      {required BuildContext context, required int pwsid,required int assetid}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -26,7 +26,7 @@ class AssetBarcodeService {
         ),
       );
 
-      ScanAssetBarcodeEntity user = await asset.execute(processid, assetid,token);
+      ScanAssetBarcodeEntity user = await asset.execute( pwsid, assetid, token) ;
 
       Provider.of<AssetBarcodeProvider>(context, listen: false).setUser(user);
 

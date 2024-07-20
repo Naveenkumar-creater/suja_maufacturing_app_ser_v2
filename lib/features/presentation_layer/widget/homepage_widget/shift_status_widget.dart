@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/listofworkstation_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/plan_qty_di.dart';
 
 import 'package:provider/provider.dart';
@@ -42,6 +44,7 @@ class _ProcessQtyWidgetState extends State<ShitStatusWidget> {
     AttendanceCountService attendanceCountService = AttendanceCountService();
     ActualQtyService actualQtyService =ActualQtyService();
   PlanQtyService planQtyService=PlanQtyService();
+   ListofworkstationService listofworkstationService=ListofworkstationService();
   bool isLoading = false;
 
   @override
@@ -114,7 +117,7 @@ print(employeeResponse);
       return Dialog(
         child: Container(
           width: 400,
-          height: 200,
+          height: 400,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
@@ -218,7 +221,7 @@ print(employeeResponse);
                             onPressed: () async {
                               // Using a separate variable to manage loading state within this function
                               bool isLoading = true;
-
+        
                               try {
                                 // Perform all asynchronous operations
                                 await closeShift();
@@ -227,23 +230,26 @@ print(employeeResponse);
                                   deptid: widget.deptid,
                                   processid: widget.processid,
                                 );
-
+        
                                 await employeeApiService.employeeList(
                                   context: context,
                                   deptid: widget.deptid ?? 1,
                                   processid: widget.processid ?? 0,
                                   psid: widget.psid ?? 0,
                                 );
+                               await listofworkstationService.getListofWorkstation(context: context, deptid: widget.deptid ?? 1057, psid: widget.psid ?? 0, processid: widget.processid ?? 0);
+        
+                                
                                   await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: 0);
                                      attendanceCountService.getAttCount(
                                       context: context,
                                       id: widget.processid ?? 0,
                                       deptid: widget.deptid ??0,
                                       psid: widget.psid ?? 0);
-
-      await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
-      await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: widget.psid ??0);
-
+        
+              await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
+              await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: widget.psid ??0);
+        
                                 Navigator.of(context).pop();
                               } catch (e) {
                                 // Handle any errors that occur during the async operations
@@ -400,13 +406,15 @@ print(employeeResponse);
         ?.shiftStatusdetailEntity
         ?.psShiftId;
 
+        Size size=MediaQuery.of(context).size;
+
     //  int? achivedProduct=;
 
     return Container(
-      height: 74,
-      width: 490,
+    width: 506.w,
+    height: 86.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+         color: Color.fromARGB(150, 235, 236, 255), 
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -420,27 +428,25 @@ print(employeeResponse);
                 return Text(
                   '${snapshot.data}',
                   style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      color: Colors.black54),
+                 color: Colors.black87,fontFamily: "Lexend",fontSize: 20.sp)
                 );
               } else
                 return Text(
                   'Loading',
-                  style: TextStyle(fontSize: 18, color: Colors.black54),
+                  style: TextStyle(fontSize: 18.sp, color: Colors.black54),
                 );
             },
           ),
           SizedBox(
-            width: 10,
+            width: 8.w,
           ),
           ShiftStatus == 1
-              ? Text('Shift Id:${Shiftid}',
-                  style: TextStyle(fontSize: 17, color: Colors.black54))
+              ? Text('Shift ID:${Shiftid}',
+                  style: TextStyle(color: Colors.black87,fontFamily: "Lexend",fontSize: 22.sp))
               : Text('No Shift',
-                  style: TextStyle(fontSize: 17, color: Colors.black54)),
+                  style: TextStyle(color: Colors.black87,fontFamily: "Lexend",fontSize: 22.sp)),
           SizedBox(
-            width: 10,
+            width: 8.w,
           ),
           ShiftStatus == 1
               ? ElevatedButton(
@@ -455,9 +461,7 @@ print(employeeResponse);
                   },
                   child: Text('Close Shift'))
 
-: ShiftStatus == 2 ?
-
- ElevatedButton(
+: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red),
@@ -481,54 +485,7 @@ print(employeeResponse);
                           deptid: widget.deptid ?? 1,
                           processid: widget.processid ?? 0,
                           psid: widget.psid ?? 0);
-
-                          
-                      await attendanceCountService.getAttCount(
-                                      context: context,
-                                      id: widget.processid ?? 0, deptid:widget.deptid ?? 1 , psid: widget.psid ?? 0);
-                                       await planQtyService.getPlanQty(context: context, id: widget.processid ??0, psid: widget.psid ??0 );
-      await actualQtyService.getActualQty(context: context, id: widget.processid??0,psid: widget.psid ??0);
-
-
-
-                    } catch (e) {
-                      // Handle any errors that occur during the async operations
-                      print('Error: $e');
-                    } finally {
-                      setState(() {
-                        isLoading = false; // Indicate completion
-                        // Update any other state variables as needed
-                      });
-                    }
-                  },
-                  child: Text('Reoopen Shift'),
-                )
-
-              : ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                  ),
-                  onPressed: () async {
-                    setState(() {
-                      isLoading = true; // Indicate loading
-                    });
-
-                    try {
-                      // Perform all asynchronous operations
-                      await openShift();
-                      await shiftStatusService.getShiftStatus(
-                          context: context,
-                          deptid: widget.deptid,
-                          processid: widget.processid);
-                      await employeeApiService.employeeList(
-                          context: context,
-                          deptid: widget.deptid ?? 1,
-                          processid: widget.processid ?? 0,
-                          psid: widget.psid ?? 0);
-
+ await listofworkstationService.getListofWorkstation(context: context, deptid: widget.deptid ?? 1057, psid: widget.psid ?? 0, processid: widget.processid ?? 0);
                           
                       await attendanceCountService.getAttCount(
                                       context: context,

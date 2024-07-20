@@ -8,6 +8,7 @@
       required this.attId,
       required  this.attStatus,
       required this.empid, required this.shiftStatus, required this.shiftId,
+      required this.pwsId
       // required this.shiftDate,
 
     });
@@ -21,6 +22,7 @@
   final int?empid;
   final int?shiftStatus;
   final int?shiftId;
+  final int?pwsId;
   // final String?shiftDate;
 
 
@@ -30,11 +32,12 @@
       'api_for': apiFor,
       "fl_att_id":attId,
       'fl_att_status':attStatus,
-      'fl_ps_id':psid,
+      'fl_att_ps_id':psid,
       'fl_att_mpm_id':processId,
       'fl_att_emp_id':empid,
       "fl_att_shift_status":shiftStatus,
-      "fl_att_shift_id":shiftId
+      "fl_att_shift_id":shiftId,
+      "fl_att_pws_id":pwsId
       // 'ps_shift_date':shiftDate  
     };
 

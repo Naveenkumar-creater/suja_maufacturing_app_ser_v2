@@ -51,8 +51,9 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
 
   Future<void> getProcess() async {
     try {
+   
       await processApiService.getProcessdetail(
-        context: context,
+        context: context, deptid: 1057,
       );
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
@@ -73,7 +74,7 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
 
     final processList =
         Provider.of<ProcessProvider>(context).user?.listofProcessEntity;
-    final userName = Provider.of<LoginProvider>(context).user?.loginId;
+    final userName = Provider.of<LoginProvider>(context).user?.userLoginEntity?.loginId;
 
     return Drawer(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

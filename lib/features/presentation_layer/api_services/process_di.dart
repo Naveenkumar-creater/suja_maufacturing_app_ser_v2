@@ -14,6 +14,7 @@ import '../../domain/usecase/process_usecase.dart';
 class ProcessApiService {
   Future<void> getProcessdetail({
     required BuildContext context,
+    required int deptid
     //required emp_mgr,
   }) async {
     try {
@@ -24,7 +25,7 @@ class ProcessApiService {
       ProcessRepository allocationRepository = ProcessRepositoryImpl(processDatasource);
       ProcessUsecase processUsecase = ProcessUsecase(allocationRepository);
 
-      ProcessEntity user = await processUsecase.execute(token);
+      ProcessEntity user = await processUsecase.execute(token,deptid);
 
       Provider.of<ProcessProvider>(context, listen: false).setUser(user);
     } catch (e) {

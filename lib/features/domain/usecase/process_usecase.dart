@@ -7,7 +7,8 @@ class ProcessUsecase {
 
   Future<ProcessEntity> execute(
     String token,
+    int deptid
   ) async {
-    return processRepository.getProcessList(token);
+    return processRepository.getProcessList(token,deptid);
   }
 }

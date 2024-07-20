@@ -1,9 +1,14 @@
-import 'dart:ffi';
+import 'dart:ffi' as ffi;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prominous/features/presentation_layer/page/loginpage_layout.dart';
 import 'package:prominous/features/presentation_layer/provider/edit_entry_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/listofempworkstation_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/listofworkstation_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/scanforworkstation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/page/loginpage.dart';
 import 'package:prominous/features/presentation_layer/page/prominous_login_page.dart';
@@ -25,13 +30,13 @@ import 'features/presentation_layer/provider/product_provider.dart';
 import 'features/presentation_layer/provider/recent_activity_provider.dart';
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //   [
-  //     DeviceOrientation.portraitUp,
-  //       DeviceOrientation.portraitDown
-  //   ]
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight
+    ]
+  );
   runApp(
     const MyApp(),
   );
@@ -92,20 +97,31 @@ class MyApp extends StatelessWidget {
           create: (_) => ShiftStatusProvider(),),
 
           ChangeNotifierProvider<EditEntryProvider>(
-          create: (_) => EditEntryProvider(),)
+          create: (_) => EditEntryProvider(),),
+            ChangeNotifierProvider<ListofworkstationProvider>(
+          create: (_) => ListofworkstationProvider(),),
+                 ChangeNotifierProvider<ListofEmpworkstationProvider>(
+          create: (_) => ListofEmpworkstationProvider(),),
+                ChangeNotifierProvider<ScanforworkstationProvider>(
+          create: (_) => ScanforworkstationProvider(),),
+
+          
 
           
         
       ],
-      child: MaterialApp(
-          title: 'prominous Manufacturing',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: Color.fromARGB(255, 45, 54, 104)),
-            useMaterial3: true,
-          ),
-          debugShowCheckedModeBanner: false,
-          home: const LoginPageLayout()),
+      child: ScreenUtilInit(
+        builder:(_,child)=> MaterialApp(
+            title: 'prominous Manufacturing',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: Color.fromARGB(255, 45, 54, 104)),
+              useMaterial3: true,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: const LoginPageLayout()),
+            designSize: const Size(1296, 800),
+      ),
     );
   }
 }

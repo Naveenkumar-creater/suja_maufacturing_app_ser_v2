@@ -9,7 +9,7 @@ import 'api_constant.dart';
 class AllocationClient {
   dynamic getallocation(int id,int deptid, String token) async {
     ApiRequestDataModel requestData = ApiRequestDataModel(
-        apiFor: "allocation", emppersonid: id,deptId: deptid, clientAuthToken: token);
+        apiFor: "allocation_v1", emppersonid: id,deptId: deptid, clientAuthToken: token);
 
     return await ApiConstant.makeApiRequest(requestBody: requestData);
   }

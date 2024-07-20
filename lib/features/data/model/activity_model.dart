@@ -5,11 +5,11 @@ class ActivityModel extends ActivityEntity{
         required this.activityProduct,
     }):super(activityEntity:activityProduct);
 
-    final List<ActivityProduct> activityProduct;
+    final List<ProcessActivity> activityProduct;
 
     factory ActivityModel.fromJson(Map<String, dynamic> json){ 
         return ActivityModel(
-            activityProduct: json["response_data"]["Allocation_Of_Product"] == null ? [] : List<ActivityProduct>.from(json["response_data"]["Allocation_Of_Product"]!.map((x) => ActivityProduct.fromJson(x))),
+            activityProduct: json["response_data"]["Process_Activity"] == null ? [] : List<ProcessActivity>.from(json["response_data"]["Process_Activity"]!.map((x) =>ProcessActivity.fromJson(x))),
         );
     }
 
@@ -19,20 +19,33 @@ class ActivityModel extends ActivityEntity{
 
 }
 
-class ActivityProduct extends ActivityProductList {
-  ActivityProduct({
-    required String paActivityName,
-    required int paId,
-    required int paMpmId,
-  }) : super(paActivityName: paActivityName, paId: paId, paMpmId: paMpmId);
+class ProcessActivity extends ProcessActivityEntity {
+  ProcessActivity
+({
+        required this.paActivityName,
+        required this.mpmName,
+        required this.pwsName,
+        required this.paId,
+        required this.paMpmId,
+    }):super(paActivityName:paActivityName,paId: paId,paMpmId:paMpmId,mpmName:mpmName ,pwsName: pwsName );
 
-  factory ActivityProduct.fromJson(Map<String, dynamic> json) {
-    return ActivityProduct(
-      paActivityName: json["pa_activity_name"] as String? ?? '',
-      paId: json["pa_id"] as int? ?? 0,
-      paMpmId: json["pa_mpm_id"] as int? ?? 0,
-    );
-  }
+    final String? paActivityName;
+    final String? mpmName;
+    final String? pwsName;
+    final int? paId;
+    final int? paMpmId;
+
+    factory ProcessActivity.fromJson(Map<String, dynamic> json){ 
+        return ProcessActivity(
+            paActivityName: json["pa_activity_name"],
+            mpmName: json["mpm_name"],
+            pwsName: json["pws_name"],
+            paId: json["pa_id"],
+            paMpmId: json["pa_mpm_id"],
+        );
+    }
+
 }
+
 
 

@@ -59,4 +59,17 @@ class ShiftStatus extends ShiftStatusdetailEntity {
         );
     }
 
+    //    "Shift_Status": {
+    //   "ps_dept_id": 1057,
+    //   "shift_to_time": "16:00:00",
+    //   "ps_shift_id": 1,
+    //   "shift_from_time": "08:00:00",
+    //   "ps_shift_status": 1,
+    //   "ps_open_time": "2024-07-05 15:33:22",
+    //   "ps_id": 130,
+    //   "ps_mpm_id": 5,
+    //   "shift_name": "genaral",
+    //   "ps_shift_date": "2024-07-05"
+    // }
+
 }

@@ -58,6 +58,7 @@ class MobileEditEmpProductionEntryPage extends StatefulWidget {
   final int?ipdid;
    final int? attendceStatus;
   final String? attenceid;
+  final int ? pwsid;
 
   MobileEditEmpProductionEntryPage(
       {Key? key,
@@ -68,7 +69,7 @@ class MobileEditEmpProductionEntryPage extends StatefulWidget {
       this.psid,
       this.attenceid,
       this.attendceStatus,
-      this.ipdid})
+      this.ipdid, this.pwsid})
       : super(key: key);
 
   @override
@@ -179,7 +180,7 @@ class _MobileEmpProductionEntryPageState
         ipdRejQty: int.tryParse(rejectedQController.text) ?? 0,
         ipdReworkFlag: reworkValue ?? empproduction.ipdReworkFlag,
         ipdGoodQty: int.tryParse(goodQController.text) ?? 0,
-        batchno: int.tryParse(batchNOController.text),
+        // batchno: int.tryParse(batchNOController.text),
         targetqty: int.tryParse(targetQtyController.text),
 
         ipdCardNo: int.tryParse(cardNoController.text.toString()),
@@ -199,10 +200,10 @@ class _MobileEmpProductionEntryPageState
         //ipdcardno: empproduction.first.ipdcardno,
         ipdItemId: product_Id,
         ipdMpmId: processid,
-        emppersonId: widget.empid ?? 0,
+        // emppersonId: widget.empid ?? 0,
         ipdpsid: widget.psid,
         ppid: ppId ?? 0,
-        shiftid: Shiftid,
+        shiftid: Shiftid, ipdreworkableqty: null,
       );
 
       final requestBodyjson = jsonEncode(requestBody.toJson());
@@ -385,7 +386,7 @@ class _MobileEmpProductionEntryPageState
     try {
       // Fetch data
    await editEntryApiservice.getEntryValues(
-          context: context, psId: widget.psid ??0, ipdid: widget.ipdid ??0, empid: widget.empid ?? 0, deptid: widget.deptid ??0,
+          context: context, psId: widget.psid ??0, ipdid: widget.ipdid ??0, pwsId: widget.pwsid ?? 0, deptid: widget.deptid ??0,
           );
 
       await productApiService.productList(
@@ -396,7 +397,7 @@ class _MobileEmpProductionEntryPageState
       await activityService.getActivity(
           context: context,
           id: widget.processid ?? 0,
-          deptid: widget.deptid ?? 0);
+          deptid: widget.deptid ?? 0, pwsId: widget.pwsid ??0);
 
       final productionEntry =
           Provider.of<EditEntryProvider>(context, listen: false)
@@ -529,7 +530,7 @@ class _MobileEmpProductionEntryPageState
 
 
     final totalGoodQty = editEntry?.totalGoodqty;
-    final totalRejQty = editEntry?.totalRejqty;
+    // final totalRejQty = editEntry?.totalRejqty;
 
     final recentActivity =
         Provider.of<RecentActivityProvider>(context, listen: false)
@@ -757,9 +758,9 @@ SizedBox(width: 10,),
                                                           fontFamily:
                                                               'Lexend')),
                                                   CardNoScanner(
-                                                    empId: widget.empid,
-                                                    processId:
-                                                        widget.processid,
+                                                    // empId: widget.empid,
+                                                    // processId:
+                                                    //     widget.processid,
                                                     onCardDataReceived:
                                                         (scannedCardNo,
                                                             scannedProductName) {
@@ -832,9 +833,9 @@ SizedBox(width: 10,),
                                                               'Lexend')),
                                                   SizedBox(width: 8),
                                                   ScanBarcode(
-                                                    empId: widget.empid,
-                                                    processId:
-                                                        widget.processid,
+                                                    // empId: widget.empid,
+                                                    pwsid:
+                                                        widget.pwsid,
                                                     onCardDataReceived:
                                                         (scannedAssetId) {
                                                       setState(() {
@@ -1075,11 +1076,7 @@ SizedBox(width: 10,),
                                                                   .paActivityName ==
                                                               newvalue,
                                                           orElse: () =>
-                                                              ActivityProduct(
-                                                                  paActivityName:
-                                                                      '',
-                                                                  paId: 0,
-                                                                  paMpmId: 0),
+                                                             ProcessActivity(paActivityName: "", mpmName: "", pwsName: "", paId: 0, paMpmId: 0),
                                                         );
                                   
                                                         if (selectedActivity !=
@@ -1092,22 +1089,20 @@ SizedBox(width: 10,),
                                                                       .paId ??
                                                                   0;
                                   
-                                                          await targetQtyApiService
-                                                              .getTargetQty(
-                                                            context: context,
-                                                            paId:
-                                                                activityid ??
-                                                                    0,
-                                                            deptid: widget
-                                                                    .deptid ??
-                                                                1,
-                                                            psid:
-                                                                widget.psid ??
-                                                                    0,
-                                                            empid: widget
-                                                                    .empid ??
+                                                             await targetQtyApiService
+                                                          .getTargetQty(
+                                                        context: context,
+                                                        paId:
+                                                            activityid ??
                                                                 0,
-                                                          );
+                                                        deptid: widget
+                                                                .deptid ??
+                                                            1,
+                                                        psid:
+                                                            widget.psid ??
+                                                                0, pwsid: widget.pwsid ?? 0,
+                                                       
+                                                      );
                                   
                                                           final targetqty =
                                                               Provider.of<TargetQtyProvider>(

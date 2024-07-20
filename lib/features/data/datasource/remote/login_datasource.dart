@@ -17,7 +17,6 @@ class LoginDataSourceImpl extends LoginDataSource {
     final response = await loginClient.post(loginId, password);
 
     final result = LoginModel.fromJson(response);
-
   
     print(result);
 

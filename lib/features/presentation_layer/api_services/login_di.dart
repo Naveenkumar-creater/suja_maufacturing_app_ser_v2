@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prominous/features/presentation_layer/page/loginpage_layout.dart';
+import 'package:prominous/features/presentation_layer/provider/actual_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/attendance_count_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/employee_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/listofworkstation_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/plan_qty_provider.dart';
+import 'package:prominous/features/presentation_layer/provider/process_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prominous/features/data/core/login_api_client.dart';
@@ -36,7 +42,7 @@ class LoginApiService {
       LoginEntity loginUser = await loginUseCase.execute(loginId, password);
 
       SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setString("client_token", loginUser.clientAuthToken!);
+      await pref.setString("client_token", loginUser.userLoginEntity?.clientAutToken ?? "");
 
       Provider.of<LoginProvider>(context, listen: false).setUser(loginUser);
 
@@ -58,12 +64,21 @@ class LoginApiService {
     try {
       final sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString("client_token", "");
+       Provider.of<EmployeeProvider>(context, listen: false).reset();
+         Provider.of<ActualQtyProvider>(context, listen: false).reset();
+           Provider.of<PlanQtyProvider>(context, listen: false).reset();
+             Provider.of<AttendanceCountProvider>(context, listen: false).reset();
+                    Provider.of<ListofworkstationProvider>(context, listen: false).reset();
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPageLayout()),
-        result: (route) => false,
-      );
+  //   context.read<ProcessProvider>().reset();
+  // context.read<EmployeeProvider>().reset();
+  //  context.read<AttendanceCountProvider>().reset();
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => LoginPageLayout()),
+    (Route<dynamic> route) => false,
+  );
+     
     } catch (e) {
       ShowError.showAlert(context, e.toString());
       rethrow;

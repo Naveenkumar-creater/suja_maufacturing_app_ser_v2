@@ -31,7 +31,18 @@ class EditEntrySubEntity extends Equatable {
         required this.ipdFromTime,
         required this.ipdPcId,
         required this.ipdPaId,
-        required this.personId, required this.totalGoodqty, required this.totalRejqty,
+        // required this.personId, 
+        required this.totalGoodqty,
+         required this.totalRejqty,
+
+                 required this.ipdPwsEmpCount ,
+
+     required this. ipdReworkableQty,
+      required this.ipdScrapQty,
+       required this.pwsId
+
+
+        
     });
 
     final int? ipdMpmId;
@@ -49,9 +60,16 @@ class EditEntrySubEntity extends Equatable {
     final String ? ipdFromTime;
     final int? ipdPcId;
     final int? ipdPaId;
-    final int? personId;
+    // final int? personId;
     final int? totalGoodqty;
     final int? totalRejqty;
+
+    
+        final int ? ipdPwsEmpCount ;
+
+     final int ? ipdReworkableQty;
+      final int? ipdScrapQty;
+       final int ?pwsId;
 
   
     
@@ -72,7 +90,7 @@ class EditEntrySubEntity extends Equatable {
             ipdId,
             ipdPcId,
             ipdPaId,
-            personId
+   
     ];
 
 }

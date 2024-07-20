@@ -21,6 +21,11 @@ class EmployeeProvider extends ChangeNotifier {
     _user = employee;
     notifyListeners();
   }
+
+    void reset() {
+    _user = null;
+    notifyListeners();
+  }
 }
 // class EmployeeProvider extends ChangeNotifier {
 //   EmployeeEntity? _us/    EmployeeEntity? get user => _user;

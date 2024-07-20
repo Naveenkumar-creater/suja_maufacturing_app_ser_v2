@@ -47,6 +47,15 @@ class ApiRequestDataModel {
  int? shiftId;
  int? psId;
  int ? itemId;
+ int ? pwsid;
+ String ? pwsBarcode;
+ int?ipdpwsid;
+
+    	int?	pwsspwsid;
+
+    
+
+
 
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -93,14 +102,25 @@ class ApiRequestDataModel {
       this.emp_mgr,
       this.ipdpaid,
       this.cardNo,
-      this.paId,this.shiftId,this.psId,this.itemId});
+      this.paId,
+      this.shiftId,
+      this.psId,
+      this.itemId,
+      this.pwsid,
+       this.pwsBarcode,
+       this.ipdpwsid,
+       this.pwsspwsid
+      });
 
   Map<String, dynamic> toJson() {
     return {
+          
+
+    
       'card_no':cardNo,
       'client_aut_token': clientAuthToken,
       'api_for': apiFor,
-      "asset_id": assetid,
+      "pwsa_asset_id": assetid,
       'login_id': loginId,
       'login_password': loginPassword,
       'cl_group': clGroup,
@@ -145,10 +165,20 @@ class ApiRequestDataModel {
       "mfg_person_id": mfgPersonId,
       "ipd_pa_id":ipdpaid,
       "pa_Id":paId,
-      "shift_id":shiftId
+      "shift_id":shiftId,
+      "pws_id":pwsid,
+      "pws_barcode":pwsBarcode,
+      "ipd_pws_id":ipdpwsid,
+      		"pwss_pws_id":pwsspwsid,
+
     };
   }
 }
+
+
+
+
+
 
 
 

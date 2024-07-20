@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:prominous/features/presentation_layer/api_services/listofworkstation_di.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
@@ -20,8 +23,8 @@ import 'package:prominous/features/presentation_layer/widget/homepage_widget/shi
 import '../../api_services/employee_di.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({Key? key}) : super(key: key);
-  static late String? processName;
+  int? deptid;
+  MyDrawer({this.deptid});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -35,6 +38,8 @@ class _MyDrawerState extends State<MyDrawer> {
   AttendanceCountService attendanceCountService = AttendanceCountService();
   PlanQtyService planQtyService = PlanQtyService();
   ShiftStatusService shiftStatusService = ShiftStatusService();
+  ListofworkstationService listofworkstationService =
+      ListofworkstationService();
 
   bool isLoading = false;
   bool isFetching = false;
@@ -44,14 +49,21 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   void initState() {
     super.initState();
-    getProcess();
+    _getProcess();
   }
 
-  Future<void> getProcess() async {
+  //   @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   // Access the inherited widget and fetch data here
+  //   _getProcess();
+  // }
+
+  Future<void> _getProcess() async {
     try {
       await processApiService.getProcessdetail(
-        context: context,
-      );
+          context: context, deptid: widget.deptid ?? 0);
+
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
       });
@@ -71,53 +83,86 @@ class _MyDrawerState extends State<MyDrawer> {
 
     final processList =
         Provider.of<ProcessProvider>(context).user?.listofProcessEntity;
-    final userName = Provider.of<LoginProvider>(context).user?.loginId;
+    final userName =
+        Provider.of<LoginProvider>(context).user?.userLoginEntity?.loginId;
+    Size size = MediaQuery.of(context).size;
 
-    return Drawer(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      backgroundColor: Colors.grey[200],
-      elevation: 0,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
+    var padding = MediaQuery.of(context).padding;
+    var topPadding = padding.left * 0.25;
+    // var textSize = MediaQuery.of(context).textScaler;
+
+    return Container(
+      height: 758.h,
+      width: 252.w,
+      child: Drawer(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        backgroundColor: Color.fromARGB(150, 235, 236, 255),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 170,
-                height: 170,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100)),
+            Container(
+              height: 155.h,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Hello,',
-                      style:
-                          const TextStyle(fontSize: 18, color: Colors.black54),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30.r, // Adjust the radius as needed
+                          backgroundColor: Color.fromARGB(
+                              255, 80, 96, 203), // Background color
+                          child: Icon(
+                            Icons.person, // Profile icon
+                            size: 30.r, // Icon size
+                            color: Colors.white, // Icon color
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hello,',
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: Color.fromARGB(255, 80, 96, 203),
+                                  fontFamily: "Lexend"),
+                            ),
+                            Text(
+                              '${userName}',
+                              style: TextStyle(
+                                  fontSize: 24.sp,
+                                  color: Color.fromARGB(255, 80, 96, 203),
+                                  fontFamily: "Lexend",
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.h,
                     ),
                     Text(
-                      '$userName',
-                      style:
-                          const TextStyle(fontSize: 24, color: Colors.black54),
+                      'PROCESS AREA ',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: "Lexend",
+                          color: Colors.black),
                     ),
                   ],
                 ),
-              ),
-            ),
-            ListTile(
-              title: Text(
-                'PROCESS AREA ',
-                style: const TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
             Container(
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
               width: double.infinity,
-              height: 400,
+              height: 450.h,
               child: Scrollbar(
                 controller: _scrollController,
                 radius: Radius.circular(8),
@@ -128,78 +173,96 @@ class _MyDrawerState extends State<MyDrawer> {
                     padding: EdgeInsets.zero,
                     itemCount: processList?.length ?? 0,
                     itemBuilder: (context, index) => GestureDetector(
-                      child: Container(
-                            padding: EdgeInsets.only(bottom: 12, top: 12, left: 16),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16.h, horizontal: 16.w),
                             decoration: BoxDecoration(
                               color: _selectedIndex == index
                                   ? Colors.blue.withOpacity(0.3)
-                                  : null,
+                                  : null
+                                  
                             ), // Set unique background color for selected tile
                             child: Text(
                               processList![index].processName ?? "",
-                              style: TextStyle(color: Colors.black54),
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontFamily: "Lexend",
+                                  fontSize: 15.sp),
                             ),
                           ),
-                      onTap: () async {
-                        setState(() {
-                          _selectedIndex = index; 
-                          // Update selected index
-                        });
-                        final processId = processList[index].processId ?? 0;
-                        final deptId = processList[index].deptId ?? 0;
-                        try {
-                          // Perform shiftStatusService first
-                                // Navigator.pop(context);
-                          await shiftStatusService.getShiftStatus(
-                              context: context,
-                              deptid: deptId,
-                              processid: processId);
-                          final psId = Provider.of<ShiftStatusProvider>(context,
-                                      listen: false)
-                                  .user
-                                  ?.shiftStatusdetailEntity
-                                  ?.psId ??
-                              0;
+                          onTap: () async {
+                            setState(() {
+                              _selectedIndex = index;
+                              // Update selected index
+                            });
+                            final processId = processList[index].processId ?? 0;
+                            final deptId = processList[index].deptId ?? 0;
+                            try {
+                              // Perform shiftStatusService first
+                              // Navigator.pop(context);
+                              await shiftStatusService.getShiftStatus(
+                                  context: context,
+                                  deptid: deptId,
+                                  processid: processId);
+                              final psId = Provider.of<ShiftStatusProvider>(
+                                          context,
+                                          listen: false)
+                                      .user
+                                      ?.shiftStatusdetailEntity
+                                      ?.psId ??
+                                  0;
 
-                          // Perform employeeApiService next
-                          await employeeApiService.employeeList(
-                              context: context,
-                              processid: processId,
-                              deptid: deptId,
-                              psid: psId);
+                              // Perform employeeApiService next
+                              await employeeApiService.employeeList(
+                                  context: context,
+                                  processid: processId,
+                                  deptid: deptId,
+                                  psid: psId);
+                              await listofworkstationService
+                                  .getListofWorkstation(
+                                      context: context,
+                                      deptid: widget.deptid ?? 1057,
+                                      psid: psId ?? 0,
+                                      processid: processId ?? 0);
 
-                          // Continue with other asynchronous operations sequentially
-                          await attendanceCountService.getAttCount(
-                              context: context, id: processId, deptid: deptId, psid: psId);
+                              // Continue with other asynchronous operations sequentially
+                              await attendanceCountService.getAttCount(
+                                  context: context,
+                                  id: processId,
+                                  deptid: deptId,
+                                  psid: psId);
 
-                          await actualQtyService.getActualQty(
-                              context: context, id: processId,psid: psId);
+                              await actualQtyService.getActualQty(
+                                  context: context, id: processId, psid: psId);
 
-                          await planQtyService.getPlanQty(
-                              context: context, id: processId, psid: psId);
-
-                  
-                        } catch (e) {
-                          // Handle any errors that occur during the async operations
-                          print('Error fetching data: $e');
-                        }
-                      },
-                    )),
+                              await planQtyService.getPlanQty(
+                                  context: context, id: processId, psid: psId);
+                            } catch (e) {
+                              // Handle any errors that occur during the async operations
+                              print('Error fetching data: $e');
+                            }
+                          },
+                        )),
               ),
             ),
+            SizedBox(
+              height: 80.h,
+            ),
             ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: Colors.black,
+              leading: SvgPicture.asset(
+                'assets/svg/log-out.svg',
+                color: Colors.red,
+                width: 25.w,
               ),
-              title: const Text(
+              title: Text(
                 'LOGOUT',
-                style: const TextStyle(fontSize: 16, color: Colors.black),
+                style: TextStyle(
+                    color: Colors.black, fontFamily: "Lexend", fontSize: 16.sp),
               ),
               onTap: () {
                 logout.logOutUser(context);
               },
-            ),
+            )
           ],
         ),
       ),

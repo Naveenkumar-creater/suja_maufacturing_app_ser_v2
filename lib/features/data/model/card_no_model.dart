@@ -16,6 +16,9 @@ class CardNoModel extends CardNoEntity {
   }
 }
 
+
+    
+
 class ScanCardForItem extends ScanCardForItemEntity {
   ScanCardForItem({
     required this.pcItemId,

@@ -8,9 +8,11 @@ import 'api_constant.dart';
 class ProcessClient {
   dynamic getProcessList(
     String token,
+    int deptid
+
   ) async {
     ApiRequestDataModel requestData =
-        ApiRequestDataModel(clientAuthToken: token, apiFor: "list_of_process");
+        ApiRequestDataModel(clientAuthToken: token, apiFor: "list_of_process_v1",deptId: deptid);
 
     const timeoutDuration = Duration(seconds: 10);
     try {
@@ -46,12 +48,12 @@ class ProcessClient {
 
         return responseJson;
       } else {
-        throw ("Invalid Operator Id");
+        throw ("No Process List");
       }
     } on TimeoutException {
       throw ('Connection timed out. Please check your internet connection.');
     } catch (e) {
-      throw ("Invalid Operator Id");
+      throw ("No Process List");
     }
   }
 }

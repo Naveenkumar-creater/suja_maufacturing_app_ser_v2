@@ -14,18 +14,16 @@ ScanAssetBarcodeEntity( {this.scanAseetBarcode});
 class ScanAseetBarcode extends Equatable{
 
     ScanAseetBarcode({
-        required this.pamId,
-        required this.pamAssetId,
-        required this.pamPaId,
-        required this.pamMpmId,
+    required this.pwsaId,
+        required this.pwsaAssetId,
+        required this.pwsaPwssId,
     });
 
-    final int? pamId;
-    final int? pamAssetId;
-    final int? pamPaId;
-    final int? pamMpmId;
+ final int? pwsaId;
+    final int? pwsaAssetId;
+    final int? pwsaPwssId;
   @override
   // TODO: implement props
-  List<Object?> get props => [pamId,pamAssetId,pamPaId,pamMpmId];
+  List<Object?> get props => [pwsaId,pwsaAssetId,pwsaPwssId];
   
 }

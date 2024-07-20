@@ -20,7 +20,7 @@ class PlanQtyDatasourceImpl extends PlanQtyDatasource {
   Future<PlanQuantityModel> getPlanQty(int id,int psid, String token) async{
     
    ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "planned_qty", processId: id,psId: psid, clientAuthToken: token );
+          apiFor: "planned_qty_v1", processId: id,psId: psid, clientAuthToken: token );
      final response = await ApiConstant.makeApiRequest(requestBody: requestbody);
     final result = PlanQuantityModel.fromJson(response);
       print(result);

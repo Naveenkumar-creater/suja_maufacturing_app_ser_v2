@@ -11,7 +11,7 @@ import 'package:prominous/features/presentation_layer/provider/activity_provider
 
 class ActivityService {
   Future<void> getActivity(
-      {required BuildContext context, required int id,required int deptid}) async {
+      {required BuildContext context, required int id,required int deptid,required int pwsId}) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String token = pref.getString("client_token") ?? "";
@@ -24,7 +24,7 @@ class ActivityService {
         ),
       );
 
-      final user = await recentActivityUseCase.execute(id,deptid, token);
+      final user = await recentActivityUseCase.execute(id,deptid, token,pwsId);
 
       Provider.of<ActivityProvider>(context, listen: false).setUser(user);
     } catch (e) {

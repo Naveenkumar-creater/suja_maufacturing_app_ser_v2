@@ -57,6 +57,7 @@ class MobileEmpProductionEntryPage extends StatefulWidget {
   final int? psid;
   final int? attendceStatus;
   final String? attenceid;
+  final int? pwsid;
 
   MobileEmpProductionEntryPage(
       {Key? key,
@@ -69,7 +70,7 @@ class MobileEmpProductionEntryPage extends StatefulWidget {
       this.deptid,
       this.psid,
       this.attenceid,
-      this.attendceStatus})
+      this.attendceStatus, this.pwsid})
       : super(key: key);
 
   @override
@@ -179,7 +180,7 @@ class _MobileEmpProductionEntryPageState
         ipdRejQty: int.tryParse(rejectedQController.text) ?? 0,
         ipdReworkFlag: reworkValue ?? empproduction.ipdflagid,
         ipdGoodQty: int.tryParse(goodQController.text) ?? 0,
-        batchno: int.tryParse(batchNOController.text),
+        // batchno: int.tryParse(batchNOController.text),
         targetqty: int.tryParse(targetQtyController.text),
 
         ipdCardNo: int.tryParse(cardNoController.text.toString()),
@@ -199,10 +200,10 @@ class _MobileEmpProductionEntryPageState
         //ipdcardno: empproduction.first.ipdcardno,
         ipdItemId: product_Id,
         ipdMpmId: processid,
-        emppersonId: widget.empid ?? 0,
+        // emppersonId: widget.empid ?? 0,
         ipdpsid: widget.psid,
         ppid: ppId ?? 0,
-        shiftid: Shiftid,
+        shiftid: Shiftid, ipdreworkableqty: null,
       );
 
       final requestBodyjson = jsonEncode(requestBody.toJson());
@@ -457,7 +458,7 @@ class _MobileEmpProductionEntryPageState
       // Fetch data
       await empProductionEntryService.productionentry(
           context: context,
-          id: widget.empid ?? 0,
+          pwsId: widget.empid ?? 0,
           deptid: widget.deptid ?? 0,
           psid: widget.psid ?? 0);
 
@@ -475,7 +476,7 @@ class _MobileEmpProductionEntryPageState
       await activityService.getActivity(
           context: context,
           id: widget.processid ?? 0,
-          deptid: widget.deptid ?? 0);
+          deptid: widget.deptid ?? 0, pwsId: widget.pwsid ?? 0);
 
       final productionEntry =
           Provider.of<EmpProductionEntryProvider>(context, listen: false)
@@ -608,7 +609,7 @@ class _MobileEmpProductionEntryPageState
             ?.empProductionEntity;
 
     final totalGoodQty = productionEntry?.totalGoodqty;
-    final totalRejQty = productionEntry?.totalRejqty;
+    // final totalRejQty = productionEntry?.totalRejqty;
 
     final recentActivity =
         Provider.of<RecentActivityProvider>(context, listen: false)
@@ -903,9 +904,9 @@ class _MobileEmpProductionEntryPageState
                                                       fontFamily:
                                                           'Lexend')),
                                               CardNoScanner(
-                                                empId: widget.empid,
-                                                processId:
-                                                    widget.processid,
+                                                // empId: widget.empid,
+                                                // processId:
+                                                //     widget.processid,
                                                 onCardDataReceived:
                                                     (scannedCardNo,
                                                         scannedProductName) {
@@ -978,9 +979,9 @@ class _MobileEmpProductionEntryPageState
                                                           'Lexend')),
                                               SizedBox(width: 8),
                                               ScanBarcode(
-                                                empId: widget.empid,
-                                                processId:
-                                                    widget.processid,
+                                                // empId: widget.empid,
+                                                pwsid:
+                                                    widget.pwsid  ,
                                                 onCardDataReceived:
                                                     (scannedAssetId) {
                                                   setState(() {
@@ -1223,11 +1224,7 @@ class _MobileEmpProductionEntryPageState
                                                               .paActivityName ==
                                                           newvalue,
                                                       orElse: () =>
-                                                          ActivityProduct(
-                                                              paActivityName:
-                                                                  '',
-                                                              paId: 0,
-                                                              paMpmId: 0),
+                                                          ProcessActivity(paActivityName: "", mpmName: "", pwsName: "", paId: 0, paMpmId: 0),
                                                     );
                                                                       
                                                     if (selectedActivity !=
@@ -1251,10 +1248,8 @@ class _MobileEmpProductionEntryPageState
                                                             1,
                                                         psid:
                                                             widget.psid ??
-                                                                0,
-                                                        empid: widget
-                                                                .empid ??
-                                                            0,
+                                                                0,  pwsid: widget.pwsid ?? 0,
+                                                       
                                                       );
                                                                       
                                                       final targetqty =

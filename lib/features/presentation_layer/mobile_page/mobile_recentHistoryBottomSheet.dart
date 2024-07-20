@@ -169,7 +169,7 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
           psid: widget.psid ?? 0);
               await empProductionEntryService.productionentry(
           context: context,
-          id: widget.empid ?? 0,
+          pwsId: widget.empid ?? 0,
           deptid: widget.deptid ?? 0,
           psid: widget.psid ?? 0);
                             

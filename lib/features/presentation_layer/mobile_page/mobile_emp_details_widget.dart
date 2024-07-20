@@ -74,7 +74,7 @@ class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
             decoration: BoxDecoration(color: Colors.white),
             child: EmployeeAllocationPopup(
               empId: empPersonid,
-              mfgpempid: mfgpempid,
+              // mfgpempid: mfgpempid,
               processid: processId,
               //  shiftid: shitid,
               deptid: deptid,
@@ -170,7 +170,7 @@ class _MobileEmployeeDetailsListState extends State<MobileEmployeeDetailsList> {
         processId: process_id,
         psid: widget.psid,
         shiftId: Shiftid,
-        shiftStatus: shiftStatus);
+        shiftStatus: shiftStatus, pwsId: 0);
 
     final requestBodyjson = jsonEncode(requestBody.toJson());
 

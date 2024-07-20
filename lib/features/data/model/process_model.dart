@@ -25,38 +25,45 @@ class ProcessModel extends ProcessEntity {
     return ProcessModel(listOfProcess: processData);
   }
 
-  Map<String, dynamic> toJson() => {
-        "List_Of_Process": listOfProcess.map((x) => x?.toJson()).toList(),
-      };
 }
 
 class ListOfProcess extends ListofProcessEntity {
-  const ListOfProcess({
-    required this.processName,
-    required this.processId,
-    required this.deptId,
-    required this.shiftgroupId
-    // required  this.shiftStatus
-  })  : assert(processId != null), // Ensure processId is not null
-        super(processName: processName, processId: processId,deptId:deptId,shiftgroupId: shiftgroupId);
-        
-  final String? processName;
-  final int? processId;
-  final int? deptId;
-  final int?shiftgroupId;
+  const ListOfProcess(
+      {required this.processName,
+      required this.processId,
+      required this.deptId,
+      required this.shiftgroupId,
+      required this.mpmBatchProcess,
+      required this.mpmCapability
+
+      // required  this.shiftStatus
+      })
+      : assert(processId != null), // Ensure processId is not null
+        super(
+            processName: processName,
+            processId: processId,
+            deptId: deptId,
+            shiftgroupId: shiftgroupId,
+            mpmCapability: mpmCapability,
+            mpmBatchProcess: mpmBatchProcess);
+
   // final int? shiftStatus;
+
+  final int? mpmCapability;
+  final int? processId;
+  final String? processName;
+  final int? shiftgroupId;
+  final int? deptId;
+  final int? mpmBatchProcess;
 
   factory ListOfProcess.fromJson(Map<String, dynamic> json) {
     return ListOfProcess(
-      processName: json["process_name"],
+      mpmCapability: json["mpm_capability"],
       processId: json["process_Id"] ?? 0,
-      deptId:json["dept_id"],
-      shiftgroupId: json["ps_sg_id"]
+      processName: json["process_name"],
+      shiftgroupId: json["ps_sg_id"],
+      deptId: json["dept_id"],
+      mpmBatchProcess: json["mpm_batch_process"],
     );
   }
-   
-  Map<String, dynamic> toJson() => {
-        "process_name": processName,
-        "process_Id": processId,
-      };
 }

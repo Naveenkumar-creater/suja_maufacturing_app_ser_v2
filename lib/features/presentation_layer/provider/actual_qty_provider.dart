@@ -8,4 +8,9 @@ class ActualQtyProvider extends ChangeNotifier {
     _user = actual;
     notifyListeners();
   }
+
+     void reset() {
+    _user = null;
+    notifyListeners();
+  }
 }

@@ -6,15 +6,12 @@ import 'package:prominous/features/presentation_layer/api_services/card_no_di.da
 import 'package:prominous/features/presentation_layer/provider/card_no_provider.dart';
 
 class CardNoScanner extends StatefulWidget {
-  final int? empId;
-  final int? processId;
+
 
   final Function(String, String)? onCardDataReceived;
 
   const CardNoScanner({
     Key? key,
-    this.empId,
-    this.processId,
 
     this.onCardDataReceived,
   }) : super(key: key);
@@ -37,7 +34,7 @@ class _CardNoScannerState extends State<CardNoScanner> {
       ),
       child: InkWell(
         onTap: _scanQrCode,
-        child: const Column(
+        child: Column(
           children: [
             Icon(
               Icons.camera_alt,

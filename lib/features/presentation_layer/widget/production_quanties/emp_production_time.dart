@@ -32,116 +32,105 @@ class _UpdateTimeState extends State<UpdateTime> {
     currentMinute = now.minute;
     currentSecond = now.second;
     currentTime =
-        '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString().padLeft(2, '0')}'; // Initial time display
+        '$currentYear-$currentMonth-$currentDay ${currentHour}:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString().padLeft(2, '0')}'; // Initial time display
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-
-      SizedBox(
-        width:30 ,
-        height: 30,
-        child: FloatingActionButton(
-            heroTag: 'decrementButton', 
-            backgroundColor: 
-            
-           Color.fromARGB(255, 236, 72, 72),
+        SizedBox(
+          width: 30,
+          height: 30,
+          child: FloatingActionButton(
+            heroTag: 'decrementButton',
+            backgroundColor: Colors.white,
             tooltip: 'Decrement',
-         mini: true,
+            mini: true,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            onPressed: (){
-        
-                setState(() {
+            onPressed: () {
+              setState(() {
                 if (currentMinute >= 30) {
                   currentMinute -= 30;
                 } else {
-                  if (currentHour == 0) {
+                  if (currentHour == 00) {
                     currentHour = 23;
                     currentMinute = 30;
                   } else {
-                    currentHour -= 1;
+                    currentHour -= 01;
                     currentMinute = 30;
                   }
                 }
               });
-              updateTime(); 
+              updateTime();
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),
-              child: const Icon(Icons.minimize , color: Colors.white, size: 20,),
+              child: const Icon(Icons.minimize, color: Colors.black, size: 20),
             ),
-         ),
-      ),
-
-
-       
-        SizedBox(
-          width: 32,
+          ),
         ),
+        SizedBox(width: 16),
+        Text("30",style: TextStyle(fontSize: 18,
+                                                    color: Colors.black54),),
+          SizedBox(width: 16),
         SizedBox(
-           width:30 ,
-        height: 30,
-
+          width: 30,
+          height: 30,
           child: FloatingActionButton(
-  heroTag: 'IncrementButton', 
-            
-             backgroundColor:  Color.fromRGBO(82, 170, 94, 1.0),
+            heroTag: 'IncrementButton',
+            backgroundColor: Colors.white,
             tooltip: 'Increment',
-         mini: true,
+            mini: true,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             onPressed: () {
-              // Increase time by 30 minutes
               setState(() {
                 if (currentMinute < 30) {
-                  currentMinute += 30;  
+                  currentMinute += 30;
                 } else {
                   if (currentHour == 23) {
-                    currentHour = 0;
-                    currentMinute = 0;
+                    currentHour = 00;
+                    currentMinute = 00;
                   } else {
-                    currentHour += 1;
+                    currentHour += 01;
                     currentMinute = 0;
                   }
                 }
               });
               updateTime(); // Update time after each change
             },
-            child:   const Icon(Icons.add, color: Colors.white, size: 20),
+            child: const Icon(Icons.add, color: Colors.black, size: 20),
           ),
         ),
-        SizedBox(
-          width: 16,
-        ),
-        // ElevatedButton(
-        //   onPressed: () async {
-        //     final TimeOfDay? result = await showTimePicker(
-        //       context: context,
-        //       initialTime: TimeOfDay(hour: currentHour, minute: currentMinute),
-        //       initialEntryMode: TimePickerEntryMode.input,
-        //       builder: (BuildContext context, Widget? child) {
-        //         return MediaQuery(
-        //           data: MediaQuery.of(context).copyWith(
-        //             alwaysUse24HourFormat: true,
-        //           ),
-        //           child: child!,
-        //         );
-        //       },
-        //     );
+        SizedBox(width: 16),
+        ElevatedButton(
+          onPressed: () async {
+            final TimeOfDay? result = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay(hour: currentHour, minute: currentMinute),
+              initialEntryMode: TimePickerEntryMode.input,
+              builder: (BuildContext context, Widget? child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    alwaysUse24HourFormat: true,
+                  ),
+                  child: child!,
+                );
+              },
+            );
 
-        //     if (result != null) {
-        //       setState(() {
-        //         // Update only the time part, keeping the date part fixed
-        //         currentHour = result.hour;
-        //         currentMinute = result.minute;
-        //         currentSecond = 0; // reset seconds to 0
-        //       });
-        //       updateTime();
-        //     }
-        //   },
-        //   child: Text("Set Time"),
-        // ),
+            if (result != null) {
+              setState(() {
+                // Update only the time part, keeping the date part fixed
+                currentHour = result.hour;
+                currentMinute = result.minute;
+                currentSecond = 0; // reset seconds to 0
+              });
+              updateTime();
+            }
+          },
+          child: Text("Set Time"),
+        ),
       ],
     );
   }
@@ -197,11 +186,9 @@ class _UpdateTimeState extends State<UpdateTime> {
       }
 
       currentTime =
-          '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString().padLeft(2, '0')}'; // Update currentTime
+          '$currentYear-$currentMonth-$currentDay  ${currentHour.toString().padLeft(2, '0')}:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString().padLeft(2, '0')}'; // Update currentTime
     });
 
     widget.onTimeChanged(currentTime); // Call the callback with the updated time
   }
 }
-
-

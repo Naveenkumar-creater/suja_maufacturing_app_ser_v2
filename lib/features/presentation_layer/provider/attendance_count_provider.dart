@@ -8,4 +8,8 @@ class AttendanceCountProvider extends ChangeNotifier {
     _user = attcount;
     notifyListeners();
   }
+     void reset() {
+    _user = null;
+    notifyListeners();
+  }
 }

@@ -45,7 +45,7 @@ class CustomNumField extends StatelessWidget {
         fillColor: Colors.white,
         errorStyle: TextStyle(
           fontSize: 10.0, // Adjust the font size as needed
-          height: 0.1, // Adjust the height to control spacing
+          height: 0.10, // Adjust the height to control spacing
         ),
         enabledBorder: enabledBorder ??
             OutlineInputBorder(

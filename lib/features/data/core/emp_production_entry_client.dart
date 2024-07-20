@@ -7,11 +7,11 @@ import '../../../constant/request_model.dart';
 import 'api_constant.dart';
 
 class EmpProductionEntryClient {
-  dynamic getempproduction(int empid,int deptid,int psid, String token) async {
+  dynamic getempproduction(int pwsId,int deptid,int psid, String token) async {
     ApiRequestDataModel requestData = ApiRequestDataModel(
         clientAuthToken: token,
-        apiFor: "emp_production_entry",
-        emppersonid: empid,
+        apiFor: "production_entry_for_workstation_v1",
+    pwsid: pwsId,
         psId: psid,
         deptId: deptid
         );

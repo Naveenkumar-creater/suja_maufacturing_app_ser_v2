@@ -15,39 +15,35 @@ class ScanAssetBarcodeModel extends ScanAssetBarcodeEntity {
         );
     }
 
-    Map<String, dynamic> toJson() => {
-        "Scan_Asset_Id": scanAssetId?.toJson(),
-    };
+ 
 
 }
 
+
+
 class ScanAssetId extends ScanAseetBarcode{
     ScanAssetId({
-        required this.pamId,
-        required this.pamAssetId,
-        required this.pamPaId,
-        required this.pamMpmId,
-    }) : super(pamId: pamId, pamAssetId: pamAssetId, pamPaId: pamPaId, pamMpmId: pamMpmId);
+         required this.pwsaId,
+        required this.pwsaAssetId,
+        required this.pwsaPwssId,
+    }) : super(pwsaAssetId:pwsaAssetId, pwsaId: pwsaId,pwsaPwssId: pwsaPwssId );
 
-    final int? pamId;
-    final int? pamAssetId;
-    final int? pamPaId;
-    final int? pamMpmId;
+    
+
+
+    final int? pwsaId;
+    final int? pwsaAssetId;
+    final int? pwsaPwssId;
 
     factory ScanAssetId.fromJson(Map<String, dynamic> json){ 
         return ScanAssetId(
-            pamId: json["pam_id"],
-            pamAssetId: json["pam_asset_id"],
-            pamPaId: json["pam_pa_id"],
-            pamMpmId: json["pam_mpm_id"],
+        pwsaId: json["pwsa_id"],
+            pwsaAssetId: json["pwsa_asset_id"],
+            pwsaPwssId: json["pwsa_pwss_id"],
         );
     }
 
-    Map<String, dynamic> toJson() => {
-        "pam_id": pamId,
-        "pam_asset_id": pamAssetId,
-        "pam_pa_id": pamPaId,
-        "pam_mpm_id": pamMpmId,
-    };
+
+
 
 }

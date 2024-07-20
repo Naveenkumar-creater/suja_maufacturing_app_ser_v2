@@ -19,7 +19,7 @@ class ActualQtyDatasourceImpl extends ActualQtyDatasource {
   Future<ActualQuantityModel> getActualQty(int id,int psid, String token) async{
     
    ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "actual_qty", processId: id,psId: psid, clientAuthToken: token );
+          apiFor: "actual_qty_v1", processId: id,psId: psid, clientAuthToken: token );
      final response = await ApiConstant.makeApiRequest(requestBody: requestbody);
     final result = ActualQuantityModel.fromJson(response);
       print(result);

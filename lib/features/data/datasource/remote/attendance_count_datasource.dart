@@ -10,7 +10,7 @@ class AttendanceCountDataSOurceImpl extends AttendanceCountDataSOurce {
   @override
   Future<AttendanceCountModel> getAttCount(int id,int deptid,int psid, String token) async {
     ApiRequestDataModel requestBody = ApiRequestDataModel(
-        apiFor: "attendance_count", clientAuthToken: token, processId: id,deptId: deptid,psId: psid);
+        apiFor: "attendance_count_v1", clientAuthToken: token, processId: id,deptId: deptid,psId: psid);
     final response =
         await ApiConstant.loginApiRequest(requestBody: requestBody);
     final result = AttendanceCountModel.fromJson(response);

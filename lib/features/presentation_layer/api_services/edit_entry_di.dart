@@ -16,7 +16,7 @@ class EditEntryApiservice{
       required BuildContext context,
     required int psId,
     required int ipdid,
-    required int empid,
+    required int pwsId,
      required int deptid
   })async {
     try {
@@ -29,7 +29,7 @@ class EditEntryApiservice{
     )
       );
 
-      EditEntryEntity editEntry =await  editEntryusecase.execute(ipdid, empid, psId, deptid, token);
+      EditEntryEntity editEntry =await  editEntryusecase.execute(ipdid, pwsId, psId, deptid, token);
 
       Provider.of<EditEntryProvider>(context,listen: false).setUser(editEntry);
     } catch (e) {

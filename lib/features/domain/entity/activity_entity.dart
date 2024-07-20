@@ -4,23 +4,27 @@ import 'package:equatable/equatable.dart';
 import 'package:prominous/features/data/model/allocation_model.dart';
 
 class ActivityEntity extends Equatable {
-  final List<ActivityProductList>? activityEntity;
+  final List<ProcessActivityEntity>? activityEntity;
   const ActivityEntity({this.activityEntity});
 
   @override
   List<Object?> get props => [activityEntity];
 }
 
-class ActivityProductList extends Equatable {
-  const ActivityProductList({
-  required this.paActivityName,
-    // required this.productname,
-    required this.paId,
-    required this.paMpmId
-  });
-  final String? paActivityName;
+class ProcessActivityEntity extends Equatable {
+  const ProcessActivityEntity({
+        required this.paActivityName,
+        required this.mpmName,
+        required this.pwsName,
+        required this.paId,
+        required this.paMpmId,
+    });
+
+    final String? paActivityName;
+    final String? mpmName;
+    final String? pwsName;
     final int? paId;
     final int? paMpmId;
   @override
-  List<Object?> get props => [ paActivityName, paId,paMpmId];
+  List<Object?> get props => [ paActivityName,paId,paMpmId,mpmName,pwsName];
 }

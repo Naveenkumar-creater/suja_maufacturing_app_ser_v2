@@ -1,5 +1,4 @@
 import 'package:prominous/features/domain/entity/employee_entity.dart';
-import 'package:prominous/features/domain/entity/product_entity.dart';
 
 
 abstract class EmployeeRepository{

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:prominous/features/presentation_layer/provider/login_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:prominous/features/presentation_layer/api_services/login_di.dart';
@@ -36,9 +37,10 @@ class _SideDrawerState extends State<SideDrawer> {
   @override
   void initState() {
     super.initState();
-    processApiService.getProcessdetail(
-      context: context,
-    );
+  final  deptId=Provider.of<LoginProvider>(context).user?.userLoginEntity?.deptId;
+ processApiService.getProcessdetail(
+        context: context, deptid: deptId ?? 0,
+      );
   }
 
   @override

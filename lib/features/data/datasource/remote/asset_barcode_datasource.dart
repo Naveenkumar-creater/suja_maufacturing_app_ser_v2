@@ -5,7 +5,7 @@ import '../../../../constant/request_model.dart';
 import '../../core/api_constant.dart';
 
 abstract class AssetBarcodeDatasource {
-  Future<ScanAssetBarcodeModel> getAssetBarcode(int processid,int assetId, String token);
+  Future<ScanAssetBarcodeModel> getAssetBarcode(int pwsid,int assetId, String token);
 }
 
 class AssetBarcodeDatasourceImpl extends AssetBarcodeDatasource {
@@ -15,10 +15,11 @@ class AssetBarcodeDatasourceImpl extends AssetBarcodeDatasource {
   
   
   @override
-  Future<ScanAssetBarcodeModel> getAssetBarcode(int processid,int assetId, String token) async{
+  Future<ScanAssetBarcodeModel> getAssetBarcode(int pwsid,int assetId, String token) async{
+
     
    ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "scan_asset_id",processId: processid, assetid:assetId ,clientAuthToken: token );
+          apiFor: "scan_asset_id_v1",pwsspwsid: pwsid, assetid:assetId ,clientAuthToken: token );
      final response = await ApiConstant.scannerApiRequest(requestBody: requestbody);
      
     final result = ScanAssetBarcodeModel.fromJson(response);

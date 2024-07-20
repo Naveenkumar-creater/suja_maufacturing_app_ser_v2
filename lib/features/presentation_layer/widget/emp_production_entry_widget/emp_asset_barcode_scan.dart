@@ -9,11 +9,11 @@ import 'package:prominous/features/presentation_layer/widget/emp_production_entr
 
 class ScanBarcode extends StatefulWidget {
 
-  final int? empId;
-  final int? processId;
+  // final int? empId;
+  final int? pwsid;
    final Function(String)? onCardDataReceived;
   const ScanBarcode({
-    super.key, this.empId, this.processId,this.onCardDataReceived
+    super.key,  this.pwsid,this.onCardDataReceived
   });
 
 
@@ -38,7 +38,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
       ),
       child: InkWell(
         onTap: _scanQrCode,
-        child: const Column(
+        child:  Column(
           children: [
         
               Icon(
@@ -82,7 +82,7 @@ Future<void> _scanQrCode() async {
 
   try {
     // Call cardNoApiService.getCardNo
-    await assetBarcodeService.getAsset(context: context, processid: widget.processId??1, assetid: int.parse("${barcodeResult}" ?? "0"));
+    await assetBarcodeService.getAsset(context: context, pwsid: widget.pwsid??1, assetid: int.parse("${barcodeResult}" ?? "0"));
 
     setState(() {
       _barcodeResult = barcodeResult;
@@ -92,7 +92,7 @@ final assetlist = Provider.of<AssetBarcodeProvider>(context, listen: false)
         ?.scanAseetBarcode;
   if (widget.onCardDataReceived != null && assetlist != null) {
         
-        final assetid = assetlist.pamAssetId?.toString() ?? "";
+        final assetid = assetlist.pwsaAssetId?.toString() ?? "";
 
         widget.onCardDataReceived!(assetid);
       }

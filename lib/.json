@@ -1,74 +1,126 @@
 {
-    "List_Of_Employees": [
-        {
-            "fl_att_id": "361",
-            "fl_att_shift_status": 1,
-            "mfgp_emp_id": 12,
-            "emp_name": "GOKUL.V",
-            "mpm_name": "Capping",
-            "ipd_to_time": "",
-            "fl_att_status": 0,
-            "emp_mgr": 5,
-            "production_qty": "",
-            "mfgp_mpm_id": 1,
-            "fl_att_in_time": "2024-05-28 12:36:35",
-            "ipd_item_id": "",
-            "emp_id": 85
-        },
-        {
-            "fl_att_id": "362",
-            "fl_att_shift_status": 1,
-            "mfgp_emp_id": 53,
-            "emp_name": "SARAN S",
-            "mpm_name": "Capping",
-            "ipd_to_time": "",
-            "fl_att_status": 0,
-            "emp_mgr": 5,
-            "production_qty": "",
-            "mfgp_mpm_id": 1,
-            "fl_att_in_time": "2024-05-27 19:35:44",
-            "ipd_item_id": "",
-            "emp_id": 126
-        },
-        {
-            "fl_att_id": "",
-            "fl_att_shift_status": 0,
-            "mfgp_emp_id": 55,
-            "emp_name": "SURENDAR E",
-            "mpm_name": "Capping",
-            "ipd_to_time": "",
-            "fl_att_status": 0,
-            "emp_mgr": 5,
-            "production_qty": "",
-            "mfgp_mpm_id": 1,
-            "fl_att_in_time": "",
-            "ipd_item_id": "",
-            "emp_id": 128
-        }
-    ]
-}
-
-
-    {
-    "client_aut_token": "goutham-2308",
-    "api_for": "update_production",
-    "ipd_mpm_id": 1,
-    "ipd_to_time": "2024-5-28 20:29",
-    "ipd_rework_flag": 1,
-    "ipd_asset_id": 0,
-    "ipd_card_no": 0,
-    "ipd_rej_qty": 5,
-    "ipd_dept_id": 1057,
-    "ipd_date": "2024-5-28 20:31:12",
-    "ipd_good_qty": 56,
-    "ipd_item_id": 0,
-    "ipd_id": 0,
-    "ipd_from_time": "2024-5-28 20:31:12",
-    "emp_personid": 85,
-    "ipd_pa_id": 9,
-    "ipd_ps_id": 66,
-    "pp_plan_qty": 5,
-    "ipd_batch_no": 12536,
-    "pp_id": 0,
-    "pp_shift_id": 1
-}
+    "response_code": 1,
+    "response_data": {
+        "Emp_Allocation_For_WorkStation": [
+     {
+      "workstations": [{
+       "pws_name": "Capping",
+       "pws_id": 1
+      }],
+      "process_id": 1,
+      "process_name": "Capping"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Tumbling ",
+       "pws_id": 2
+      }],
+      "process_id": 2,
+      "process_name": "Tumbling "
+     },
+     {
+      "workstations": [{
+       "pws_name": "Cleaning",
+       "pws_id": 3
+      }],
+      "process_id": 3,
+      "process_name": "Cleaning"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Coating ",
+       "pws_id": 4
+      }],
+      "process_id": 4,
+      "process_name": "Coating "
+     },
+     {
+      "workstations": [
+       {
+        "pws_name": "Moulding ",
+        "pws_id": 5
+       },
+       {
+        "pws_name": "moulding1",
+        "pws_id": 15
+       }
+      ],
+      "process_id": 5,
+      "process_name": "Moulding "
+     },
+     {
+      "workstations": [{
+       "pws_name": "Deflashing",
+       "pws_id": 6
+      }],
+      "process_id": 6,
+      "process_name": "Deflashing"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Punching ",
+       "pws_id": 7
+      }],
+      "process_id": 7,
+      "process_name": "Punching "
+     },
+     {
+      "workstations": [{
+       "pws_name": "Inspection",
+       "pws_id": 8
+      }],
+      "process_id": 8,
+      "process_name": "Inspection"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Polishing",
+       "pws_id": 9
+      }],
+      "process_id": 9,
+      "process_name": "Polishing"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Online Quality",
+       "pws_id": 10
+      }],
+      "process_id": 10,
+      "process_name": "Online Quality"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Oven",
+       "pws_id": 11
+      }],
+      "process_id": 11,
+      "process_name": "Oven"
+     },
+     {
+      "workstations": [{
+       "pws_name": "Packing",
+       "pws_id": 12
+      }],
+      "process_id": 12,
+      "process_name": "Packing"
+     },
+     {
+      "workstations": [{
+       "pws_name": "I/C",
+       "pws_id": 13
+      }],
+      "process_id": 13,
+      "process_name": "I/C"
+     },
+     {
+      "workstations": [{
+       "pws_name": "NPD",
+       "pws_id": 14
+      }],
+      "process_id": 14,
+      "process_name": "NPD"
+     }
+    ]},
+    "ws_req_id": 89690,
+    "response_msg": "Success"
+   }

@@ -20,7 +20,7 @@ class RecentActivityDatasourceImpl extends RecentActivityDatasource {
     // return result;
 
       ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "recent_activities", clientAuthToken: token, emppersonid: id,deptId: deptid, psId: psid);
+          apiFor: "recent_activities_v1", clientAuthToken: token, pwsid: id,deptId: deptid, psId: psid);
      final response = await ApiConstant.makeApiRequest(requestBody: requestbody);
     final result = RecentActivitiesModel.fromJson(response);
       print(result);

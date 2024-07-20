@@ -14,7 +14,7 @@ class CardNoDatasourceImpl implements CardNoDatasource {
   @override
   Future<CardNoModel> getCardNo(String token,int cardNo) async {
     ApiRequestDataModel requestbody = ApiRequestDataModel(
-          apiFor: "scan_card_for_item", clientAuthToken: token, cardNo: cardNo);
+          apiFor: "scan_card_for_item_v1", clientAuthToken: token, cardNo: cardNo);
     final response = await ApiConstant.scannerApiRequest(requestBody:requestbody);
 
     final result = CardNoModel.fromJson(response);

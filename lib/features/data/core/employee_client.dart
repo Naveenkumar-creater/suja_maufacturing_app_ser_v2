@@ -9,7 +9,9 @@ import 'api_constant.dart';
 class EmployeeClient {
   dynamic getEmployeeList(int processid, int deptid,int psid,String token) async {
     ApiRequestDataModel requestData = ApiRequestDataModel(
-        clientAuthToken: token, apiFor: "list_of_employees", processId: processid,deptId: deptid,psId:psid );
+        clientAuthToken: token, apiFor: "list_of_emp_process_v1", processId: processid,deptId: deptid,psId:psid );
+
+
 
     const timeoutDuration = Duration(seconds: 10);
     try {
@@ -40,17 +42,17 @@ class EmployeeClient {
 
         if (responseData.isEmpty) {
           // Handle the case where response_data is empty
-          throw ("No Opeator");
+          throw ("No Employe");
         }
 
         return responseJson;
       } else {
-        throw ("Invalid Operator Id");
+        throw ("Invalid Employees List");
       }
     } on TimeoutException {
       throw ('Connection timed out. Please check your internet connection.');
     } catch (e) {
-      throw ("Invalid Operator Id");
+      throw ("Invalid Employees List");
     }
   }
 }

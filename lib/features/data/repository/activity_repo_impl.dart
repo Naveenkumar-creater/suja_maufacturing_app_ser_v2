@@ -8,8 +8,8 @@ class ActivityRepositoryImpl extends ActivityRepository{
   ActivityRepositoryImpl(this.activityDatasource);
 
   @override
-  Future<ActivityModel> getActivity(int id, int deptid,String token) async{
- ActivityModel result= await activityDatasource.getActivity(id, deptid,token);
+  Future<ActivityModel> getActivity(int id,int deptid, String token,int pwsId) async{
+ ActivityModel result= await activityDatasource.getActivity(id, deptid, token, pwsId);
     return result;
   }
   

@@ -1,26 +1,55 @@
 import 'package:equatable/equatable.dart';
 
-class LoginEntity extends Equatable{
-  final String? loginId;
-  final String? password;
-  final String? personFname;
-  final String? deptName;
-  final String? personLname;
-  final String? orgName;
-  final String? clientAuthToken;
+class LoginEntity extends Equatable {
+    LoginEntity({
+        required this.userLoginEntity,
+    });
 
-  const LoginEntity({
-    this.loginId,
-    this.password,
-    this.personFname,
-    this.deptName,
-    this.personLname,
-    this.orgName,
-    this.clientAuthToken,
-  });
+    final UserLoginEntity? userLoginEntity;
+    
+      @override
+     
+      List<Object?> get props => [userLoginEntity];
+
+
+}
+
+class UserLoginEntity extends Equatable {
+    UserLoginEntity({
+
+        required this.clientAutToken,
+        required this.loginId,
+        required this.loginPassword,
+        required this.personFname,
+        required this.orgId,
+        required this.deptName,
+        required this.deptId,
+        required this.orgName,
+    });
+
+    final String? clientAutToken;
+    final String? loginId;
+    final String? loginPassword;
+    final String? personFname;
+    final int? orgId;
+    final String? deptName;
+    final int? deptId;
+    final String? orgName;
+
   
-  @override
+    
+      @override
+      // TODO: implement props
+      List<Object?> get props => [
+           clientAutToken,
+           loginId,
+           loginPassword,
+           personFname,
+           orgId,
+           deptName,
+           deptId,
+           orgName
 
-  List<Object?> get props => [loginId,password];
+    ];
 
 }

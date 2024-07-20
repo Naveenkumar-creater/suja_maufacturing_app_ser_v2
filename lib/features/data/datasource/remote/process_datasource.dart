@@ -6,7 +6,7 @@ import 'package:prominous/features/data/model/process_model.dart';
 import '../../core/process_client.dart';
 
 abstract class ProcessDatasource {
-  Future<ProcessModel> getProcessList(String token);
+  Future<ProcessModel> getProcessList(String token,int deptid);
 }
 
 class ProcessDatasourceImpl implements ProcessDatasource {
@@ -15,8 +15,8 @@ class ProcessDatasourceImpl implements ProcessDatasource {
     this.processClient,
   );
   @override
-  Future<ProcessModel> getProcessList(String token) async {
-    final response = await processClient.getProcessList(token);
+  Future<ProcessModel> getProcessList(String token,int deptid) async {
+    final response = await processClient.getProcessList(token,deptid);
 
     final result = ProcessModel.fromJson(response);
 
