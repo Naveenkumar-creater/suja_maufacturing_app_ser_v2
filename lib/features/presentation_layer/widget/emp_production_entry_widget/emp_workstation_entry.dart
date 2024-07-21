@@ -1319,7 +1319,7 @@ class _EmpProductionEntryPageState
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 8.w, vertical: 4.h),
+                                              horizontal: 4.w, vertical: 4.h),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -1350,7 +1350,7 @@ class _EmpProductionEntryPageState
                                                           ),
                                                         ),
                                                         SizedBox(
-                                                          width: 5.w,
+                                                          width: 2.w,
                                                         ),
                                                         CardNoScanner(
                                                           // empId: widget.empid,
@@ -1551,7 +1551,7 @@ class _EmpProductionEntryPageState
                                                             ),
                                                           ),
                                                           SizedBox(
-                                                            width: 15.w,
+                                                            width: 10.w,
                                                           ),
                                                           SizedBox(
                                                             width: 150.w,
@@ -1631,7 +1631,7 @@ class _EmpProductionEntryPageState
                                                                   InputDecoration(
                                                                 contentPadding:
                                                                     EdgeInsets.symmetric(
-                                                                        horizontal: 10
+                                                                        horizontal: 5
                                                                             .w,
                                                                         vertical:
                                                                             2.h),

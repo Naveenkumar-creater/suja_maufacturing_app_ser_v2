@@ -1093,7 +1093,7 @@ Navigator.pop(context);
                                                                 contentPadding:
                                                                     EdgeInsets.symmetric(
                                                                         horizontal:
-                                                                            10.h),
+                                                                            5.h),
                                                                 border:
                                                                     InputBorder
                                                                         .none,
