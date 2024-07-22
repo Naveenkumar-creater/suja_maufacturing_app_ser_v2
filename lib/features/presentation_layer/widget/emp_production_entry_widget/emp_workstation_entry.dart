@@ -1076,7 +1076,7 @@ class _EmpProductionEntryPageState
           )
         : WillPopScope(
             onWillPop: () async {
-              return true;
+              return false;
             },
             child: Scaffold(
               backgroundColor: Colors.grey.shade300,
