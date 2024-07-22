@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prominous/features/presentation_layer/mobile_page/mobile%20widget/mobile_login_widget.dart';
 import 'package:prominous/features/presentation_layer/widget/login_widget/login_widget.dart';
 
 
@@ -9,7 +11,6 @@ class LoginPageMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
         // bottomNavigationBar: Container(
 
@@ -38,8 +39,7 @@ class LoginPageMobile extends StatelessWidget {
             ),
           ),
           SingleChildScrollView(
-                      child: Column(
-                 
+                      child: Column(    
                        
           children: [
             // ShaderMask(
@@ -95,26 +95,23 @@ class LoginPageMobile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                  children: [
                    Padding(
-                     padding: const EdgeInsets.only(top: 100,left: 20),
+                     padding:  EdgeInsets.only(top: 100.h,left: 20.w),
                      child: SizedBox(
-                      height: 100,
+                      height: 80.h,
                       child: Image.asset('assets/images/Prominous-logo-white.png')),
                    ),
                  ],
                ),
-                  SizedBox(height: 50,),  
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(98, 225, 229, 255),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                width: 350,
-                height: 400,
-                child: Login(),
-                alignment: Alignment.center,
+                  SizedBox(height: 50.h,),  
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(98, 225, 229, 255),
+                borderRadius: BorderRadius.circular(5),
               ),
+              width:300.w,
+              height: 400.h,
+              child: MobileLogin(),
+                      
             ),
           ],
                       ),

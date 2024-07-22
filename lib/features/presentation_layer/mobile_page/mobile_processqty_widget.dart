@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/plan_qty_di.dart';
@@ -60,52 +61,52 @@ class _MobileProcessQtyWidgetState extends State<MobileProcessQtyWidget> {
     //  int? achivedProduct=;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
       child: Container(
         width: double.infinity,
-        height: 120,
+        height: 120.h,
         decoration: BoxDecoration(),
         child: Row(
           children: [
             Expanded(
               child: Container(
                 alignment: Alignment.center,
-                height: 120,
+                height: 120.h,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(150, 235, 236, 255),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(width: 1, color: Colors.grey.shade100)),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(width: 1.w, color: Colors.grey.shade100)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('${planQty}' ?? "0",
                         style:
-                            const TextStyle(fontSize: 18, color: Colors.green,fontFamily: 'Lexend')),
+                            TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
                     Text('Planned Qty',
                         style:
-                            const TextStyle(fontSize: 18, color: Colors.black,fontFamily: 'Lexend')),
+                             TextStyle(fontSize: 18.sp, color: Colors.black54,fontFamily: 'Lexend')),
                   ],
                 ),
               ),
             ),
-            const SizedBox(
-              width: 8,
+             SizedBox(
+              width: 8.w,
             ),
             Expanded(
               child: Container(
-                height: 120,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color:   Color.fromARGB(150, 235, 236, 255),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(width: 1, color: Colors.grey.shade100),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(width: 1.w, color: Colors.grey.shade100),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("${actualQty}" ?? "0",
-                        style: const TextStyle(fontSize: 18, color: Colors.red,fontFamily: 'Lexend')),
+                        style:  TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
                     Text('Actual Qty',
-                        style: const TextStyle(fontSize: 18, color: Colors.black,fontFamily: 'Lexend')),
+                        style:  TextStyle(fontSize: 18.sp, color: Colors.black54,fontFamily: 'Lexend')),
                   ],
                 ),
               ),

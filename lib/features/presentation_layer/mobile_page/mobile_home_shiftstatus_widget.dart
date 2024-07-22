@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
@@ -55,21 +56,7 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
     });
   }
 
-  // Future<void> _fetchActualQty() async {
-  //   try {
-  //     await shiftStatusService.getShiftStatus(
-  //         context: context, deptid: widget.deptid, processid: widget.processid);
-  //     setState(() {
-  //       isLoading = true; // Set isLoading to false when data is fetched
-  //     });
-  //   } catch (e) {
-  //     // ignore: avoid_print
-  //     // print('Error fetching asset list: $e');
-  //     setState(() {
-  //       isLoading = false; // Set isLoading to false even if there's an error
-  //     });
-  //   }
-  // }
+
 
   void closeShiftPop(BuildContext context) async {
     final employeeResponse =
@@ -119,11 +106,11 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            width: 400,
-            height: 200,
+            width: 400.w,
+            height: 200.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+              color: Colors.black87,
             ),
             child: Center(
               child: Padding(
@@ -151,25 +138,7 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                             ),
                           ],
                         )
-                      // else if (allMatchFirstCondition)
-                      //   Column(
-                      //     children: [
-                      //       Text(
-                      //         'Note - "At least one employee should be present on the floor to close the shift."',
-                      //         style: TextStyle(
-                      //           fontStyle: FontStyle.italic,
-                      //           color: Colors.red,
-                      //         ),
-                      //       ),
-                      //       SizedBox(height: 32),
-                      //       ElevatedButton(
-                      //         onPressed: () {
-                      //           Navigator.of(context).pop(); // Close the dialog
-                      //         },
-                      //         child: Text("Retry", style: TextStyle(color: Colors.red)),
-                      //       ),
-                      //     ],
-                      //   )
+                      
                       else if (employeesWithFlattstatus1AndFlattshiftstatus1 !=
                               null &&
                           employeesWithFlattstatus1AndFlattshiftstatus1
@@ -205,7 +174,7 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                                           "${index + 1}. ${employee?.personFname}",
                                           style: TextStyle(
                                             color: Colors.black54,
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                           ),
                                         ),
                                       ],
@@ -428,14 +397,14 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
     //  int? achivedProduct=;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 8,left: 8,right: 8),
+      padding:  EdgeInsets.only(top: 8.h,left: 8.w,right: 8.w),
       child: Container(
-        height: 150, 
+        height: 150.h, 
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 45, 54, 104),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(width: 1,color: Colors.grey.shade100),
+          color:Color.fromARGB(150, 235, 236, 255),
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(width: 1.w,color: Colors.grey.shade100),
          
         ),
         child: Row(
@@ -450,33 +419,39 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                   children: [
                     Text(
                       "Attendance",
-                      style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: 'Lexend',),
+                      style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend',),
                     ),
                     SizedBox(
-                      width: 8,
+                      width: 8.w,
                     ),
                     Text(
                       "${presentees}",
                       style: TextStyle(fontFamily: 'Lexend',
-                         color: Colors.white, fontSize: 18,
+                         color:  Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,
                           fontWeight: FontWeight.w600,
                           ),
                     ),
                     Text(
                       "/",
                       style: TextStyle(fontFamily: 'Lexend',
-                         color: Colors.white, fontSize: 18,),
+                         color:  Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,),
                     ),
                     Text(
                       "${totalemployee}",
                       style: TextStyle(fontFamily: 'Lexend',
-                          color: Colors.white, fontSize: 18,),
+                          color:  Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,),
                     ),
                     SizedBox(width: 16,),   ShiftStatus == 1
-                    ? Text('Shift Id:${Shiftid}',
-                        style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: 'Lexend'))
+                    ? Row(
+                      children: [
+                        Text('Shift Id:',
+                            style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend')),
+                              Text(' ${Shiftid}',
+                            style: TextStyle(color: Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,fontFamily: 'Lexend')),
+                      ],
+                    )
                     : Text('No Shift',
-                        style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: 'Lexend')),
+                        style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend')),
                   ],
                 ),SizedBox(height: 8,),
                 Row(children: [StreamBuilder<String>(
@@ -487,15 +462,15 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                         '${snapshot.data}',
                         style: TextStyle(fontFamily: 'Lexend',
                             fontWeight: FontWeight.w400,
-                           color: Colors.white, fontSize: 18,),
+                           color: Colors.black87, fontSize: 18.sp,),
                       );
                     } else
                       return Text(
                         'Loading',
-                        style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: 'Lexend',),
+                        style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend',),
                       );
                   },
-                ),SizedBox(width: 16,),  Column(
+                ),SizedBox(width: 16.w,),  Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ShiftStatus == 1
@@ -562,9 +537,6 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
               ],
             )],),
                 
-                SizedBox(
-                  width: 10,
-                ),
              
               ],
             ),

@@ -30,13 +30,13 @@ import 'features/presentation_layer/provider/product_provider.dart';
 import 'features/presentation_layer/provider/recent_activity_provider.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight
-    ]
-  );
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.landscapeLeft,
+  //       DeviceOrientation.landscapeRight
+  //   ]
+  // );
   runApp(
     const MyApp(),
   );
@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: false,
             home: const LoginPageLayout()),
-            designSize: const Size(1296, 800),
+            designSize: MediaQuery.of(context as BuildContext).size.width<576 ?Size(360,760): Size(1296, 800),
       ),
     );
   }

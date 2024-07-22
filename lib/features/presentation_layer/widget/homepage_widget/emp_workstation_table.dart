@@ -68,7 +68,7 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
   //     ) async {
   //   // Capture the valid context before the asynchronous operation
   //   final validContext = context;
-    
+
   //   showDialog(
   //     context: validContext,
   //     builder: (BuildContext context) {
@@ -93,9 +93,6 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
   //     },
   //   );
   // }
-
-
-
 
   void showEmployeeAllocationPopup(
       {int? empPersonid,
@@ -131,30 +128,22 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
                     .size
                     .height, // Set the height to full screen height
                 child: EmployeeAllocationPopup(
-                         empId: empPersonid,
-                             
-                         processid: processId,
-                         //  shiftid: shitid,
-                         deptid: deptid,
-                         psid: widget.psid,
-                         attid: int.tryParse(attId ?? ""),
-                         mfgpeid: mfgpeId,
-                       ),
+                  empId: empPersonid,
+
+                  processid: processId,
+                  //  shiftid: shitid,
+                  deptid: deptid,
+                  psid: widget.psid,
+                  attid: int.tryParse(attId ?? ""),
+                  mfgpeid: mfgpeId,
+                ),
               ),
             ),
           ),
         );
       },
     );
-    
   }
-
-
-    
-
-
-
-
 
   @override
   void initState() {
@@ -302,15 +291,14 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
     String token = pref.getString("client_token") ?? "";
 
     final requestBody = WorkstationChanges(
-        clientAutToken: token,
-        pwseempid: empPersonid,
-        apiFor: "change_workstation_v1",
-        pwsePwsId: pwsId,
-        pwseId: pwesId,
-        attid: attId,
-        // flattstatus: attstatus
-        
-        );
+      clientAutToken: token,
+      pwseempid: empPersonid,
+      apiFor: "change_workstation_v1",
+      pwsePwsId: pwsId,
+      pwseId: pwesId,
+      attid: attId,
+      // flattstatus: attstatus
+    );
 
     final requestBodyjson = jsonEncode(requestBody.toJson());
 
@@ -504,13 +492,14 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
                           Text(
                             'Select Workstation',
                             style: TextStyle(
-                             fontSize: 24.sp,
-                                  color: Color.fromARGB(255, 80, 96, 203),
-                                  fontFamily: "Lexend",
-                                  fontWeight: FontWeight.w500
-                            ),
+                                fontSize: 24.sp,
+                                color: Color.fromARGB(255, 80, 96, 203),
+                                fontFamily: "Lexend",
+                                fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(height: 20.h,),
+                          SizedBox(
+                            height: 20.h,
+                          ),
                           Expanded(
                             child: ListView.builder(
                               itemCount: listofWorkstation?.length,
@@ -520,31 +509,35 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
                                 return GestureDetector(
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 16.h, ),
-                                    decoration:
-                                        BoxDecoration(border: Border(
-    top: (index == 0)
-        ? BorderSide(width: 1, color: Colors.grey.shade500)
-        : BorderSide.none,
-    bottom: BorderSide(width: 1, color: Colors.grey.shade500),
-  )), // Set unique background color for selected tile
+                                      vertical: 16.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                      top: (index == 0)
+                                          ? BorderSide(
+                                              width: 1,
+                                              color: Colors.grey.shade500)
+                                          : BorderSide.none,
+                                      bottom: BorderSide(
+                                          width: 1,
+                                          color: Colors.grey.shade500),
+                                    )), // Set unique background color for selected tile
                                     child: Text(
                                       "${workstation?.pwsName} ",
-                                      style: TextStyle(color: Colors.black54,
-                                  fontFamily: "Lexend",
-                                  fontSize: 15.sp),
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
                                     ),
                                   ),
                                   onTap: () async {
                                     await _changeWorkstation(
-                                        empPersonid: empPersonid,
-                                        pwesId: pwseId,
-                                        pwsId: workstation?.pwsId,
-                                        attId: attid,
-                                        // attstatus: attStatus ?? 0
-                                        
-                                        
-                                        );
+                                      empPersonid: empPersonid,
+                                      pwesId: pwseId,
+                                      pwsId: workstation?.pwsId,
+                                      attId: attid,
+                                      // attstatus: attStatus ?? 0
+                                    );
                                     await employeeApiService.employeeList(
                                         context: context,
                                         processid: processId ?? 0,
@@ -1159,13 +1152,14 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
 
                         return Container(
                           decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    width: 1, color: Colors.grey.shade300)),
-                            color: (employee.pwsName!.isEmpty)
-                                ?  Colors.blue.withOpacity(0.3) : (index % 2 == 0 ) ? Colors.grey[50]
-                                : Colors.grey.shade100 
-                          ),
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: 1, color: Colors.grey.shade300)),
+                              color: (employee.pwsName!.isEmpty)
+                                  ? Colors.blue.withOpacity(0.3)
+                                  : (index % 2 == 0)
+                                      ? Colors.grey[50]
+                                      : Colors.grey.shade100),
                           height: 85.h,
                           width: double.infinity,
                           child: Row(
@@ -1189,10 +1183,22 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
                                     alignment: Alignment.centerLeft,
                                     width: 110.w,
                                     child: Text(
-                                       
-          employee!.personFname![0].toUpperCase() + employee!.personFname!.substring(1, employee!.personFname!.length - 1).toLowerCase() +
-              employee!.personFname!.substring(employee!.personFname!.length - 1).toUpperCase()
-          ?? '',
+                                        employee!.personFname![0]
+                                                    .toUpperCase() +
+                                                employee!.personFname!
+                                                    .substring(
+                                                        1,
+                                                        employee!.personFname!
+                                                                .length -
+                                                            1)
+                                                    .toLowerCase() +
+                                                employee!.personFname!
+                                                    .substring(employee!
+                                                            .personFname!
+                                                            .length -
+                                                        1)
+                                                    .toUpperCase() ??
+                                            '',
                                         style: TextStyle(
                                             color: Colors.grey.shade600,
                                             fontFamily: "lexend",
@@ -1203,33 +1209,37 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
                                 width: 130.w,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                //  showAnimatedDialog(context);
-                                
+                                      //  showAnimatedDialog(context);
+
                                       _workstationPopup(
                                         empPersonid: employee.empPersonid,
                                         processId: employee.processId,
                                         pwseId: employee.pwseid,
                                         attid: int.tryParse(employee
-                                                        .attendanceid?.isEmpty ??
+                                                        .attendanceid
+                                                        ?.isEmpty ??
                                                     true
                                                 ? '0'
-                                                : employee.attendanceid ?? '0') ??
+                                                : employee.attendanceid ??
+                                                    '0') ??
                                             0,
                                         attStatus: initialindex ?? 0,
                                       );
                                     },
-                                    child:Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Text(
-                                    (employee?.pwsName?.isEmpty ?? true) ? "Select_WS" : employee!.pwsName!,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 80, 96, 203),
-                                      fontFamily: "lexend",
-                                      fontSize: 13.sp,
-                                    ),
-                                  ),
-                                )
-                                ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(0.0),
+                                      child: Text(
+                                        (employee?.pwsName?.isEmpty ?? true)
+                                            ? "Select_WS"
+                                            : employee!.pwsName!,
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 80, 96, 203),
+                                          fontFamily: "lexend",
+                                          fontSize: 13.sp,
+                                        ),
+                                      ),
+                                    )),
                               ),
                               // GestureDetector(
                               //   onTap: () {
@@ -1296,119 +1306,122 @@ class _EmployeeWorkStationState extends State<EmployeeWorkStation> {
                               //   ),
                               // ),
 
+                              if (initialindex == 0)
+                                SizedBox(
+                                  width: 90.w,
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      width: 100.w,
+                                      child: CustomButton(
+                                        child: Text(
+                                          "Absent",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                        height: 40.h,
+                                        width: 80.w,
+                                        borderRadius: BorderRadius.circular(50),
+                                        onPressed: (employee
+                                                    ?.pwsName?.isEmpty ??
+                                                true)
+                                            ? null
+                                            : () async {
+                                                await sendAttendance(
+                                                    1,
+                                                    employee?.attendanceid ??
+                                                        "",
+                                                    employee.empPersonid,
+                                                    employee.flattdate,
+                                                    employee.pwsId);
 
-                              if( initialindex ==
-                                            0)
-SizedBox(
-  width: 90.w,
-  child: Container(
-    alignment: Alignment.center,
-    width: 100.w,
-  
-    child: 
-    CustomButton(child: Text("Absent",style: TextStyle(color: Colors.white),),
-    
-    backgroundColor: Colors.red,
-    height: 40.h,
-    width: 80.w,
-    borderRadius: BorderRadius.circular(50),
-    
-    onPressed:(employee?.pwsName?.isEmpty ?? true)  
-                                        ? null
-                                        : 
-    
-    
-     ()async{
-               await sendAttendance(
-            1,
-            employee?.attendanceid ?? "",
-            employee.empPersonid,
-            employee.flattdate,
-            employee.pwsId);
-   
-    
-        await employeeApiService.employeeList(
-            context: context,
-            processid: employee.processId ?? 0,
-            deptid: widget.deptid ?? 1,
-            psid: widget.psid ?? 0);
-        await listofworkstationService
-            .getListofWorkstation(
-                context: context,
-                deptid: widget.deptid ?? 1057,
-                psid: widget.psid ?? 0,
-                processid:
-                    employee.processId ?? 0);
-    
-      await attendanceCountService.getAttCount(
-            context: context,
-            id: employee.processId ?? 0,
-            deptid: widget.deptid,
-            psid: widget.psid ?? 0);
+                                                await employeeApiService
+                                                    .employeeList(
+                                                        context: context,
+                                                        processid: employee
+                                                                .processId ??
+                                                            0,
+                                                        deptid:
+                                                            widget.deptid ?? 1,
+                                                        psid: widget.psid ?? 0);
+                                                await listofworkstationService
+                                                    .getListofWorkstation(
+                                                        context: context,
+                                                        deptid: widget.deptid ??
+                                                            1057,
+                                                        psid: widget.psid ?? 0,
+                                                        processid: employee
+                                                                .processId ??
+                                                            0);
 
-    },
-    
-    )
-    
-    
+                                                await attendanceCountService
+                                                    .getAttCount(
+                                                        context: context,
+                                                        id: employee
+                                                                .processId ??
+                                                            0,
+                                                        deptid: widget.deptid,
+                                                        psid: widget.psid ?? 0);
+                                              },
+                                      )),
+                                )
+                              else if (initialindex == 1)
+                                SizedBox(
+                                  width: 90.w,
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      width: 100.w,
+                                      child: CustomButton(
+                                        child: Text(
+                                          "Present",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        backgroundColor: Colors.green,
+                                        height: 40.h,
+                                        width: 80.w,
+                                        borderRadius: BorderRadius.circular(50),
+                                        onPressed: (employee
+                                                    ?.pwsName?.isEmpty ??
+                                                true)
+                                            ? null
+                                            : () async {
+                                                await sendAttendance(
+                                                    0,
+                                                    employee?.attendanceid ??
+                                                        "",
+                                                    employee.empPersonid,
+                                                    employee.flattdate,
+                                                    employee.pwsId);
 
-  ),
-)
+                                                await employeeApiService
+                                                    .employeeList(
+                                                        context: context,
+                                                        processid: employee
+                                                                .processId ??
+                                                            0,
+                                                        deptid:
+                                                            widget.deptid ?? 1,
+                                                        psid: widget.psid ?? 0);
+                                                await listofworkstationService
+                                                    .getListofWorkstation(
+                                                        context: context,
+                                                        deptid: widget.deptid ??
+                                                            1057,
+                                                        psid: widget.psid ?? 0,
+                                                        processid: employee
+                                                                .processId ??
+                                                            0);
 
-    else if( initialindex ==  1)
-
-SizedBox(
-  width: 90.w,
-  child: Container(
-    alignment: Alignment.center,
-    width: 100.w,
-                                   
-    child: CustomButton(child: Text("Present",style: TextStyle(color: Colors.white),),
-    
-    backgroundColor: Colors.green,
-    height: 40.h,
-    width: 80.w,
-    borderRadius: BorderRadius.circular(50),
-    
-    onPressed: 
-(employee?.pwsName?.isEmpty ?? true)  ? null :    
-    ()async{
-               await sendAttendance(
-            0,
-            employee?.attendanceid ?? "",
-            employee.empPersonid,
-            employee.flattdate,
-            employee.pwsId);
-   
-    
-        await employeeApiService.employeeList(
-            context: context,
-            processid: employee.processId ?? 0,
-            deptid: widget.deptid ?? 1,
-            psid: widget.psid ?? 0);
-        await listofworkstationService
-            .getListofWorkstation(
-                context: context,
-                deptid: widget.deptid ?? 1057,
-                psid: widget.psid ?? 0,
-                processid:
-                    employee.processId ?? 0);
-    
-      await attendanceCountService.getAttCount(
-            context: context,
-            id: employee.processId ?? 0,
-            deptid: widget.deptid,
-            psid: widget.psid ?? 0);
-
-    },
-    
-    )
-    
-  
-  ),
-),
-
-
+                                                await attendanceCountService
+                                                    .getAttCount(
+                                                        context: context,
+                                                        id: employee
+                                                                .processId ??
+                                                            0,
+                                                        deptid: widget.deptid,
+                                                        psid: widget.psid ?? 0);
+                                              },
+                                      )),
+                                ),
 
                               // Padding(
                               //   padding: EdgeInsets.symmetric(
@@ -1462,8 +1475,6 @@ SizedBox(
                               //   ),
                               // ),
 
-
-
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 2.h, horizontal: 2.w),
@@ -1475,13 +1486,10 @@ SizedBox(
                                       "Change",
                                       style: TextStyle(fontSize: 14.w),
                                     ),
-                                    onPressed: initialindex ==
-                                            0 
+                                    onPressed: initialindex == 0
                                         ? null
                                         : () {
                                             setState(() {
-
-                                              
                                               showEmployeeAllocationPopup(
                                                 attId: employee.attendanceid,
                                                 deptid: widget.deptid ?? 0,
