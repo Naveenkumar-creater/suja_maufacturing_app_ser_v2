@@ -96,7 +96,7 @@ class _LoginState extends State<MobileLogin> {
                 hintText: "Password",
                       constrainBox: BoxConstraints(maxHeight:  60.h, maxWidth:  250.w),
                 textStyle:TextStyle(color: Colors.black38, fontSize: 14.w) ,
-                labelStyle: TextStyle(fontSize: 10.w),
+                labelStyle: TextStyle(fontSize: 12.w),
                 hintStyle:  TextStyle(color: Colors.black38, fontSize: 12.w),
                 
                 focusNode: secondTextFieldFocus,

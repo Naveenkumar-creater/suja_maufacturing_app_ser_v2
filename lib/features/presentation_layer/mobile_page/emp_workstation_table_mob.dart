@@ -9,6 +9,8 @@ import 'package:prominous/constant/request_data_model/workstation_change_model.d
 import 'package:prominous/constant/utilities/customwidgets/custombutton.dart';
 import 'package:prominous/features/data/model/shift_status_model.dart';
 import 'package:prominous/features/presentation_layer/api_services/listofworkstation_di.dart';
+import 'package:prominous/features/presentation_layer/mobile_page/mobile%20widget/mob_production_entry.dart';
+import 'package:prominous/features/presentation_layer/mobile_page/mobile_emp_production_entry.dart';
 import 'package:prominous/features/presentation_layer/provider/listofworkstation_provider.dart';
 import 'package:prominous/features/presentation_layer/widget/emp_production_entry_widget/emp_close_shift_widget.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +47,8 @@ class EmployeeWorkStationMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EmployeeWorkStationMobile> createState() => _EmployeeWorkStationMobileState();
+  State<EmployeeWorkStationMobile> createState() =>
+      _EmployeeWorkStationMobileState();
 }
 
 class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
@@ -122,8 +125,7 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
               alignment: Alignment.centerRight, // Align the drawer to the right
               child: Container(
                 color: Colors.white,
-                width: MediaQuery.of(context).size.width *
-                    0.4, // Set the width to half of the screen
+                width:200.w, // Set the width to half of the screen
                 height: MediaQuery.of(context)
                     .size
                     .height, // Set the height to full screen height
@@ -271,6 +273,163 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
     }
   }
 
+
+
+ void _openWorkstationBottomSheet( int ? processid) {
+   final listofWorkstation =
+        Provider.of<ListofworkstationProvider>(context, listen: false)
+            .user
+            ?.listOfWorkstation;
+ 
+    showModalBottomSheet(
+       shape: RoundedRectangleBorder(
+     borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+  ),
+    backgroundColor: Colors.white,
+        context: context,
+        builder: (context) => Container(
+              height: 350.h,
+            
+              child: ListView.builder(
+                itemCount: listofWorkstation?.length,
+                itemBuilder: (context, index) {
+                  final workstaion = listofWorkstation?[index];
+                  return Padding(
+                    padding: EdgeInsets.only(top: 12.w,left: 12.w,right: 12.w),
+                    child: Container(
+                      height: 90.h,
+                      decoration: BoxDecoration(
+                          color:Color.fromARGB(150, 235, 236, 255),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                                      //  SizedBox(width: 10.w, child: Text('${index + 1} ')),  
+                                                            SizedBox(
+                                 width: 120.w,
+                                child: Text(workstaion?.pwsName ?? "",
+                                
+                                  style: TextStyle(
+                                      fontFamily: "Lexend",
+                                      fontSize: 16.sp,
+                  color: Color.fromARGB(255, 80, 96, 203),
+
+                                  )
+                                )),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10.h,),
+                                                         
+                                       Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                children:[
+                                                      
+                                     SizedBox(
+                                      width: 100.w,
+                                       child: Text(
+                                                                       'No of Staff',
+                                                                       style: TextStyle(
+                                        fontFamily: "Lexend",
+                                        fontSize: 14.sp,
+                                        color: Colors.black54),
+                                                                     ),
+                                     ),
+                                SizedBox(width: 10,),
+                                  
+                                   Text(
+                                  '${workstaion?.noOfStaff}  ',
+                                  style: TextStyle(
+                                      fontFamily: "lexend",
+                                      fontSize: 14.sp,
+                                      color: Color.fromARGB(255, 80, 96, 203),),
+                                ),
+                                ]
+                                                            ),
+                                    
+                                  ],
+                                ),
+                              ),
+                        
+                         
+                          SizedBox(width: 20,),
+                          
+                             if (workstaion?.noOfStaff!= 0)
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.h, horizontal: 20.w),
+                                          child: Container(
+                                              width: 100.w,
+                                              height: 50.h,
+                                              child: CustomButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MobileEmpWorkstationProductionEntryPage(
+                                                        // empid: employee.empPersonid!,
+                                                        processid: processid ?? 1,
+                                                        deptid: widget.deptid,
+                                                        isload: true,
+                                                        pwsid: workstaion?.pwsId,
+                                                        workstationName:
+                                                            workstaion?.pwsName,
+                                                        // attenceid:
+                                                        //     employee.attendanceid,
+                                                        // attendceStatus:
+                                                        //     employee.flattstatus,
+                                                        // shiftId: widget.shiftid,
+                                                        psid: widget.psid,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                width: 60.w,
+                                                height: 40.h,
+                                                backgroundColor: Colors.green,
+                                                borderRadius: BorderRadius.circular(50),
+                                                child: Text("Add",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: "lexend",
+                                                        fontSize: 14.sp)),
+                                              )),
+                                        ),
+                                      ],
+                                    )
+                                    else
+                                     Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.h, horizontal: 20.w),
+                                      child: Container(
+                                          width: 100.w,
+                                          child: Text("")
+                                          
+                                          ),
+                                    )
+                          
+                          ]),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ));
+  }
+
+
   Future<void> _changeWorkstation(
       {int? pwesId,
       int? empPersonid,
@@ -338,113 +497,8 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
       ShowError.showAlert(context, e.toString());
     }
   }
-  // void _closeShiftPop(
-  //   BuildContext context,
-  //   String attenceid,
-  //   int attendceStatus,
-  //   int empPersonid,
-  //   int processid,
-  // ) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return Dialog(
-  //           backgroundColor: Colors.white,
-  //           child: WillPopScope(
-  //             onWillPop: () async {
-  //               return false;
-  //             },
-  //             child: Container(
-  //               width: 200,
-  //               height: 150,
-  //               decoration: BoxDecoration(
-  //                   color: Colors.white,
-  //                   borderRadius: BorderRadius.circular(8)),
-  //               child: Padding(
-  //                 padding: const EdgeInsets.only(
-  //                   top: 32,
-  //                 ),
-  //                 child: Column(children: [
-  //                   const Text("Confirm you submission"),
-  //                   const SizedBox(
-  //                     height: 32,
-  //                   ),
-  //                   Center(
-  //                     child: Row(
-  //                       mainAxisAlignment: MainAxisAlignment.center,
-  //                       children: [
-  //                         ElevatedButton(
-  //                           onPressed: () async {
-  //                             try {
-  //                               await employeeApiService.employeeList(
-  //                                 context: context,
-  //                                 processid: processid ?? 0,
-  //                                 deptid: widget.deptid ?? 1,
-  //                                 psid: widget.psid ?? 0,
-  //                               );
-  //                               await listofworkstationService
-  //                                   .getListofWorkstation(
-  //                                       context: context,
-  //                                       deptid: widget.deptid ?? 1057,
-  //                                       psid: widget.psid ?? 0,
-  //                                       processid: processid);
-  //                               // Call the EmpClossShift.empCloseShift method
 
-  //                               await EmpClosesShift.empCloseShift(
-  //                                   'emp_close_shift',
-  //                                   widget.psid ?? 0,
-  //                                   1,
-  //                                   attenceid ?? " ",
-  //                                   attendceStatus ?? 0);
-
-  //                               Navigator.push(
-  //                                 context,
-  //                                 MaterialPageRoute(
-  //                                   builder: (context) =>
-  //                                       EmpWorkstationProductionEntryPage(
-  //                                     empid: empPersonid!,
-  //                                     processid: processid ?? 1,
-  //                                     deptid: widget.deptid,
-  //                                     isload: true,
-  //                                     attenceid: attenceid,
-  //                                     attendceStatus: attendceStatus,
-  //                                     // shiftId: widget.shiftid,
-  //                                     psid: widget.psid,
-  //                                   ),
-  //                                 ),
-  //                               );
-  //                             } catch (error) {
-  //                               // Handle and show the error message here
-  //                               ScaffoldMessenger.of(context).showSnackBar(
-  //                                 SnackBar(
-  //                                   content: Text(error.toString()),
-  //                                   backgroundColor: Colors.amber,
-  //                                 ),
-  //                               );
-  //                             }
-  //                           },
-  //                           child: const Text("Submit"),
-  //                         ),
-  //                         const SizedBox(
-  //                           width: 20,
-  //                         ),
-  //                         ElevatedButton(
-  //                             onPressed: () {
-  //                               Navigator.pop(context);
-  //                             },
-  //                             child: const Text("Go back")),
-  //                       ],
-  //                     ),
-  //                   )
-  //                 ]),
-  //               ),
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
-
-  void _workstationPopup(
+void _workstationPopup(
       {int? empPersonid,
       int? pwseId,
       int? processId,
@@ -473,8 +527,7 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
               alignment: Alignment.centerRight, // Align the drawer to the right
               child: Container(
                 color: Colors.white,
-                width: MediaQuery.of(context).size.width *
-                    0.4, // Set the width to half of the screen
+                width: 200.w, // Set the width to half of the screen
                 height: MediaQuery.of(context)
                     .size
                     .height, // Set the height to full screen height
@@ -492,7 +545,7 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
                           Text(
                             'Select Workstation',
                             style: TextStyle(
-                                fontSize: 24.sp,
+                                fontSize: 18.sp,
                                 color: Color.fromARGB(255, 80, 96, 203),
                                 fontFamily: "Lexend",
                                 fontWeight: FontWeight.w500),
@@ -569,7 +622,6 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final employeeResponse =
@@ -592,35 +644,27 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
             ?.psMpmId;
     final Size size = MediaQuery.of(context).size;
 
-    return Container(height: 450.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-            bottomLeft: Radius.circular(8),
-            bottomRight: Radius.circular(8)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Expanded(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      child: Container(
+        height: 325.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
                 child: Container(
               width: 500.w,
-              height: 200.h,
+              height: 100.h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8)),
-                color: Colors.white
+                   borderRadius: BorderRadius.circular(5),
+                color: Color.fromARGB(150, 235, 236, 255),
               ),
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [ 
+                children: [
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
@@ -629,261 +673,286 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
                         final employee = employeeResponse![index];
                         DateTime now = DateTime.now();
                         String today = DateFormat('yyyy-MM-dd').format(now);
-                
+
                         String? dt = employee.flattdate;
                         int? shiftstatus = employee?.flattshiftstatus;
                         initialindex = employee.flattstatus;
-                
+
                         String? flattDate =
                             dt; // Parse dt to DateTime if not null
-                
+
                         String attdate =
                             flattDate ?? ""; // Format flattDate if not null
-                
-                        return ExpansionTile(
-                          title: Row(
-               
-                            children: [
-                               Text('${index + 1}',
+
+                        return Container(
+                          color: index % 2 == 0
+                              ? Color.fromARGB(250, 235, 236, 255)
+                              : Color.fromARGB(10, 235, 236, 255),
+                          child: ExpansionTile(shape: Border(bottom: BorderSide.none),
+                              childrenPadding: EdgeInsets.symmetric(
+                                  horizontal: 8.w, vertical: 8.h),
+                              title: Row(
+                                children: [
+                                  SizedBox(width: 20.w,
+                                    child: Text('${index + 1}',
                                         style: TextStyle(
                                             color: Colors.grey.shade600,
                                             fontFamily: "lexend",
                                             fontSize: 14.sp)),
-            
-                                            SizedBox(width: 5.w,),
-                              SizedBox(
-                                width: 150.w,
-                                child: Text(
-                                              employee!.personFname![0]
-                                                          .toUpperCase() +
-                                                      employee!.personFname!
-                                                          .substring(
-                                                              1,
-                                                              employee!.personFname!
-                                                                      .length -
-                                                                  1)
-                                                          .toLowerCase() +
-                                                      employee!.personFname!
-                                                          .substring(employee!
-                                                                  .personFname!
-                                                                  .length -
-                                                              1)
-                                                          .toUpperCase() ??
-                                                  '',
-                                              style: TextStyle(
-                                                  color: Colors.grey.shade600,
-                                                  fontFamily: "lexend",
-                                                  fontSize: 14.sp)),
-                              ),
-            
-                   SizedBox(width: 20.w,),
-                                                 if (initialindex == 0)
-                                SizedBox(
-                                  width: 90.w,
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      width: 100.w,
-                                      child: CustomButton(
-                                        child: Text(
-                                          "Absent",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        backgroundColor: Colors.red,
-                                        height: 40.h,
-                                        width: 80.w,
-                                        borderRadius: BorderRadius.circular(50),
-                                        onPressed: (employee
-                                                    ?.pwsName?.isEmpty ??
-                                                true)
-                                            ? null
-                                            : () async {
-                                                await sendAttendance(
-                                                    1,
-                                                    employee?.attendanceid ??
-                                                        "",
-                                                    employee.empPersonid,
-                                                    employee.flattdate,
-                                                    employee.pwsId);
-                              
-                                                await employeeApiService
-                                                    .employeeList(
-                                                        context: context,
-                                                        processid: employee
-                                                                .processId ??
-                                                            0,
-                                                        deptid:
-                                                            widget.deptid ?? 1,
-                                                        psid: widget.psid ?? 0);
-                                                await listofworkstationService
-                                                    .getListofWorkstation(
-                                                        context: context,
-                                                        deptid: widget.deptid ??
-                                                            1057,
-                                                        psid: widget.psid ?? 0,
-                                                        processid: employee
-                                                                .processId ??
-                                                            0);
-                              
-                                                await attendanceCountService
-                                                    .getAttCount(
-                                                        context: context,
-                                                        id: employee
-                                                                .processId ??
-                                                            0,
-                                                        deptid: widget.deptid,
-                                                        psid: widget.psid ?? 0);
-                                              },
-                                      )),
-                                )
-                              else if (initialindex == 1)
-                                SizedBox(
-                                  width: 90.w,
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      width: 100.w,
-                                      child: CustomButton(
-                                        child: Text(
-                                          "Present",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        backgroundColor: Colors.green,
-                                        height: 40.h,
-                                        width: 80.w,
-                                        borderRadius: BorderRadius.circular(50),
-                                        onPressed: (employee
-                                                    ?.pwsName?.isEmpty ??
-                                                true)
-                                            ? null
-                                            : () async {
-                                                await sendAttendance(
-                                                    0,
-                                                    employee?.attendanceid ??
-                                                        "",
-                                                    employee.empPersonid,
-                                                    employee.flattdate,
-                                                    employee.pwsId);
-                              
-                                                await employeeApiService
-                                                    .employeeList(
-                                                        context: context,
-                                                        processid: employee
-                                                                .processId ??
-                                                            0,
-                                                        deptid:
-                                                            widget.deptid ?? 1,
-                                                        psid: widget.psid ?? 0);
-                                                await listofworkstationService
-                                                    .getListofWorkstation(
-                                                        context: context,
-                                                        deptid: widget.deptid ??
-                                                            1057,
-                                                        psid: widget.psid ?? 0,
-                                                        processid: employee
-                                                                .processId ??
-                                                            0);
-                              
-                                                await attendanceCountService
-                                                    .getAttCount(
-                                                        context: context,
-                                                        id: employee
-                                                                .processId ??
-                                                            0,
-                                                        deptid: widget.deptid,
-                                                        psid: widget.psid ?? 0);
-                                              },
-                                      )),
-                                ),
-                            
-                            ],
-                          ),
-                          children: 
-                          
-                          [
-                            Row(
-                            children: [
-                            
-                              
-                              SizedBox(
-                                width: 130.w,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      //  showAnimatedDialog(context);
-                              
-                                      _workstationPopup(
-                                        empPersonid: employee.empPersonid,
-                                        processId: employee.processId,
-                                        pwseId: employee.pwseid,
-                                        attid: int.tryParse(employee
-                                                        .attendanceid
-                                                        ?.isEmpty ??
-                                                    true
-                                                ? '0'
-                                                : employee.attendanceid ??
-                                                    '0') ??
-                                            0,
-                                        attStatus: initialindex ?? 0,
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(0.0),
-                                      child: Text(
-                                        (employee?.pwsName?.isEmpty ?? true)
-                                            ? "Select_WS"
-                                            : employee!.pwsName!,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  SizedBox(
+                                    width: 150.w,
+                                    child: Text(
+                                        employee!.personFname![0]
+                                                    .toUpperCase() +
+                                                employee!.personFname!
+                                                    .substring(
+                                                        1,
+                                                        employee!.personFname!
+                                                                .length -
+                                                            1)
+                                                    .toLowerCase() +
+                                                employee!.personFname!
+                                                    .substring(employee!
+                                                            .personFname!
+                                                            .length -
+                                                        1)
+                                                    .toUpperCase() ??
+                                            '',
                                         style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 80, 96, 203),
-                                          fontFamily: "lexend",
-                                          fontSize: 13.sp,
+                                            color: Colors.grey.shade600,
+                                            fontFamily: "lexend",
+                                            fontSize: 14.sp)),
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  if (initialindex == 0)
+                                    SizedBox(
+                                      width: 90.w,
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: 100.w,
+                                          child: CustomButton(
+                                            child: Text(
+                                              "Absent",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            backgroundColor: Colors.red,
+                                            height: 40.h,
+                                            width: 80.w,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            onPressed: (employee
+                                                        ?.pwsName?.isEmpty ??
+                                                    true)
+                                                ? null
+                                                : () async {
+                                                    await sendAttendance(
+                                                        1,
+                                                        employee?.attendanceid ??
+                                                            "",
+                                                        employee.empPersonid,
+                                                        employee.flattdate,
+                                                        employee.pwsId);
+
+                                                    await employeeApiService
+                                                        .employeeList(
+                                                            context: context,
+                                                            processid: employee
+                                                                    .processId ??
+                                                                0,
+                                                            deptid:
+                                                                widget.deptid ??
+                                                                    1,
+                                                            psid: widget.psid ??
+                                                                0);
+                                                    await listofworkstationService
+                                                        .getListofWorkstation(
+                                                            context: context,
+                                                            deptid:
+                                                                widget.deptid ??
+                                                                    1057,
+                                                            psid: widget.psid ??
+                                                                0,
+                                                            processid: employee
+                                                                    .processId ??
+                                                                0);
+
+                                                    await attendanceCountService
+                                                        .getAttCount(
+                                                            context: context,
+                                                            id: employee
+                                                                    .processId ??
+                                                                0,
+                                                            deptid:
+                                                                widget.deptid,
+                                                            psid: widget.psid ??
+                                                                0);
+                                                  },
+                                          )),
+                                    )
+                                  else if (initialindex == 1)
+                                    SizedBox(
+                                      width: 90.w,
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: 100.w,
+                                          child: CustomButton(
+                                            child: Text(
+                                              "Present",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            backgroundColor: Colors.green,
+                                            height: 40.h,
+                                            width: 80.w,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            onPressed: (employee
+                                                        ?.pwsName?.isEmpty ??
+                                                    true)
+                                                ? null
+                                                : () async {
+                                                    await sendAttendance(
+                                                        0,
+                                                        employee?.attendanceid ??
+                                                            "",
+                                                        employee.empPersonid,
+                                                        employee.flattdate,
+                                                        employee.pwsId);
+
+                                                    await employeeApiService
+                                                        .employeeList(
+                                                            context: context,
+                                                            processid: employee
+                                                                    .processId ??
+                                                                0,
+                                                            deptid:
+                                                                widget.deptid ??
+                                                                    1,
+                                                            psid: widget.psid ??
+                                                                0);
+                                                    await listofworkstationService
+                                                        .getListofWorkstation(
+                                                            context: context,
+                                                            deptid:
+                                                                widget.deptid ??
+                                                                    1057,
+                                                            psid: widget.psid ??
+                                                                0,
+                                                            processid: employee
+                                                                    .processId ??
+                                                                0);
+
+                                                    await attendanceCountService
+                                                        .getAttCount(
+                                                            context: context,
+                                                            id: employee
+                                                                    .processId ??
+                                                                0,
+                                                            deptid:
+                                                                widget.deptid,
+                                                            psid: widget.psid ??
+                                                                0);
+                                                  },
+                                          )),
+                                    ),
+                                ],
+                              ),
+                              children: [
+                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: 120.w,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            //  showAnimatedDialog(context);
+
+                                            _workstationPopup(
+                                              empPersonid: employee.empPersonid,
+                                              processId: employee.processId,
+                                              pwseId: employee.pwseid,
+                                              attid: int.tryParse(employee
+                                                              .attendanceid
+                                                              ?.isEmpty ??
+                                                          true
+                                                      ? '0'
+                                                      : employee.attendanceid ??
+                                                          '0') ??
+                                                  0,
+                                              attStatus: initialindex ?? 0,
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Text(
+                                              (employee?.pwsName?.isEmpty ??
+                                                      true)
+                                                  ? "Select_WS"
+                                                  : employee!.pwsName!,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 80, 96, 203),
+                                                fontFamily: "lexend",
+                                                fontSize: 13.sp,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 2.h, horizontal: 40.w),
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.w,
+                                        child: ElevatedButton(
+                                          child: Text(
+                                            "Change",
+                                            style: TextStyle(fontSize: 14.w),
+                                          ),
+                                          onPressed: initialindex == 0
+                                              ? null
+                                              : () {
+                                                  setState(() {
+                                                    showEmployeeAllocationPopup(
+                                                      attId:
+                                                          employee.attendanceid,
+                                                      deptid:
+                                                          widget.deptid ?? 0,
+                                                      empPersonid:
+                                                          employee.empPersonid,
+                                                      mfgpeId:
+                                                          employee.mfgpempid,
+
+                                                      processId:
+                                                          employee.processId,
+
+                                                      // widget?.shiftid ??0,
+                                                    );
+                                                    employeeApiService
+                                                        .employeeList(
+                                                            context: context,
+                                                            processid: employee
+                                                                    .processId ??
+                                                                0,
+                                                            deptid: widget
+                                                                    .deptid ??
+                                                                1,
+                                                            psid: widget.psid ??
+                                                                0);
+                                                  });
+                                                },
                                         ),
                                       ),
-                                    )),
-                              ),
-                                            
-                              
-                             
-                              
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2.h, horizontal: 60.w),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 100.w,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      "Change",
-                                      style: TextStyle(fontSize: 14.w),
                                     ),
-                                    onPressed: initialindex == 0
-                                        ? null
-                                        : () {
-                                            setState(() {
-                                              showEmployeeAllocationPopup(
-                                                attId: employee.attendanceid,
-                                                deptid: widget.deptid ?? 0,
-                                                empPersonid:
-                                                    employee.empPersonid,
-                                                mfgpeId: employee.mfgpempid,
-                              
-                                                processId: employee.processId,
-                              
-                                                // widget?.shiftid ??0,
-                                              );
-                                              employeeApiService.employeeList(
-                                                  context: context,
-                                                  processid:
-                                                      employee.processId ?? 0,
-                                                  deptid: widget.deptid ?? 1,
-                                                  psid: widget.psid ?? 0);
-                                            });
-                                          },
-                                  ),
+                                  ],
                                 ),
-                              ),
-                          
-                            ],
-                          ),
-                          ]
+                              ]),
                         );
                       },
                     ),
@@ -891,205 +960,53 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
                 ],
               ),
             )),
-          ),
 
+            
+          
+   
 
-           Container(
-                      // color: Colors.amber,
-                      decoration: BoxDecoration(
-          color: Color.fromARGB(150, 235, 236, 255),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8)),
-                      ),
-                      width: 498.w,
-                      height: 200.h,
-              
-                      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                height: 76.h,
-                width: 506.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8)),
-                  color: Color.fromARGB(255, 45, 54, 104),
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.w),
-                      child: Container(
-                          width: 40.w,
-                          child: Text('S.No',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "lexend",
-                                  fontSize: 12.sp))),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 8.h, horizontal: 8.w),
-                      child: Container(
-                          alignment: Alignment.center,
-                          width: 80.w,
-                          child: Text('Workstation',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "lexend",
-                                  fontSize: 12.sp))),
-                    ),
-        
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 8.h, horizontal: 8.w),
-                      child: Container(
-                        width: 80.w,
-                        alignment: Alignment.center,
-                        child: Text('No of Staff',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "lexend",
-                                fontSize: 12.sp)),
-                      ),
-                    ),
-                   
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 8.h, horizontal: 8.w),
-                      child: Container(
-                        width: 80.w,
-                        alignment: Alignment.center,
-                        child: Text('Prod Entry',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "lexend",
-                                fontSize: 12.sp)),
-                      ),
-                    ),
-                  ],
-                )),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: listofWorkstation?.length ?? 0,
-                itemBuilder: (context, index) {
-                  final listWorkstation = listofWorkstation![index];
-                  DateTime now = DateTime.now();
-                  String today = DateFormat('yyyy-MM-dd').format(now);
-              
-                  return Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: Colors.grey.shade300)),
-                      color: index % 2 == 0
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade100,
-                    ),
-                    height: 85.h,
-                    width: double.infinity,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.h, horizontal: 8.w),
-                          child: Container(
-                              alignment: Alignment.center,
-                              width: 40.w,
-                              child: Text('${index + 1}',
-                                  style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontFamily: "lexend",
-                                      fontSize: 12.sp))),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.h, horizontal: 8.w),
-                          child: Container(
-                              alignment: Alignment.center,
-                              width: 80.w,
-                              child: Text(
-                                  "${listWorkstation.pwsName}" ?? '',
-                                  style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontFamily: "lexend",
-                                      fontSize: 12.sp))),
-                        ),
-              
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 4.h, horizontal: 4.w),
-                          child: Container(
-                              alignment: Alignment.center,
-                              width: 70.w,
-                              child: Text("${listWorkstation.noOfStaff}",
-                                  style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontFamily: "lexend",
-                                      fontSize: 12.sp))),
-                        ),
-              
-                       
-                        if (listWorkstation.noOfStaff != 0)
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8.h, horizontal: 20.w),
-                            child: Container(
-                                width: 80.w,
-                                child: CustomButton(
-                                  onPressed: () {
-                                   
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EmpWorkstationProductionEntryPage(
-                                          // empid: employee.empPersonid!,
-                                          processid: process_id ?? 1,
-                                          deptid: widget.deptid,
-                                          isload: true,
-                                          pwsid: listWorkstation.pwsId,
-                                          workstationName:
-                                              listWorkstation.pwsName,
-                                          // attenceid:
-                                          //     employee.attendanceid,
-                                          // attendceStatus:
-                                          //     employee.flattstatus,
-                                          // shiftId: widget.shiftid,
-                                          psid: widget.psid,
-                                        ),
-                                      ),
-                                    );
-              
-                               
-                                  },
-                                  width: 70.w,
-                                  height: 40.h,
-                                  backgroundColor: Colors.green,
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Text("Add",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: "lexend",
-                                          fontSize: 12.sp)),
-                                )),
-                          )
-                     
-                      ],
-                    ),
-                  );
-                },
-              ),
-            )
+SizedBox(height: 8.h,),
+             Padding(
+                                padding: EdgeInsets.only(left: 2.w,right: 2.w),
+                                child: Container(
+                                  height: 60.h,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(150, 235, 236, 255),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Workstation",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                fontFamily: "Lexend")),
+                                        CustomButton(
+                                            width: 100.w,
+                                            height: 40.h,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            backgroundColor: Colors.green,
+                                            onPressed: () {
+                                            _openWorkstationBottomSheet(process_id);
+                                            },
+                                            child: Text(
+                                              "View",
+                                              style: TextStyle(
+                                                  fontFamily: "Lexend",
+                                                  color: Colors.white,
+                                                  fontSize: 14.sp),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
           ],
-                      ),
-                    ),
-        ],
+        ),
       ),
     );
   }

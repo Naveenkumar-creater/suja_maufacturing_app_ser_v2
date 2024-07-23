@@ -64,14 +64,14 @@ class _MobileProcessQtyWidgetState extends State<MobileProcessQtyWidget> {
       padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
       child: Container(
         width: double.infinity,
-        height: 120.h,
+        height:150.h,
         decoration: BoxDecoration(),
         child: Row(
           children: [
             Expanded(
               child: Container(
                 alignment: Alignment.center,
-                height: 120.h,
+                height: 150.h,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(150, 235, 236, 255),
                     borderRadius: BorderRadius.circular(8.r),
@@ -84,7 +84,7 @@ class _MobileProcessQtyWidgetState extends State<MobileProcessQtyWidget> {
                             TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
                     Text('Planned Qty',
                         style:
-                             TextStyle(fontSize: 18.sp, color: Colors.black54,fontFamily: 'Lexend')),
+                             TextStyle(fontSize: 16.sp, color: Colors.black54,fontFamily: 'Lexend')),
                   ],
                 ),
               ),
@@ -94,7 +94,7 @@ class _MobileProcessQtyWidgetState extends State<MobileProcessQtyWidget> {
             ),
             Expanded(
               child: Container(
-                height: 120.h,
+                height: 150.h,
                 decoration: BoxDecoration(
                   color:   Color.fromARGB(150, 235, 236, 255),
                   borderRadius: BorderRadius.circular(8.r),
@@ -106,7 +106,7 @@ class _MobileProcessQtyWidgetState extends State<MobileProcessQtyWidget> {
                     Text("${actualQty}" ?? "0",
                         style:  TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
                     Text('Actual Qty',
-                        style:  TextStyle(fontSize: 18.sp, color: Colors.black54,fontFamily: 'Lexend')),
+                        style:  TextStyle(fontSize: 16.sp, color: Colors.black54,fontFamily: 'Lexend')),
                   ],
                 ),
               ),

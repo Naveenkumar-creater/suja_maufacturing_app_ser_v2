@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:prominous/features/presentation_layer/api_services/employee_di.dart';
+import 'package:prominous/features/presentation_layer/api_services/listofworkstation_di.dart';
 import 'package:provider/provider.dart';
 import 'package:prominous/features/presentation_layer/api_services/actual_qty_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/attendace_count_di.dart';
@@ -36,6 +37,8 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
   AttendanceCountService attendanceCountService = AttendanceCountService();
   PlanQtyService planQtyService = PlanQtyService();
   ShiftStatusService shiftStatusService = ShiftStatusService();
+    ListofworkstationService listofworkstationService =
+      ListofworkstationService();
 
   bool isLoading = false;
   bool isFetching = false;
@@ -201,7 +204,7 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                             try {
                               // Perform shiftStatusService first
                               // Navigator.pop(context);
-                              await shiftStatusService.getShiftStatus(
+                            await shiftStatusService.getShiftStatus(
                                   context: context,
                                   deptid: deptId,
                                   processid: processId);
@@ -219,6 +222,12 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                                   processid: processId,
                                   deptid: deptId,
                                   psid: psId);
+                              await listofworkstationService
+                                  .getListofWorkstation(
+                                      context: context,
+                                      deptid: deptId ?? 1057,
+                                      psid: psId ?? 0,
+                                      processid: processId ?? 0);
 
                               // Continue with other asynchronous operations sequentially
                               await attendanceCountService.getAttCount(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MobileUpdateTime extends StatefulWidget {
   final void Function(String) onTimeChanged; // Made onTimeChanged required
@@ -41,13 +42,13 @@ class _UpdateTimeState extends State<MobileUpdateTime> {
       children: [
 
       SizedBox(
-        width:20 ,
-        height:20,
+        width:25,
+        height:25,
         child: FloatingActionButton(
             heroTag: 'decrementButton', 
             backgroundColor: 
             
-           Color.fromARGB(255, 236, 72, 72),
+           Colors.grey.shade200,
             tooltip: 'Decrement',
          mini: true,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
@@ -70,24 +71,28 @@ class _UpdateTimeState extends State<MobileUpdateTime> {
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 85),
-              child: const Icon(Icons.minimize , color: Colors.white, size: 15,),
+              child: const Icon(Icons.minimize , color: Colors.black, size: 15,),
             ),
          ),
       ),
+       SizedBox(
+          width: 10.w,
+        ),
 
-
+Text("30",style: TextStyle(fontSize: 16.sp,
+                                                    color: Colors.black54),),
        
         SizedBox(
-          width: 15,
+          width: 10.w,
         ),
         SizedBox(
-           width:20 ,
-        height: 20,
+           width:25.w ,
+        height: 25.h,
 
           child: FloatingActionButton(
   heroTag: 'IncrementButton', 
             
-             backgroundColor:  Color.fromRGBO(82, 170, 94, 1.0),
+             backgroundColor:       Colors.grey.shade200,
             tooltip: 'Increment',
          mini: true,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
@@ -108,40 +113,40 @@ class _UpdateTimeState extends State<MobileUpdateTime> {
               });
               updateTime(); // Update time after each change
             },
-            child:   const Icon(Icons.add, color: Colors.white, size: 20),
+            child:   const Icon(Icons.add, color: Colors.black, size: 20),
           ),
         ),
         SizedBox(
           width: 16,
         ),
-        // ElevatedButton(
-        //   onPressed: () async {
-        //     final TimeOfDay? result = await showTimePicker(
-        //       context: context,
-        //       initialTime: TimeOfDay(hour: currentHour, minute: currentMinute),
-        //       initialEntryMode: TimePickerEntryMode.input,
-        //       builder: (BuildContext context, Widget? child) {
-        //         return MediaQuery(
-        //           data: MediaQuery.of(context).copyWith(
-        //             alwaysUse24HourFormat: true,
-        //           ),
-        //           child: child!,
-        //         );
-        //       },
-        //     );
+        ElevatedButton(
+          onPressed: () async {
+            final TimeOfDay? result = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay(hour: currentHour, minute: currentMinute),
+              initialEntryMode: TimePickerEntryMode.input,
+              builder: (BuildContext context, Widget? child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    alwaysUse24HourFormat: true,
+                  ),
+                  child: child!,
+                );
+              },
+            );
 
-        //     if (result != null) {
-        //       setState(() {
-        //         // Update only the time part, keeping the date part fixed
-        //         currentHour = result.hour;
-        //         currentMinute = result.minute;
-        //         currentSecond = 0; // reset seconds to 0
-        //       });
-        //       updateTime();
-        //     }
-        //   },
-        //   child: Text("Set Time"),
-        // ),
+            if (result != null) {
+              setState(() {
+                // Update only the time part, keeping the date part fixed
+                currentHour = result.hour;
+                currentMinute = result.minute;
+                currentSecond = 0; // reset seconds to 0
+              });
+              updateTime();
+            }
+          },
+          child: Text("Set Time", style: TextStyle(fontSize: 14.sp,fontFamily: "lexend"),),
+        ),
       ],
     );
   }

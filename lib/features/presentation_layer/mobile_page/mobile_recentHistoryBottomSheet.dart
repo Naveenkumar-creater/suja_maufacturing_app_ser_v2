@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:prominous/constant/request_data_model/delete_production_entry.dart';
@@ -12,6 +13,7 @@ import 'package:prominous/features/presentation_layer/api_services/emp_productio
 import 'package:prominous/features/presentation_layer/api_services/employee_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/product_di.dart';
 import 'package:prominous/features/presentation_layer/api_services/recent_activity.dart';
+import 'package:prominous/features/presentation_layer/mobile_page/mobile%20widget/mobile_production_edit_entry.dart';
 import 'package:prominous/features/presentation_layer/mobile_page/mobile_edit_entry.dart';
 import 'package:prominous/features/presentation_layer/provider/product_provider.dart';
 import 'package:prominous/features/presentation_layer/provider/recent_activity_provider.dart';
@@ -30,7 +32,8 @@ class RecentHistoryBottomSheet extends StatefulWidget {
   final int? psid;
   final int? attendceStatus;
   final String? attenceid;
-
+  final int? pwsid;
+  final String? workstationName;
   RecentHistoryBottomSheet(
       {Key? key,
       this.empid,
@@ -42,7 +45,9 @@ class RecentHistoryBottomSheet extends StatefulWidget {
       this.deptid,
       this.psid,
       this.attenceid,
-      this.attendceStatus})
+      this.attendceStatus,
+      this.pwsid,
+      this.workstationName})
       : super(key: key);
 
   @override
@@ -65,8 +70,6 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
   //         id: widget.empid ?? 0,
   //         deptid: widget.deptid ?? 0,
   //         psid: widget.psid ?? 0);
-
-
 
   //     await recentActivityService.getRecentActivity(
   //         context: context,
@@ -162,17 +165,17 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
                               try {
                                 await delete(
                                     ipdid: ipdid ?? 0, ipdpsid: ipdpsid ?? 0);
-                                   await recentActivityService.getRecentActivity(
-          context: context,
-          id: widget.empid ?? 0,
-          deptid: widget.deptid ?? 0,
-          psid: widget.psid ?? 0);
-              await empProductionEntryService.productionentry(
-          context: context,
-          pwsId: widget.empid ?? 0,
-          deptid: widget.deptid ?? 0,
-          psid: widget.psid ?? 0);
-                            
+                                await recentActivityService.getRecentActivity(
+                                    context: context,
+                                    id: widget.empid ?? 0,
+                                    deptid: widget.deptid ?? 0,
+                                    psid: widget.psid ?? 0);
+                                await empProductionEntryService.productionentry(
+                                    context: context,
+                                    pwsId: widget.empid ?? 0,
+                                    deptid: widget.deptid ?? 0,
+                                    psid: widget.psid ?? 0);
+
                                 Navigator.of(context).pop();
                               } catch (error) {
                                 // Handle and show the error message here
@@ -216,33 +219,37 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
         .user
         ?.listofProductEntity;
     return Container(
-      width: double.infinity,
-      height: 600,
+      height: 500.h,
+        
       child: (recentActivity != null && recentActivity.isNotEmpty)
           ? ListView.builder(
               shrinkWrap: true,
               itemCount: recentActivity?.length,
               itemBuilder: (context, index) {
                 final data = recentActivity?[index];
-          
-                return  Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15 ,top: 10,),
+                final totime = data?.ipdtotime;
+    
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                    top: 30,
+                  ),
                   child: Container(
-                                        width: 300,
-                                        height: 110,
-                                        decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 229, 234, 254),
-                                          borderRadius: BorderRadius.circular(22),
-                                          border:
-                    Border.all(width: 1, color: Colors.grey.shade100),
-                                        ),
+                    width: 300,
+                    height: 110,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(150, 235, 236, 255),
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(width: 1, color: Colors.grey.shade100),
+                    ),
                     child: Padding(
-                       padding: const EdgeInsets.only(left: 20, right: 20,top: 4,bottom: 4),
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 4, bottom: 4),
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
@@ -251,10 +258,8 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
                                     height: 25,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(22),
-                                      color: Color.fromARGB(
-                                          255, 80, 96, 203),
+                                      borderRadius: BorderRadius.circular(22),
+                                      color: Color.fromARGB(255, 80, 96, 203),
                                     ),
                                     child: Text('${index + 1}',
                                         style: const TextStyle(
@@ -271,54 +276,52 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
                                                 data?.ipditemid ==
                                                 product.productid,
                                           ).productName : " ")}',
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(
-                                              255, 80, 96, 203),
+                                      style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color:
+                                              Color.fromARGB(255, 80, 96, 203),
                                           fontFamily: 'Lexend')),
                                 ],
                               ),
                               IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            MobileEditEmpProductionEntryPage(
-                                          deptid: data?.deptid ?? 1057,
-                                          empid: data?.ipdempid ?? 0,
-                                          isload: true,
-                                          processid:
-                                              data?.processid ?? 0,
-                                          psid: data?.ipdpsid,
-                                          ipdid: data?.ipdid,
-                                          attenceid: widget.attenceid,
-                                          attendceStatus:
-                                              widget.attendceStatus,
-                                        ),
-                                      ));
-                                },            
-                  icon: Icon(Icons.edit_sharp, color: Color.fromARGB(255, 80, 96, 203))
-                  
-                  
-                  
-                   ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MobileProductionEditEntry(
+                                            deptid: data?.deptid ?? 1057,
+                                            empid: data?.ipdempid ?? 0,
+                                            isload: true,
+                                            processid: data?.processid ?? 0,
+                                            psid: data?.ipdpsid,
+                                            ipdid: data?.ipdid,
+                                            attenceid: widget.attenceid,
+                                            attendceStatus:
+                                                widget.attendceStatus,
+                                            pwsId: widget.pwsid,
+                                            workstationName:
+                                                widget.workstationName,
+                                          ),
+                                        ));
+                                  },
+                                  icon: Icon(Icons.edit_sharp,
+                                      color: Color.fromARGB(255, 80, 96, 203))),
                             ],
                           ),
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                ' ${data?.ipdtotime ?? ''}  ',
-                                
-                              style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontFamily: 'Lexend')),
+                                  '${totime?.toString().substring(0, totime.toString().length - 7)}',
+                                  style: TextStyle(
+                                      fontFamily: "lexend",
+                                      fontSize: 15.sp,
+                                      color: Colors.black54)),
                               if (index == 0)
-                           
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -331,21 +334,16 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
                                               data?.ipdpsid ?? 0);
                                         },
                                         icon: SvgPicture.asset(
-                    'assets/svg/trash.svg',
-                    color: Colors.red,
-                    width:30 ,
-                  ),
-                                        
-                                      
+                                          'assets/svg/trash.svg',
+                                          color: Colors.red,
+                                          width: 30,
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              if (index != 0) 
-                              SizedBox(height: 30,
-
-                                
-                                child: Text("")),
+                              if (index != 0)
+                                SizedBox(height: 30, child: Text("")),
                             ],
                           )
                         ],
@@ -354,268 +352,6 @@ class _RecentHistoryBottomSheetState extends State<RecentHistoryBottomSheet> {
                   ),
                 );
               })
-
-          // ? Column(
-          //     children: [
-          //       Container(
-          //         height: 55,
-          //         width: double.infinity,
-          //         decoration: const BoxDecoration(
-          //             borderRadius: BorderRadius.only(
-          //                 topLeft: Radius.circular(8),
-          //                 topRight: Radius.circular(8)),
-          //             color: Color.fromARGB(
-          //                 255, 45, 54, 104)),
-          //         child: Row(
-          //           mainAxisAlignment:
-          //               MainAxisAlignment.center,
-          //           children: [
-          //             Container(
-          //               alignment: Alignment.centerLeft,
-          //               width: 100,
-          //               child: Text('S.NO',
-          //                   style: TextStyle(
-          //                       color: Colors.white)),
-          //             ),
-          //             Container(
-          //               alignment: Alignment.center,
-          //               width: 150,
-          //               child: Text('Prev Time',
-          //                   style: TextStyle(
-          //                       color: Colors.white)),
-          //             ),
-          //             Container(
-          //               alignment: Alignment.center,
-          //               width: 150,
-          //               child: Text('Product Name',
-          //                   style: TextStyle(
-          //                       color: Colors.white)),
-          //             ),
-          //             // Container(
-          //             //   alignment: Alignment.center,
-          //             //   width: 150,
-          //             //   child: Text('Good Qty',
-          //             //       style: TextStyle(
-          //             //           color: Colors.white)),
-          //             // ),
-          //             // Container(
-          //             //   alignment: Alignment.center,
-          //             //   width: 150,
-          //             //   child: Text('Rejected Qty',
-          //             //       style: TextStyle(
-          //             //           color: Colors.white)),
-          //             // ),
-          //             // Container(
-          //             //   alignment: Alignment.center,
-          //             //   width: 150,
-          //             //   child: Text('Rework ',
-          //             //       style: TextStyle(
-          //             //           color: Colors.white)),
-          //             // ),
-          //             Container(
-          //               alignment: Alignment.center,
-          //               width: 10,
-          //               child: Text('Edit Entries',
-          //                   style: TextStyle(
-          //                       color: Colors.white)),
-          //             ),
-          //             Container(
-          //               alignment: Alignment.center,
-          //               width: 20,
-          //               child: Text('Delete Entry',
-          //                   style: TextStyle(
-          //                       color: Colors.white)),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //       Container(
-          //         decoration: const BoxDecoration(
-          //             color: Colors.white,
-          //             borderRadius: BorderRadius.only(
-          //                 bottomLeft:
-          //                     Radius.circular(8),
-          //                 bottomRight:
-          //                     Radius.circular(8))),
-          //         width: double.infinity,
-          //         height: 50,
-          //         child: ListView.builder(
-          //           shrinkWrap: true,
-          //           itemCount: recentActivity?.length,
-          //           itemBuilder: (context, index) {
-          //             final data =
-          //                 recentActivity?[index];
-          //             return Container(
-          //               decoration: BoxDecoration(
-          //                 border: Border(
-          //                   bottom: BorderSide(
-          //                       width: 1,
-          //                       color: Colors
-          //                           .grey.shade300),
-          //                 ),
-          //                 color: index % 2 == 0
-          //                     ? Colors.grey.shade50
-          //                     : Colors.grey.shade100,
-          //               ),
-          //               height: 80,
-          //               width: double.infinity,
-          //               child: Row(
-          //                 mainAxisAlignment:
-          //                     MainAxisAlignment.center,
-          //                 children: [
-          //                   Container(
-          //                     alignment:
-          //                         Alignment.centerLeft,
-          //                     width: 100,
-          //                     child: Text(
-          //                       ' ${index + 1}  ',
-          //                       style: TextStyle(
-          //                           color: Colors
-          //                               .grey.shade900),
-          //                     ),
-          //                   ),
-          //                   // Container(
-          //                   //   alignment:
-          //                   //       Alignment.centerRight,
-          //                   //   width: 150,
-          //                   //   child: Padding(
-          //                   //     padding:
-          //                   //         const EdgeInsets
-          //                   //             .only(left: 35),
-          //                   //     child: Text(
-          //                   //       ' ${data?.ipdtotime ?? ''}  ',
-          //                   //       style: TextStyle(
-          //                   //           color: Colors.grey
-          //                   //               .shade900),
-          //                   //     ),
-          //                   //   ),
-          //                   // ),
-          //                   Container(
-          //                     alignment:
-          //                         Alignment.center,
-          //                     width: 150,
-          //                     child: Text(
-          //                       '${(data?.ipditemid != 0 ? productname?.firstWhere(
-          //                             (product) =>
-          //                                 data?.ipditemid ==
-          //                                 product
-          //                                     .productid,
-          //                           ).productName : " ")}',
-          //                       style: TextStyle(
-          //                           color: Colors
-          //                               .grey.shade900),
-          //                     ),
-          //                   ),
-          //                   Container(
-          //                     alignment:
-          //                         Alignment.center,
-          //                     width: 150,
-          //                     child: Text(
-          //                       '  ${data?.ipdgoodqty ?? ''} ',
-          //                       style: TextStyle(
-          //                           color: Colors
-          //                               .grey.shade900),
-          //                     ),
-          //                   ),
-          //                   // Container(
-          //                   //   alignment:
-          //                   //       Alignment.center,
-          //                   //   width: 150,
-          //                   //   child: Text(
-          //                   //     '  ${data?.ipdrejqty ?? ''}',
-          //                   //     style: TextStyle(
-          //                   //         color: Colors
-          //                   //             .grey.shade900),
-          //                   //   ),
-          //                   // ),
-          //                   // Container(
-          //                   //   alignment:
-          //                   //       Alignment.center,
-          //                   //   width: 150,
-          //                   //   child: Text(
-          //                   //     '  ${data?.ipdreworkflag == 0 ? 'NO' : "Yes"} ',
-          //                   //     style: TextStyle(
-          //                   //         color: Colors
-          //                   //             .grey.shade900),
-          //                   //   ),
-          //                   // ),
-          //                   Container(
-          //                     alignment:
-          //                         Alignment.center,
-          //                     width: 150,
-          //                     child: IconButton(
-          //                       onPressed: () {
-          //                         Navigator.push(
-          //                             context,
-          //                             MaterialPageRoute(
-          //                               builder:
-          //                                   (context) =>
-          //                                       EditEmpProductionEntryPage(
-          //                                 deptid:
-          //                                     data?.deptid ??
-          //                                         1057,
-          //                                 empid:
-          //                                     data?.ipdempid ??
-          //                                         0,
-          //                                 isload: true,
-          //                                 processid:
-          //                                     data?.processid ??
-          //                                         0,
-          //                                 psid: data
-          //                                     ?.ipdpsid,
-          //                                 ipdid: data
-          //                                     ?.ipdid,
-          //                                 attenceid: widget
-          //                                     .attenceid,
-          //                                 attendceStatus:
-          //                                     widget
-          //                                         .attendceStatus,
-          //                               ),
-          //                             ));
-          //                       },
-          //                       icon: const Icon(
-          //                           Icons
-          //                               .mode_edit_outline_outlined,
-          //                           size: 25,
-          //                           color: Colors.blue),
-          //                     ),
-          //                   ),
-          //                   if (index == 0)
-          //                     Container(
-          //                       alignment:
-          //                           Alignment.center,
-          //                       width: 150,
-          //                       child: IconButton(
-          //                         onPressed: () async {
-          //                           // updateproduction(widget.processid);
-          //                           deletePop(
-          //                               context,
-          //                               data?.ipdid ??
-          //                                   0,
-          //                               data?.ipdpsid ??
-          //                                   0);
-          //                         },
-          //                         icon: const Icon(
-          //                             Icons.delete,
-          //                             size: 25,
-          //                             color:
-          //                                 Colors.red),
-          //                       ),
-          //                     ),
-          //                   if (index != 0)
-          //                     Container(
-          //                         alignment:
-          //                             Alignment.center,
-          //                         width: 150,
-          //                         child: Text("")),
-          //                 ],
-          //               ),
-          //             );
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   )
           : Center(
               child: Text("No data available"),
             ),

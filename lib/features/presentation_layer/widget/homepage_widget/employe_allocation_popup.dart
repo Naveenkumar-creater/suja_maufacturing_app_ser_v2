@@ -159,76 +159,16 @@ class _EmployeeAllocationPopupState extends State<EmployeeAllocationPopup> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text(
-              //       "Process :",
-              //       style: TextStyle(color: Colors.black, fontSize: 25),
-              //     ),
-              //     SizedBox(
-              //       width: 10,
-              //       height: 80,
-              //     ),
-              //     Expanded(
-              //       child: SizedBox(
-              //         // Wrap the DropdownButton with a fixed size container
-              //         height: 50, // Set a fixed height for the dropdown list
-              //         child: Row(
-              //           // Use ListView for vertical scrolling
-              //           children: [
-              //             DropdownButton<String>(
-              //               icon: Icon(Icons.arrow_drop_down,
-              //                   color: Colors.blue, size: 45),
-              //               // Set dropdownColor to transparent to hide dropdown color
-              //               // hint: Text(
-              //               //   'Select Process',
-              //               //   style: TextStyle(
-              //               //       color: Colors
-              //               //           .black26), // Set dropdown text color to black
-              //               // ),
-              //               value: selectedItem,
-              //               underline: Container(
-              //                 height: 2,
-              //               ),
-              //               onChanged: (String? newValue) {
-              //                 setState(() {
-              //                   selectedItem = newValue;
-              //                   selectedProcessId = productResponse
-              //                       ?.firstWhere((process) =>
-              //                           process.processname == newValue)
-              //                       ?.processid;
-              //                 });
-              //               },
-          
-              //               // Redirect to the previous screen
-              //               //Navigator.pop(context, newValue);
-          
-              //               items: ProcessNames?.map((name) {
-              //                     return DropdownMenuItem<String>(
-              //                       value: name,
-              //                       child: Text(name ?? "",
-              //                           style: TextStyle(
-              //                               color: Colors
-              //                                   .black)), // Set dropdown text color to black
-              //                     );
-              //                   }).toList() ??
-              //                   [], // Add toList() to avoid null error
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+            
             
                Text(
-                  'Process Area',style: TextStyle(fontSize: 24.sp,
+                  'Process Area',style: TextStyle(fontSize: MediaQuery.of(context)
+                    .size
+                    .width>572 ?24.sp:18.sp,
                                     color: Color.fromARGB(255, 80, 96, 203),
                                     fontFamily: "Lexend",
                                     fontWeight: FontWeight.w500),
-                  // style: drawerTextColor,
+                 
                 ),
               SizedBox(height: 20.h,),
           
@@ -306,42 +246,7 @@ class _EmployeeAllocationPopupState extends State<EmployeeAllocationPopup> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 200,
-              //   width: 500,
-              // ),
-          
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: [
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 150),
-              //       child: ElevatedButton(
-              //         style: ButtonStyle(
-              //           backgroundColor:
-              //               MaterialStateProperty.all<Color>(Colors.blue),
-              //         ),
-              //         autofocus: true,
-              //         onPressed: () async{
-          
-              //             await sendProcess();
-              //              await  employeeApiService.employeeList(
-              //                   context: context, id: widget.processid!);
-          
-              //               Navigator.of(context).pop();
-          
-              //         },
-              //         child: const Text(
-              //           'Ok',
-              //           style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: 15,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+           
             ],
           ),
         ),

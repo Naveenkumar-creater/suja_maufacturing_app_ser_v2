@@ -107,10 +107,10 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
         return Dialog(
           child: Container(
             width: 400.w,
-            height: 200.h,
+            height: 300.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.black87,
+              color: Colors.white,
             ),
             child: Center(
               child: Padding(

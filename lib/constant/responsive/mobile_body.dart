@@ -192,7 +192,12 @@ class _MobileScaffoldState extends State<MobileScaffold> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: SingleChildScrollView(
+      body: isLoading
+                ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
+                :
+      
+      
+       SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -207,6 +212,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                 ? Padding(
                     padding: EdgeInsets.only(
                       top: 10.h,
+                 
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +231,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                             "Employee Details",
                             style: TextStyle(
                               color: Color.fromARGB(255, 80, 96, 203),
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                               fontFamily: 'Lexend',
                               fontWeight: FontWeight.w400,
                             ),
