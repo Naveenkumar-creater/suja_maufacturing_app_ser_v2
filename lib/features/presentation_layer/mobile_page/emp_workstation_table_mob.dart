@@ -125,7 +125,7 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
               alignment: Alignment.centerRight, // Align the drawer to the right
               child: Container(
                 color: Colors.white,
-                width:200.w, // Set the width to half of the screen
+                width: 250.w, // Set the width to half of the screen
                 height: MediaQuery.of(context)
                     .size
                     .height, // Set the height to full screen height
@@ -273,153 +273,150 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
     }
   }
 
-
-
- void _openWorkstationBottomSheet( int ? processid) {
-   final listofWorkstation =
+  void _openWorkstationBottomSheet(int? processid) {
+    final listofWorkstation =
         Provider.of<ListofworkstationProvider>(context, listen: false)
             .user
             ?.listOfWorkstation;
- 
+
     showModalBottomSheet(
-       shape: RoundedRectangleBorder(
-     borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-  ),
-    backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+        ),
+        backgroundColor: Colors.white,
         context: context,
         builder: (context) => Container(
               height: 350.h,
-            
               child: ListView.builder(
                 itemCount: listofWorkstation?.length,
                 itemBuilder: (context, index) {
                   final workstaion = listofWorkstation?[index];
                   return Padding(
-                    padding: EdgeInsets.only(top: 12.w,left: 12.w,right: 12.w),
+                    padding:
+                        EdgeInsets.only(top: 12.w, left: 12.w, right: 12.w),
                     child: Container(
                       height: 90.h,
                       decoration: BoxDecoration(
-                          color:Color.fromARGB(150, 235, 236, 255),
+                          color: Color.fromARGB(150, 235, 236, 255),
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                                      //  SizedBox(width: 10.w, child: Text('${index + 1} ')),  
-                                                            SizedBox(
-                                 width: 120.w,
-                                child: Text(workstaion?.pwsName ?? "",
-                                
-                                  style: TextStyle(
-                                      fontFamily: "Lexend",
-                                      fontSize: 16.sp,
-                  color: Color.fromARGB(255, 80, 96, 203),
-
-                                  )
-                                )),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10.h,),
-                                                         
-                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                children:[
-                                                      
-                                     SizedBox(
-                                      width: 100.w,
-                                       child: Text(
-                                                                       'No of Staff',
-                                                                       style: TextStyle(
-                                        fontFamily: "Lexend",
-                                        fontSize: 14.sp,
-                                        color: Colors.black54),
-                                                                     ),
-                                     ),
-                                SizedBox(width: 10,),
-                                  
-                                   Text(
-                                  '${workstaion?.noOfStaff}  ',
-                                  style: TextStyle(
-                                      fontFamily: "lexend",
-                                      fontSize: 14.sp,
-                                      color: Color.fromARGB(255, 80, 96, 203),),
-                                ),
-                                ]
-                                                            ),
-                                    
-                                  ],
-                                ),
-                              ),
-                        
-                         
-                          SizedBox(width: 20,),
-                          
-                             if (workstaion?.noOfStaff!= 0)
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.h, horizontal: 20.w),
-                                          child: Container(
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          //  SizedBox(width: 10.w, child: Text('${index + 1} ')),
+                                          SizedBox(
+                                              width: 120.w,
+                                              child: Text(
+                                                  workstaion?.pwsName ?? "",
+                                                  style: TextStyle(
+                                                    fontFamily: "Lexend",
+                                                    fontSize: 16.sp,
+                                                    color: Color.fromARGB(
+                                                        255, 80, 96, 203),
+                                                  ))),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
                                               width: 100.w,
-                                              height: 50.h,
-                                              child: CustomButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          MobileEmpWorkstationProductionEntryPage(
-                                                        // empid: employee.empPersonid!,
-                                                        processid: processid ?? 1,
-                                                        deptid: widget.deptid,
-                                                        isload: true,
-                                                        pwsid: workstaion?.pwsId,
-                                                        workstationName:
-                                                            workstaion?.pwsName,
-                                                        // attenceid:
-                                                        //     employee.attendanceid,
-                                                        // attendceStatus:
-                                                        //     employee.flattstatus,
-                                                        // shiftId: widget.shiftid,
-                                                        psid: widget.psid,
-                                                      ),
+                                              child: Text(
+                                                'No of Staff',
+                                                style: TextStyle(
+                                                    fontFamily: "Lexend",
+                                                    fontSize: 14.sp,
+                                                    color: Colors.black54),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${workstaion?.noOfStaff}  ',
+                                              style: TextStyle(
+                                                fontFamily: "lexend",
+                                                fontSize: 14.sp,
+                                                color: Color.fromARGB(
+                                                    255, 80, 96, 203),
+                                              ),
+                                            ),
+                                          ]),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                if (workstaion?.noOfStaff != 0)
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8.h, horizontal: 20.w),
+                                        child: Container(
+                                            width: 90.w,
+                                            height: 35.h,
+                                            child: CustomButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MobileEmpWorkstationProductionEntryPage(
+                                                      // empid: employee.empPersonid!,
+                                                      processid: processid ?? 1,
+                                                      deptid: widget.deptid,
+                                                      isload: true,
+                                                      pwsid: workstaion?.pwsId,
+                                                      workstationName:
+                                                          workstaion?.pwsName,
+                                                      // attenceid:
+                                                      //     employee.attendanceid,
+                                                      // attendceStatus:
+                                                      //     employee.flattstatus,
+                                                      // shiftId: widget.shiftid,
+                                                      psid: widget.psid,
                                                     ),
-                                                  );
-                                                },
-                                                width: 60.w,
-                                                height: 40.h,
-                                                backgroundColor: Colors.green,
-                                                borderRadius: BorderRadius.circular(50),
-                                                child: Text("Add",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontFamily: "lexend",
-                                                        fontSize: 14.sp)),
-                                              )),
-                                        ),
-                                      ],
-                                    )
-                                    else
-                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 8.h, horizontal: 20.w),
-                                      child: Container(
-                                          width: 100.w,
-                                          child: Text("")
-                                          
-                                          ),
-                                    )
-                          
-                          ]),
+                                                  ),
+                                                );
+                                              },
+                                              width: 40.w,
+                                              height: 40.h,
+                                              backgroundColor: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: Text("Add",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: "lexend",
+                                                      fontSize: 12.sp)),
+                                            )),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8.h, horizontal: 20.w),
+                                    child: Container(
+                                        width: 100.w, child: Text("")),
+                                  )
+                              ]),
                         ],
                       ),
                     ),
@@ -428,7 +425,6 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
               ),
             ));
   }
-
 
   Future<void> _changeWorkstation(
       {int? pwesId,
@@ -498,7 +494,7 @@ class _EmployeeWorkStationMobileState extends State<EmployeeWorkStationMobile> {
     }
   }
 
-void _workstationPopup(
+  void _workstationPopup(
       {int? empPersonid,
       int? pwseId,
       int? processId,
@@ -527,7 +523,7 @@ void _workstationPopup(
               alignment: Alignment.centerRight, // Align the drawer to the right
               child: Container(
                 color: Colors.white,
-                width: 200.w, // Set the width to half of the screen
+                width: 250.w, // Set the width to half of the screen
                 height: MediaQuery.of(context)
                     .size
                     .height, // Set the height to full screen height
@@ -569,18 +565,18 @@ void _workstationPopup(
                                       top: (index == 0)
                                           ? BorderSide(
                                               width: 1,
-                                              color: Colors.grey.shade500)
+                                              color: Colors.grey.shade300)
                                           : BorderSide.none,
                                       bottom: BorderSide(
                                           width: 1,
-                                          color: Colors.grey.shade500),
+                                          color: Colors.grey.shade300),
                                     )), // Set unique background color for selected tile
                                     child: Text(
                                       "${workstation?.pwsName} ",
                                       style: TextStyle(
                                           color: Colors.black54,
                                           fontFamily: "Lexend",
-                                          fontSize: 15.sp),
+                                          fontSize: 12.sp),
                                     ),
                                   ),
                                   onTap: () async {
@@ -622,6 +618,7 @@ void _workstationPopup(
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final employeeResponse =
@@ -647,19 +644,19 @@ void _workstationPopup(
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       child: Container(
-        height: 325.h,
+        height: 300.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),),
+          borderRadius: BorderRadius.circular(5),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-                child: Container(
+            Container(
               width: 500.w,
-              height: 100.h,
+              height: 225.h,
               decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(5),
                 color: Color.fromARGB(150, 235, 236, 255),
               ),
               child: Column(
@@ -688,12 +685,14 @@ void _workstationPopup(
                           color: index % 2 == 0
                               ? Color.fromARGB(250, 235, 236, 255)
                               : Color.fromARGB(10, 235, 236, 255),
-                          child: ExpansionTile(shape: Border(bottom: BorderSide.none),
+                          child: ExpansionTile(
+                              shape: Border(bottom: BorderSide.none),
                               childrenPadding: EdgeInsets.symmetric(
                                   horizontal: 8.w, vertical: 8.h),
                               title: Row(
                                 children: [
-                                  SizedBox(width: 20.w,
+                                  SizedBox(
+                                    width: 20.w,
                                     child: Text('${index + 1}',
                                         style: TextStyle(
                                             color: Colors.grey.shade600,
@@ -732,7 +731,7 @@ void _workstationPopup(
                                   ),
                                   if (initialindex == 0)
                                     SizedBox(
-                                      width: 90.w,
+                                      width: 80.w,
                                       child: Container(
                                           alignment: Alignment.center,
                                           width: 100.w,
@@ -740,10 +739,10 @@ void _workstationPopup(
                                             child: Text(
                                               "Absent",
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: Colors.white,fontSize: 12.sp,fontFamily: "Lexend"),
                                             ),
                                             backgroundColor: Colors.red,
-                                            height: 40.h,
+                                            height: 30.h,
                                             width: 80.w,
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -798,18 +797,18 @@ void _workstationPopup(
                                     )
                                   else if (initialindex == 1)
                                     SizedBox(
-                                      width: 90.w,
+                                      width: 80.w,
                                       child: Container(
                                           alignment: Alignment.center,
-                                          width: 100.w,
+                                          width: 80.w,
                                           child: CustomButton(
                                             child: Text(
                                               "Present",
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: Colors.white,fontSize: 12.sp,fontFamily: "Lexend"),
                                             ),
                                             backgroundColor: Colors.green,
-                                            height: 40.h,
+                                            height: 30.h,
                                             width: 80.w,
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -865,7 +864,9 @@ void _workstationPopup(
                                 ],
                               ),
                               children: [
-                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
                                       width: 120.w,
@@ -899,21 +900,21 @@ void _workstationPopup(
                                                 color: Color.fromARGB(
                                                     255, 80, 96, 203),
                                                 fontFamily: "lexend",
-                                                fontSize: 13.sp,
+                                                fontSize: 12.sp,
                                               ),
                                             ),
                                           )),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.h, horizontal: 40.w),
+                                          vertical: 2.h, horizontal: 30.w),
                                       child: Container(
                                         alignment: Alignment.center,
                                         width: 100.w,
                                         child: ElevatedButton(
                                           child: Text(
-                                            "Change",
-                                            style: TextStyle(fontSize: 14.w),
+                                            "Reassign",
+                                            style: TextStyle(fontSize: 12.sp),
                                           ),
                                           onPressed: initialindex == 0
                                               ? null
@@ -959,52 +960,44 @@ void _workstationPopup(
                   )
                 ],
               ),
-            )),
-
-            
-          
-   
-
-SizedBox(height: 8.h,),
-             Padding(
-                                padding: EdgeInsets.only(left: 2.w,right: 2.w),
-                                child: Container(
-                                  height: 60.h,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(150, 235, 236, 255),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("Workstation",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                                fontFamily: "Lexend")),
-                                        CustomButton(
-                                            width: 100.w,
-                                            height: 40.h,
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            backgroundColor: Colors.green,
-                                            onPressed: () {
-                                            _openWorkstationBottomSheet(process_id);
-                                            },
-                                            child: Text(
-                                              "View",
-                                              style: TextStyle(
-                                                  fontFamily: "Lexend",
-                                                  color: Colors.white,
-                                                  fontSize: 14.sp),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Container(
+              height: 60.h,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(150, 235, 236, 255),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Workstation",
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.black54,
+                            fontFamily: "Lexend")),
+                    CustomButton(
+                        width: 100.w,
+                        height: 35.h,
+                        borderRadius: BorderRadius.circular(50),
+                        backgroundColor: Colors.green,
+                        onPressed: () {
+                          _openWorkstationBottomSheet(process_id);
+                        },
+                        child: Text(
+                          "View",
+                          style: TextStyle(
+                              fontFamily: "Lexend",
+                              color: Colors.white,
+                              fontSize: 12.sp),
+                        ))
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

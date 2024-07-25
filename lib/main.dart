@@ -30,13 +30,9 @@ import 'features/presentation_layer/provider/product_provider.dart';
 import 'features/presentation_layer/provider/recent_activity_provider.dart';
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //   [
-  //     DeviceOrientation.landscapeLeft,
-  //       DeviceOrientation.landscapeRight
-  //   ]
-  // );
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     const MyApp(),
   );
@@ -48,6 +44,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final screenWidth= MediaQuery.of(context as BuildContext).size.width;
+
+      SystemChrome.setPreferredOrientations(
+  screenWidth < 576
+          ? [
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.portraitDown,
+            ]
+          : [
+              DeviceOrientation.landscapeLeft,
+              DeviceOrientation.landscapeRight,
+            ],
+  
+  );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<LoginProvider>(

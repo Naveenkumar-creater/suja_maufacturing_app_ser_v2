@@ -109,7 +109,7 @@ class LoginPageMobile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
               ),
               width:300.w,
-              height: 400.h,
+              height: 350.h,
               child: MobileLogin(),
                       
             ),

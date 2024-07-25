@@ -64,126 +64,183 @@ class _MobileProcessQtyWidgetState extends State<MobileProcessQtyWidget> {
       padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
       child: Container(
         width: double.infinity,
-        height:150.h,
+        height:210.h,
         decoration: BoxDecoration(),
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                height: 150.h,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(150, 235, 236, 255),
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(width: 1.w, color: Colors.grey.shade100)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('${planQty}' ?? "0",
-                        style:
-                            TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
-                    Text('Planned Qty',
-                        style:
-                             TextStyle(fontSize: 16.sp, color: Colors.black54,fontFamily: 'Lexend')),
-                  ],
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(150, 235, 236, 255),
+                        borderRadius: BorderRadius.circular(5.r),
+                        border: Border.all(width: 1.w, color: Colors.grey.shade100)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('${planQty}' ?? "0",
+                            style:
+                                TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
+                        Text('Planned Qty',
+                            style:
+                                 TextStyle(fontSize: 14.sp, color: Colors.black54,fontFamily: 'Lexend')),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                 SizedBox(
+                  width: 8.w,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                      color:   Color.fromARGB(150, 235, 236, 255),
+                      borderRadius: BorderRadius.circular(5.r),
+                      border: Border.all(width: 1.w, color: Colors.grey.shade100),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("${actualQty}" ?? "0",
+                            style:  TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
+                        Text('Actual Qty',
+                            style:  TextStyle(fontSize: 14.sp, color: Colors.black54,fontFamily: 'Lexend')),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
+
              SizedBox(
-              width: 8.w,
-            ),
-            Expanded(
-              child: Container(
-                height: 150.h,
-                decoration: BoxDecoration(
-                  color:   Color.fromARGB(150, 235, 236, 255),
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(width: 1.w, color: Colors.grey.shade100),
+                  height: 8.h,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("${actualQty}" ?? "0",
-                        style:  TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
-                    Text('Actual Qty',
-                        style:  TextStyle(fontSize: 16.sp, color: Colors.black54,fontFamily: 'Lexend')),
-                  ],
+                     Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(150, 235, 236, 255),
+                        borderRadius: BorderRadius.circular(5.r),
+                        border: Border.all(width: 1.w, color: Colors.grey.shade100)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("0",
+                            style:
+                                TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
+                        Text('Team Productivity',
+                            style:
+                                 TextStyle(fontSize: 14.sp, color: Colors.black54,fontFamily: 'Lexend')),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                 SizedBox(
+                  width: 8.w,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 100.5.h,
+                    decoration: BoxDecoration(
+                      color:   Color.fromARGB(150, 235, 236, 255),
+                      borderRadius: BorderRadius.circular(5.r),
+                      border: Border.all(width: 1.w, color: Colors.grey.shade100),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("0%",
+                            style:  TextStyle(fontSize: 22.sp, color: Colors.black,fontFamily: 'Lexend')),
+                        Text('Forecast Completion %',
+                            style:  TextStyle(fontSize: 14.sp, color: Colors.black54,fontFamily: 'Lexend')),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            // SizedBox(
-            //   width: 8,
-            // ),
-      //                                                   Expanded(
-      //                                                     child: Container(
-      
-      //                                                       height: 170,
-      //                                                       decoration: BoxDecoration(
-      //                                                           color: Colors.white,
-      //                                                           borderRadius:
-      //                                                               BorderRadius.all(
-      //                                                                   Radius.circular(
-      //                                                                       8))),
-      //                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
-      //                                                         children: [
-      //                                                          Text(
-      //   // '${((actualQty ?? 0) / (planQty ?? 1) * 100).toStringAsFixed(2)}%' ?? "0%",
-      
-      // "0",
-      //                                                               style:
-      //                                                                   const TextStyle(
-      //                                                                       fontSize:
-      //                                                                           42,
-      //                                                                       color: Colors
-      //                                                                           .grey)),
-      //                                                                           Text('Team Productivity',
-      //                                                               style:
-      //                                                                   const TextStyle(
-      //                                                                       fontSize:
-      //                                                                           14,
-      //                                                                       color: Colors
-      //                                                                           .grey)),
-      //                                                         ],
-      //                                                       ),
-      //                                                     ),
-      //                                                   ),
-      //                                                   SizedBox(
-      //                                                     width: 8,
-      //                                                   ),
-      //                                                   Expanded(
-      //                                                     child: Container(
-      
-      //                                                       height: 170,
-      //                                                       decoration: BoxDecoration(
-      //                                                           color: Colors.white,
-      //                                                           borderRadius:
-      //                                                               BorderRadius.all(
-      //                                                                   Radius.circular(
-      //                                                                       8))),
-      //                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
-      //                                                         children: [
-      //                                                           Text(
-      //                                                             '0',
-      //                                                               style:
-      //                                                                   const TextStyle(
-      //                                                                       fontSize:
-      //                                                                           42,
-      //                                                                       color: Colors
-      //                                                                           .grey)),
-      //                                                                           Text('Forecast Completion Percentage ',
-      //                                                               style:
-      //                                                                   const TextStyle(
-      //                                                                       fontSize:
-      //                                                                           14,
-      //                                                                       color: Colors
-      //                                                                           .grey)),
-      //                                                         ],
-      //                                                       ),
-      //                                                     ),
-      //                                                   ),
           ],
         ),
       ),
     );
   }
 }
+
+
+          // SizedBox(
+                //   width: 8,
+                // ),
+                  //                                                   Expanded(
+                  //                                                     child: Container(
+                  
+                  //                                                       height: 170,
+                  //                                                       decoration: BoxDecoration(
+                  //                                                           color: Colors.white,
+                  //                                                           borderRadius:
+                  //                                                               BorderRadius.all(
+                  //                                                                   Radius.circular(
+                  //                                                                       8))),
+                  //                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                  //                                                         children: [
+                  //                                                          Text(
+                  //   // '${((actualQty ?? 0) / (planQty ?? 1) * 100).toStringAsFixed(2)}%' ?? "0%",
+                  
+                  // "0",
+                  //                                                               style:
+                  //                                                                   const TextStyle(
+                  //                                                                       fontSize:
+                  //                                                                           42,
+                  //                                                                       color: Colors
+                  //                                                                           .grey)),
+                  //                                                                           Text('Team Productivity',
+                  //                                                               style:
+                  //                                                                   const TextStyle(
+                  //                                                                       fontSize:
+                  //                                                                           14,
+                  //                                                                       color: Colors
+                  //                                                                           .grey)),
+                  //                                                         ],
+                  //                                                       ),
+                  //                                                     ),
+                  //                                                   ),
+                  //                                                   SizedBox(
+                  //                                                     width: 8,
+                  //                                                   ),
+                  //                                                   Expanded(
+                  //                                                     child: Container(
+                  
+                  //                                                       height: 170,
+                  //                                                       decoration: BoxDecoration(
+                  //                                                           color: Colors.white,
+                  //                                                           borderRadius:
+                  //                                                               BorderRadius.all(
+                  //                                                                   Radius.circular(
+                  //                                                                       8))),
+                  //                                                       child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                  //                                                         children: [
+                  //                                                           Text(
+                  //                                                             '0',
+                  //                                                               style:
+                  //                                                                   const TextStyle(
+                  //                                                                       fontSize:
+                  //                                                                           42,
+                  //                                                                       color: Colors
+                  //                                                                           .grey)),
+                  //                                                                           Text('Forecast Completion Percentage ',
+                  //                                                               style:
+                  //                                                                   const TextStyle(
+                  //                                                                       fontSize:
+                  //                                                                           14,
+                  //                                                                       color: Colors
+                  //                                                                           .grey)),
+                  //                                                         ],
+                  //                                                       ),
+                  //                                                     ),
+                  //                                                   ),

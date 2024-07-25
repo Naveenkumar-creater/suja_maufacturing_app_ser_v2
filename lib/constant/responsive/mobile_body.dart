@@ -150,11 +150,22 @@ class _MobileScaffoldState extends State<MobileScaffold> {
 
     final Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
+    return  isLoading
+                ? Scaffold(
+                  backgroundColor: Colors.white,
+                  body:   Center(child: CircularProgressIndicator()),
+                )
+                
+                
+                // Show loading indicator while fetching data
+                :
+    
+    Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       drawer: MobileMyDrawer(),
-      appBar: AppBar(
+      appBar: 
+      AppBar(
         toolbarHeight: 60,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -192,9 +203,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: isLoading
-                ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
-                :
+      body:
       
       
        SingleChildScrollView(
@@ -225,6 +234,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                         ),
         
                         MobileProcessQtyWidget(id: processId, psid: psId),
+                            ( processname != "Default" && shiftstatus != 0) ?
                         Padding(
                           padding: EdgeInsets.only(left: 8.w, right: 8.w),
                           child: Text(
@@ -236,16 +246,8 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ),
-                        //  SizedBox(height: 8.h,),
-                        //     shiftstatus != 0
-                        //         ? MobileEmployeeDetailsList(
-                        //             deptid: deptid,
-                        //             psid: psId,
-                        //           )
-                        //         : SizedBox(
-        
-                        //         ),
+                        ) :SizedBox(),
+                 
         
                         SizedBox(height: 4.h),
                         processname != "Default" && shiftstatus != 0

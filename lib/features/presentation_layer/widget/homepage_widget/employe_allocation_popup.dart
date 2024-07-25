@@ -188,22 +188,24 @@ class _EmployeeAllocationPopupState extends State<EmployeeAllocationPopup> {
                     itemCount: productResponse?.length ?? 0,
                     itemBuilder: (context, index) => GestureDetector(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
+                                    padding:  EdgeInsets.only(right: 16.w),
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 16.h, ),
                                       decoration:
                                           BoxDecoration( border: Border(
     top: (index == 0)
-        ? BorderSide(width: 1, color: Colors.grey.shade500)
+        ? BorderSide(width: 1, color: Colors.grey.shade300)
         : BorderSide.none,
-    bottom: BorderSide(width: 1, color: Colors.grey.shade500),
+    bottom: BorderSide(width: 1, color: Colors.grey.shade300),
   ),), // Set unique background color for selected tile
                                       child: Text(
                                        productResponse![index].processname ?? "",
                                         style: TextStyle(color: Colors.black54,
                                     fontFamily: "Lexend",
-                                    fontSize: 15.sp),
+                                    fontSize: MediaQuery.of(context)
+                    .size
+                    .width>572 ? 15.sp:12.sp,),
                                       ),
                                     ),
                                   ),

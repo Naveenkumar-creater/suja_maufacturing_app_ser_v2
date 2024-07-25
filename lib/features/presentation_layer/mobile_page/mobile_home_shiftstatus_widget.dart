@@ -397,13 +397,13 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
     //  int? achivedProduct=;
 
     return Padding(
-      padding:  EdgeInsets.only(top: 8.h,left: 8.w,right: 8.w),
+      padding:  EdgeInsets.only(left: 8.w,right: 8.w),
       child: Container(
-        height: 150.h, 
+        height: 100.h, 
         width: double.infinity,
         decoration: BoxDecoration(
           color:Color.fromARGB(150, 235, 236, 255),
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(5.r),
           border: Border.all(width: 1.w,color: Colors.grey.shade100),
          
         ),
@@ -419,7 +419,7 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                   children: [
                     Text(
                       "Attendance",
-                      style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend',),
+                      style: TextStyle(color: Colors.black87, fontSize: 16.sp,fontFamily: 'Lexend',),
                     ),
                     SizedBox(
                       width: 8.w,
@@ -434,26 +434,28 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                     Text(
                       "/",
                       style: TextStyle(fontFamily: 'Lexend',
-                         color:  Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,),
+                         color:  Color.fromARGB(255, 80, 96, 203), fontSize: 16.sp,),
                     ),
                     Text(
                       "${totalemployee}",
                       style: TextStyle(fontFamily: 'Lexend',
                           color:  Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,),
                     ),
-                    SizedBox(width: 16,),   ShiftStatus == 1
+                    SizedBox(width: 50.w,),  
+                     ShiftStatus == 1
                     ? Row(
                       children: [
                         Text('Shift Id:',
-                            style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend')),
+                            style: TextStyle(color: Colors.black87, fontSize: 16.sp,fontFamily: 'Lexend')),
                               Text(' ${Shiftid}',
                             style: TextStyle(color: Color.fromARGB(255, 80, 96, 203), fontSize: 18.sp,fontFamily: 'Lexend')),
                       ],
                     )
                     : Text('No Shift',
-                        style: TextStyle(color: Colors.black87, fontSize: 18.sp,fontFamily: 'Lexend')),
+                        style: TextStyle(color: Colors.black87, fontSize: 16.sp,fontFamily: 'Lexend')),
                   ],
-                ),SizedBox(height: 8,),
+                ),
+                SizedBox(height: 5.h,),
                 Row(children: [StreamBuilder<String>(
                   stream: current,
                   builder: (context, snapshot) {
@@ -462,7 +464,7 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                         '${snapshot.data}',
                         style: TextStyle(fontFamily: 'Lexend',
                             fontWeight: FontWeight.w400,
-                           color: Colors.black87, fontSize: 18.sp,),
+                           color: Colors.black87, fontSize: 16.sp,),
                       );
                     } else
                       return Text(
@@ -484,9 +486,8 @@ class _ProcessQtyWidgetState extends State<MobileShitStatusWidget> {
                   onPressed: () {
                     closeShiftPop(context);
                   },
-                  child: Text('Close Shift'))
-              : 
-              
+                  child: Text('Close Shift',style:TextStyle(color: Colors.white, fontSize: 12.sp,fontFamily: 'Lexend',) ,))
+              :  
               
               ElevatedButton(
                   style: ButtonStyle(

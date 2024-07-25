@@ -4,9 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MobileUpdateTime extends StatefulWidget {
   final void Function(String) onTimeChanged; // Made onTimeChanged required
   final String shiftFromTime; // Shift from time in "HH:mm:ss" format
-  final String shiftToTime;   // Shift to time in "HH:mm:ss" format
+  final String shiftToTime; // Shift to time in "HH:mm:ss" format
 
-  MobileUpdateTime({Key? key, required this.onTimeChanged, required this.shiftFromTime, required this.shiftToTime}) : super(key: key);
+  MobileUpdateTime(
+      {Key? key,
+      required this.onTimeChanged,
+      required this.shiftFromTime,
+      required this.shiftToTime})
+      : super(key: key);
 
   @override
   State<MobileUpdateTime> createState() => _UpdateTimeState();
@@ -40,21 +45,18 @@ class _UpdateTimeState extends State<MobileUpdateTime> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-
-      SizedBox(
-        width:25,
-        height:25,
-        child: FloatingActionButton(
-            heroTag: 'decrementButton', 
-            backgroundColor: 
-            
-           Colors.grey.shade200,
+        SizedBox(
+          width: 25,
+          height: 25,
+          child: FloatingActionButton(
+            heroTag: 'decrementButton',
+            backgroundColor: Colors.grey.shade200,
             tooltip: 'Decrement',
-         mini: true,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            onPressed: (){
-        
-                setState(() {
+            mini: true,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            onPressed: () {
+              setState(() {
                 if (currentMinute >= 30) {
                   currentMinute -= 30;
                 } else {
@@ -67,40 +69,43 @@ class _UpdateTimeState extends State<MobileUpdateTime> {
                   }
                 }
               });
-              updateTime(); 
+              updateTime();
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 85),
-              child: const Icon(Icons.minimize , color: Colors.black, size: 15,),
+              child: Icon(
+                Icons.minimize,
+                color: Colors.black54,
+                size: 15.sp,
+              ),
             ),
-         ),
-      ),
-       SizedBox(
-          width: 10.w,
+          ),
         ),
-
-Text("30",style: TextStyle(fontSize: 16.sp,
-                                                    color: Colors.black54),),
-       
         SizedBox(
           width: 10.w,
         ),
+        Text(
+          "30",
+          style: TextStyle(fontSize: 16.sp, color: Colors.black54),
+        ),
         SizedBox(
-           width:25.w ,
-        height: 25.h,
-
+          width: 10.w,
+        ),
+        SizedBox(
+          width: 25.w,
+          height: 25.h,
           child: FloatingActionButton(
-  heroTag: 'IncrementButton', 
-            
-             backgroundColor:       Colors.grey.shade200,
+            heroTag: 'IncrementButton',
+            backgroundColor: Colors.grey.shade200,
             tooltip: 'Increment',
-         mini: true,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            mini: true,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             onPressed: () {
               // Increase time by 30 minutes
               setState(() {
                 if (currentMinute < 30) {
-                  currentMinute += 30;  
+                  currentMinute += 30;
                 } else {
                   if (currentHour == 23) {
                     currentHour = 0;
@@ -113,7 +118,7 @@ Text("30",style: TextStyle(fontSize: 16.sp,
               });
               updateTime(); // Update time after each change
             },
-            child:   const Icon(Icons.add, color: Colors.black, size: 20),
+            child:  Icon(Icons.add, color: Colors.black54, size: 15.sp),
           ),
         ),
         SizedBox(
@@ -145,7 +150,10 @@ Text("30",style: TextStyle(fontSize: 16.sp,
               updateTime();
             }
           },
-          child: Text("Set Time", style: TextStyle(fontSize: 14.sp,fontFamily: "lexend"),),
+          child: Text(
+            "Set Time",
+            style: TextStyle(fontSize: 12.sp, fontFamily: "Lexend" ,color: Colors.black54),
+          ),
         ),
       ],
     );
@@ -205,8 +213,7 @@ Text("30",style: TextStyle(fontSize: 16.sp,
           '$currentYear-$currentMonth-$currentDay $currentHour:${currentMinute.toString().padLeft(2, '0')}:${currentSecond.toString().padLeft(2, '0')}'; // Update currentTime
     });
 
-    widget.onTimeChanged(currentTime); // Call the callback with the updated time
+    widget
+        .onTimeChanged(currentTime); // Call the callback with the updated time
   }
 }
-
-
